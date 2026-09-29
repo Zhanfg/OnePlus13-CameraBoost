@@ -3,10 +3,27 @@
 Clean-room research toolkit for mapping, validating and selectively unlocking
 OPlus camera capabilities on OnePlus 13-class devices.
 
-## Current focus: real 10-bit still photography
+## Current research tracks
 
-The repository now contains an installable LSPosed-compatible Android module
-with two CI variants:
+### 1. Official OPPO + OnePlus camera capability universe
+
+Before device testing, the project is building a source-grounded union of camera
+capabilities from **official public OPPO/OnePlus artifacts only**:
+
+- official product specifications and imaging/technical publications;
+- `oppo-source` and `OnePlusOSS` source releases;
+- official OTA/ROM camera files when publicly distributed and materialized by the owner.
+
+The machine-readable catalog is `catalog/official-camera-features.json`; see
+`docs/official-camera-feature-universe.md`.
+
+Third-party modules and community ROM dumps are not accepted as evidence for this
+catalog. Unexplained official acronyms are kept verbatim rather than guessed.
+
+### 2. Real 10-bit still photography
+
+The repository contains an installable LSPosed-compatible Android module with two CI
+variants:
 
 - **probe** — observes OPlus camera gates and reports Camera2 10-bit/P010/HEIC
   capabilities without modifying the camera configuration.
@@ -18,20 +35,17 @@ See `docs/10bit-still.md` for the validation procedure.
 
 ## Goals
 
-1. Collect a reproducible device/camera capability snapshot.
-2. Diff decrypted OPlus APS JSON dumps without redistributing proprietary camera blobs.
-3. Build a feature matrix that separates:
-   - UI / app-level feature gates
-   - Camera HAL / VendorTag capability
-   - APS algorithm availability
-   - sensor / ISP / encoder / thermal constraints
-4. Keep kernel-side work separate from LSPosed/user-space hooks.
-5. Verify final media files before calling an unlocked feature real.
+1. Maintain an auditable official-source camera feature universe.
+2. Collect reproducible device/camera capability snapshots.
+3. Diff decrypted OPlus APS JSON dumps without redistributing proprietary camera blobs.
+4. Build a feature matrix that separates UI gates, HAL/VendorTags, APS algorithms,
+   sensor/ISP/encoder constraints, and actual media validation.
+5. Keep kernel-side work separate from LSPosed/user-space hooks.
 
 ## Safety rule
 
-A visible camera option is **not** proof that the underlying sensor/ISP/video
-pipeline supports it.
+A visible camera option is **not** proof that the underlying sensor/ISP/video pipeline
+supports it.
 
 Every feature moves through:
 
@@ -46,6 +60,5 @@ Every feature moves through:
 
 ## Clean-room / license boundary
 
-Original CameraBoost code is MIT licensed. Third-party projects referenced by
-the research notes retain their own licenses. No proprietary OPPO/OnePlus
-camera blobs are redistributed.
+Original CameraBoost code is MIT licensed. Third-party projects referenced by research
+notes retain their own licenses. No proprietary OPPO/OnePlus camera blobs are redistributed.

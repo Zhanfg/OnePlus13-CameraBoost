@@ -1,0 +1,3144 @@
+{
+  "schema_version": 1,
+  "generated_from": "official-public-sources-only",
+  "scope": {
+    "brands": [
+      "OPPO",
+      "OnePlus"
+    ],
+    "layers": [
+      "user_mode",
+      "capture_format",
+      "video",
+      "computational",
+      "optics_hardware",
+      "pipeline",
+      "kernel_compile_symbol",
+      "post_capture"
+    ],
+    "note": "Union of camera capabilities explicitly surfaced by inspected official OPPO/OnePlus product pages, imaging publications, white papers, and official source repositories. Absence from this catalog is not proof of absence."
+  },
+  "source_policy": {
+    "accepted": [
+      "oppo.com official product/specification/newsroom/technical documents",
+      "oneplus.com official product/specification/press/support documents",
+      "github.com/oppo-source official source releases",
+      "github.com/OnePlusOSS official source releases",
+      "official OTA/ROM files when publicly distributed by OPPO/OnePlus"
+    ],
+    "excluded_as_evidence": [
+      "third-party LSPosed modules",
+      "community ROM vendor dumps",
+      "unofficial APK mirrors",
+      "reverse-engineered community feature lists"
+    ],
+    "rule": "Third-party material may be used later to locate an official artifact, but does not establish a feature in this catalog."
+  },
+  "sources": {
+    "oppo_find_x9_ultra_specs": {
+      "kind": "official_product_specs",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/smartphones/series-find-x/find-x9-ultra/specs/"
+    },
+    "oppo_find_x9_specs": {
+      "kind": "official_product_specs",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/smartphones/series-find-x/find-x9/specs/"
+    },
+    "oppo_find_x8_pro_specs": {
+      "kind": "official_product_specs",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/smartphones/series-find-x/find-x8-pro/specs/"
+    },
+    "oppo_find_n5_specs": {
+      "kind": "official_product_specs",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/smartphones/series-find-n/find-n5/specs/"
+    },
+    "oppo_reno14_pro_specs": {
+      "kind": "official_product_specs",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/smartphones/series-reno/reno14-pro-5g/specs/"
+    },
+    "oppo_lightning_snap": {
+      "kind": "official_imaging_story",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/stories/oppo-find-x8-series-launch-lightning-snap/"
+    },
+    "oppo_ai_telescope_zoom": {
+      "kind": "official_imaging_story",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/stories/oppo-find-x8-series-camera-ai-telescope-zoom/"
+    },
+    "oppo_hypertone_x7": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/oppo-find-x7-ultra-hypertone-camera-system/"
+    },
+    "oppo_billion_colour": {
+      "kind": "official_imaging_story",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/stories/the-billion-colour-journey/"
+    },
+    "oppo_olog_whitepaper": {
+      "kind": "official_whitepaper",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/content/dam/oppo_com/en/mkt/footer/OPPO_O-Log_Profile_WhitePaper_V1.pdf"
+    },
+    "oneplus_15_specs": {
+      "kind": "official_product_specs",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/15/specs"
+    },
+    "oneplus_13_specs": {
+      "kind": "official_product_specs",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/13/specs"
+    },
+    "oneplus_12_specs": {
+      "kind": "official_product_specs",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/12/specs"
+    },
+    "oneplus_10_pro": {
+      "kind": "official_product_page",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/launch/10-pro"
+    },
+    "oneplusoss_mt6833_features": {
+      "kind": "official_source_release",
+      "brand": "OnePlus",
+      "url": "https://github.com/OnePlusOSS/android_kernel_oneplus_mt6833/blob/8ea1266a479bc3925502e43550632bcc6e3a78ab/oplus_native_features.mk"
+    },
+    "oppo_mtk419_features": {
+      "kind": "official_source_release",
+      "brand": "OPPO",
+      "url": "https://github.com/oppo-source/android_kernel_oppo_mtk_4.19/blob/f1ac3e53f433c6b68e2f6f37191e488d2bd41557/oplus_native_features.mk"
+    },
+    "oppo_sm8350_camera_main": {
+      "kind": "official_source_release",
+      "brand": "OPPO",
+      "url": "https://github.com/oppo-source/android_kernel_modules_and_devicetree_oppo_sm8350/blob/40ec89ce4c948b7a8fba0fe9e8efd74334cdd1b3/kernel/msm-5.4/techpack/camera/drivers/camera_main.c"
+    },
+    "oppo_a98_specs": {
+      "kind": "official_product_specs",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/smartphones/series-a/a98-5g/specs/"
+    },
+    "oppo_ai_livephoto": {
+      "kind": "official_imaging_story",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/stories/turning-moments-into-living-memories-with-the-new-oppo-ai-livephoto/"
+    },
+    "oneplus_9_pro_specs": {
+      "kind": "official_product_specs",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/9-pro/specs"
+    },
+    "oneplus_n10_specs": {
+      "kind": "official_product_specs",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/n10/specs"
+    },
+    "oneplus_13_press": {
+      "kind": "official_press_release",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/press/press-release/oneplus-launches-new-smartphone-flagship-series-in-north-america-oneplus-13-and-oneplus-13r"
+    },
+    "oneplus_15_press": {
+      "kind": "official_press_release",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/press/press-release/oneplus-launches-the-oneplus-15--the-ultimate-performance-flagship-smartphone-for-north-america"
+    },
+    "oneplus_support": {
+      "kind": "official_support",
+      "brand": "OnePlus",
+      "url": "https://service.oneplus.com/"
+    },
+    "oppo_x9_launch": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/oppo-find-x9-series-coloros-16-global-launch-camera-battery-performance/"
+    },
+    "oppo_x9_upcoming": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/oppo-find-x9-series-coloros-16-global-launch-upcoming/"
+    },
+    "oppo_hasselblad_2025": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/oppo-hasselblad-partnership-imaging-system/"
+    },
+    "oppo_hypertone_system": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/oppo-hasselblad-hypertone-camera-systems/"
+    },
+    "oppo_marisilicon_x": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/oppo-imaging-npu-marisilicon-x/"
+    },
+    "oppo_find_x5_launch": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/oppo-launches-find-x-five-series/"
+    },
+    "oppo_find_x6_launch": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/find-x6-series-launch/"
+    },
+    "oppo_imaging_technology": {
+      "kind": "official_technology_page",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/discover/technology/imaging/"
+    },
+    "oppo_ai_imaging_2025": {
+      "kind": "official_imaging_story",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/stories/empowering-creative-freedom-and-expression-in-mobile-photography-with-ai/"
+    },
+    "oppo_reno3_launch": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/OPPO-Reno3-Series-Officially-Launched-A-New-Era-Unfolding-for-5G-Video-Smartphones/"
+    },
+    "oppo_reno7_portrait": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/ae/newsroom/press/oppo-spotlights-reno7-5g-portrait-photo-video/"
+    },
+    "oppo_reno16_story": {
+      "kind": "official_imaging_story",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/stories/reno16-series-a-creative-companion-for-every-vibrant-moment/"
+    },
+    "oppo_find_x2_story": {
+      "kind": "official_imaging_story",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/stories/breaking-through-limitations-with-oppo-find-x2-series-ultra-vision-camera-system/"
+    },
+    "oneplus_6t_specs": {
+      "kind": "official_product_specs",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/6t/specs"
+    },
+    "oneplus_6t_press": {
+      "kind": "official_press_release",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/press/press-release/unlock-the-speed-with-the-oneplus-6t"
+    },
+    "oneplus_7t_press": {
+      "kind": "official_press_release",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/press-releases/presenting-oneplus-unveils-new-oneplus-7t"
+    },
+    "oneplus_8pro_page": {
+      "kind": "official_product_page",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/8-pro"
+    },
+    "oneplus_8pro_specs": {
+      "kind": "official_product_specs",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/ro/8-pro/specs"
+    },
+    "oneplus_7pro_page": {
+      "kind": "official_product_page",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/7pro"
+    },
+    "oneplus_10_pro_specs": {
+      "kind": "official_product_specs",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/10-pro/specs"
+    },
+    "oneplus_11_page": {
+      "kind": "official_product_page",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/11"
+    },
+    "oneplus_11_specs": {
+      "kind": "official_product_specs",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/gr/11/specs"
+    }
+  },
+  "features": [
+    {
+      "id": "photo",
+      "name": "Photo",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "video",
+      "name": "Video",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "portrait",
+      "name": "Portrait",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "night",
+      "name": "Night / Nightscape",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "pro",
+      "name": "Pro",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_reno14_pro_specs",
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master",
+      "name": "Master",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "panorama",
+      "name": "Panorama",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "slow_motion",
+      "name": "Slow Motion",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "time_lapse",
+      "name": "Time-Lapse",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hyperlapse",
+      "name": "Hyperlapse",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "long_exposure",
+      "name": "Long Exposure",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "dual_view_video",
+      "name": "Dual-view Video",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "movie_cinematic",
+      "name": "Movie / Cinematic",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_13_specs",
+        "oppo_find_x8_pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "pro_video",
+      "name": "Pro Video",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_15_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "xpan",
+      "name": "XPAN",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "tilt_shift",
+      "name": "Tilt-Shift / Axis Shift",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_15_specs",
+        "oneplus_13_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hi_res",
+      "name": "HI-RES / High Pixel / Extra HD",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hasselblad_hi_res",
+      "name": "Hasselblad HI-RES",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "macro",
+      "name": "Macro / Super Macro",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_reno14_pro_specs",
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "microscope",
+      "name": "Microscope",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_a98_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "underwater",
+      "name": "Underwater",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_15_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "sticker",
+      "name": "Sticker",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "text_scanner",
+      "name": "Text / Hypertext Scanner",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_15_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "document_scanner",
+      "name": "Document Scanner",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "google_lens",
+      "name": "Google Lens",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_reno14_pro_specs",
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "150_degree",
+      "name": "150° Mode",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_10_pro"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hasselblad_teleconverter",
+      "name": "Hasselblad Teleconverter",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "retouch",
+      "name": "Retouch / Beauty",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_reno14_pro_specs",
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "screen_flash",
+      "name": "Screen Fill Light / Screen Flash",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_reno14_pro_specs",
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "focus_peaking",
+      "name": "Focus Peaking",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "focus_lock",
+      "name": "Focus Lock",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "focus_tracking",
+      "name": "Focus Tracking",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_9_pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "filters",
+      "name": "Filters",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "raw",
+      "name": "RAW",
+      "category": "capture_format",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "raw_plus",
+      "name": "RAW Plus",
+      "category": "capture_format",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "heif",
+      "name": "HEIF still storage",
+      "category": "capture_format",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_billion_colour"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "heif_10bit",
+      "name": "10-bit HEIF still storage",
+      "category": "capture_format",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_billion_colour"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "full_path_10bit",
+      "name": "Full-path 10-bit capture/storage/display",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_billion_colour"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "billion_color",
+      "name": "One Billion Colors / Billion Color Solution",
+      "category": "pipeline",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_billion_colour",
+        "oneplus_10_pro"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "dci_p3_10bit",
+      "name": "Full DCI-P3 in 10-bit color",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_billion_colour"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "olog",
+      "name": "OPPO O-Log",
+      "category": "capture_format",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_olog_whitepaper"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "olog_10bit",
+      "name": "O-Log 10-bit logarithmic encoding",
+      "category": "capture_format",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_olog_whitepaper"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "olog_h265_420",
+      "name": "O-Log H.265 YUV 4:2:0",
+      "category": "capture_format",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_olog_whitepaper"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "olog_bt2020",
+      "name": "O-Log BT.2020 / OPPO Wide Gamut",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_olog_whitepaper"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "8k_video",
+      "name": "8K Video",
+      "category": "video",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_15_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "4k120_video",
+      "name": "4K 120 fps Video",
+      "category": "video",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_15_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "dolby_vision_video",
+      "name": "Dolby Vision Video",
+      "category": "video",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hdr_video",
+      "name": "HDR Video",
+      "category": "video",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "video_nightscape",
+      "name": "Video Nightscape",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "video_portrait",
+      "name": "Video Portrait",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_9_pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "video_stabilization",
+      "name": "Super Stable / Ultra Steady / SuperEIS",
+      "category": "video",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_reno14_pro_specs",
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "video_zoom",
+      "name": "Video Zoom",
+      "category": "video",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "cine_aspect_video",
+      "name": "CINE Aspect Ratio Video",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_n10_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "selfie_hdr",
+      "name": "Selfie HDR",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "nightscape_selfie",
+      "name": "Nightscape Selfie",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_scene_recognition",
+      "name": "AI / Smart Scene Recognition",
+      "category": "computational",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "cat_dog_face_focus",
+      "name": "Cat/Dog Face Focus",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_9_pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hypertone",
+      "name": "HyperTone Image Engine",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "extra_hd_ai_raw_fusion",
+      "name": "Extra HD Algorithm / AI RAW Fusion",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "lightning_snap",
+      "name": "Lightning Snap",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_lightning_snap"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "instant_dual_exposure",
+      "name": "Instant Dual Exposure",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_lightning_snap"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "off_peak_compute",
+      "name": "Off-Peak Computing Architecture",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_lightning_snap"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "zero_shutter_lag",
+      "name": "Near-zero shutter lag",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_lightning_snap"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "quality_burst",
+      "name": "Quality burst / continuous high-quality capture",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_lightning_snap"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_telescope_zoom",
+      "name": "AI Telescope Zoom",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_telescope_zoom"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "gapless_zoom",
+      "name": "Gapless / Uninterrupted Zoom",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_telescope_zoom"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hasselblad_portrait",
+      "name": "Hasselblad Portrait",
+      "category": "computational",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_hypertone_x7",
+        "oneplus_12_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "detailmax",
+      "name": "DetailMax Engine",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_15_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultrashot_hdr",
+      "name": "UltraShot HDR / Ultra HDR",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_10_pro"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "snapshot",
+      "name": "Snapshot",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_13_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ois",
+      "name": "Optical Image Stabilization",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_mtk419_features"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "eis",
+      "name": "Electronic Image Stabilization",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_reno14_pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "periscope",
+      "name": "Periscope / Triprism Telephoto",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "telemacro",
+      "name": "Telemacro",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultrawide_macro",
+      "name": "Ultra-wide Macro",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "monochrome_sensor",
+      "name": "Monochrome Camera / Sensor",
+      "category": "optics_hardware",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_9_pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "color_temperature_sensor",
+      "name": "Color Temperature / Multispectral Sensor",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_find_x9_ultra_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "autofocus",
+      "name": "Autofocus / actuator support",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_sm8350_camera_main"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ois_driver",
+      "name": "OIS driver stack",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_sm8350_camera_main"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "camera_eeprom",
+      "name": "Camera EEPROM support",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_sm8350_camera_main"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "tof",
+      "name": "Time-of-Flight camera support",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_sm8350_camera_main"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "live_photo",
+      "name": "Live Photo",
+      "category": "user_mode",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_ai_livephoto",
+        "oneplus_13_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "clear_burst",
+      "name": "Clear Burst",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_13_press",
+        "oneplus_15_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_livephoto",
+      "name": "AI Livephoto",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_livephoto"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "livephoto_eis",
+      "name": "Livephoto EIS stabilization",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_livephoto"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "livephoto_realtime_still_processing",
+      "name": "Still-photo algorithms applied to every Livephoto frame in real time",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_livephoto"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "dual_exposure_algorithm",
+      "name": "Dual Exposure Algorithm",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_13_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "action_mode",
+      "name": "Action Mode",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_13_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_telephoto",
+      "name": "AI Telephoto",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_13_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_steady_4k",
+      "name": "Ultra Steady Mode with 4K capture",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_13_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_clear_26mp",
+      "name": "Ultra Clear 26MP Mode",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_15_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "clear_night_engine",
+      "name": "Clear Night Engine",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_15_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "log_video",
+      "name": "LOG Video",
+      "category": "capture_format",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_15_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "realtime_lut_preview",
+      "name": "Real-time LUT Preview",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_15_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "12bit_raw",
+      "name": "12-bit RAW",
+      "category": "capture_format",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_9_pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "dual_iso",
+      "name": "Dual ISO",
+      "category": "pipeline",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_9_pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "dol_hdr",
+      "name": "DOL-HDR",
+      "category": "pipeline",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_9_pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "laser_autofocus",
+      "name": "Laser Autofocus (LAF)",
+      "category": "optics_hardware",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_9_pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "lumo_image_engine",
+      "name": "LUMO Image Engine",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_x9_upcoming"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "true_color_camera",
+      "name": "True Color Camera / True Chroma Camera",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_x9_launch",
+        "oppo_hasselblad_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_xdr_main_camera",
+      "name": "Ultra XDR Main Camera",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_x9_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "real_time_triple_exposure",
+      "name": "Real-Time Triple Exposure",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_x9_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "active_optical_alignment",
+      "name": "Active Optical Alignment",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_x9_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "stage_mode",
+      "name": "Stage Mode",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_telescope_zoom"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hasselblad_master_camera_system",
+      "name": "Hasselblad Master Camera System",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hasselblad_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hasselblad_natural_color_solution",
+      "name": "Hasselblad Natural Color Solution",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hasselblad_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_bokeh_engine",
+      "name": "AI Bokeh Engine",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hasselblad_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "jpeg_max_50mp",
+      "name": "JPEG Max 50MP",
+      "category": "capture_format",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hasselblad_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "raw_max_16bit_50mp",
+      "name": "RAW Max 50MP / 16-bit",
+      "category": "capture_format",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hasselblad_2025",
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "raw_max_bt2020",
+      "name": "RAW Max BT.2020",
+      "category": "capture_format",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "raw_max_13stop",
+      "name": "RAW Max 13-stop dynamic range",
+      "category": "capture_format",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_manual_iso",
+      "name": "Master Mode manual ISO",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_manual_shutter",
+      "name": "Master Mode manual shutter speed",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_manual_ev",
+      "name": "Master Mode manual EV",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_manual_focus",
+      "name": "Master Mode manual focus",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_manual_white_balance",
+      "name": "Master Mode manual white balance",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_saturation",
+      "name": "Master Mode saturation control",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_contrast",
+      "name": "Master Mode contrast control",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_sharpness",
+      "name": "Master Mode sharpness control",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_vignette",
+      "name": "Master Mode vignette control",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hypertone_all_main_camera",
+      "name": "HyperTone All Main Camera System",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_system"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hypertone_proxdr_display",
+      "name": "HyperTone ProXDR Display",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_system"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "proxdr",
+      "name": "ProXDR",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_system",
+        "oppo_ai_livephoto"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "marisilicon_x",
+      "name": "MariSilicon X Imaging NPU",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "20bit_ultra_hdr",
+      "name": "20-bit Ultra HDR imaging pipeline",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "20bit_raw_processing",
+      "name": "20-bit RAW-domain processing / HDR fusion",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "realtime_raw_processing",
+      "name": "Real-time RAW processing",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "rgbw_pro_mode",
+      "name": "RGBW Pro Mode",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "dual_image_pipeline",
+      "name": "Dual Image Pipeline",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "double_raw_super_sampling",
+      "name": "Double RAW super sampling",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "4k_ai_night_video",
+      "name": "4K AI Night Video",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "4k_ai_night_live_preview",
+      "name": "4K AI Night Video live preview",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_noise_reduction",
+      "name": "AI Noise Reduction (AINR)",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "4k_ultra_night_video",
+      "name": "4K Ultra Night Video",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x5_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hdr_fusion",
+      "name": "HDR Fusion Algorithm",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x5_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "rgbw_pro_pipeline",
+      "name": "RGBW Pro Pipeline",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x5_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "five_axis_ois",
+      "name": "Five-axis OIS",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x5_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "4k_cinematic_portrait_video",
+      "name": "4K Cinematic Portrait Video",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_imaging_technology"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "cinematic_tone_mapping",
+      "name": "Cinematic Tone Mapping",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_imaging_technology"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "portrait_22_apertures",
+      "name": "Portrait bokeh adjustment with 22 apertures",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_imaging_technology"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "smart_selfie_auto_wide",
+      "name": "Smart Selfie automatic wide-angle switching",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_imaging_technology"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "three_main_camera_system",
+      "name": "Three Main Camera System",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x6_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "low_light_telephoto",
+      "name": "Low-light telephotography",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x6_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "uncompressed_raw_deep_fusion",
+      "name": "Simultaneous deep fusion of uncompressed RAW data",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x6_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "13_channel_spectral_sensor",
+      "name": "13-channel spectral sensor color sensing",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x6_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "photon_matrix",
+      "name": "Photon Matrix Technology",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x6_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "log_aces",
+      "name": "LOG recording with ACES support",
+      "category": "capture_format",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_x9_upcoming"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_clarity_enhancer",
+      "name": "AI Clarity Enhancer",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_imaging_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_unblur",
+      "name": "AI Unblur",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_imaging_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_reflection_remover",
+      "name": "AI Reflection Remover",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_imaging_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_clear_face",
+      "name": "AI Clear Face",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_imaging_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_eraser",
+      "name": "AI Eraser 2.0",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_imaging_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_best_face",
+      "name": "AI Best Face",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_imaging_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_motion",
+      "name": "AI Motion",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_imaging_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_steady_2",
+      "name": "Ultra Steady 2.0",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno3_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "wide_angle_stabilization",
+      "name": "Wide-angle Stabilization Mode",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno3_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "video_portrait_bokeh",
+      "name": "Video Portrait Bokeh",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno3_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "video_smart_editing",
+      "name": "Video Smart Editing / SoLoop integration",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno3_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_ultra_clear_night_scene",
+      "name": "AI Ultra-Clear Night Scene",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno3_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "portrait_beautify_2",
+      "name": "Portrait Beautify 2.0",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno3_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "bokeh_flare_portrait_video",
+      "name": "Bokeh Flare Portrait Video",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno7_portrait"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_highlight_video",
+      "name": "AI Highlight Video",
+      "category": "video",
+      "brands": [
+        "OPPO",
+        "OnePlus"
+      ],
+      "sources": [
+        "oppo_reno7_portrait",
+        "oneplus_11_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "live_hdr_video",
+      "name": "Live HDR video algorithm",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno7_portrait"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_night_video",
+      "name": "Ultra Night Video algorithm",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno7_portrait"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_color_portrait_video",
+      "name": "AI Color Portrait Video",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno7_portrait"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "portrait_retouching_video",
+      "name": "Per-person Portrait Retouching for video",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno7_portrait"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_clear_108mp",
+      "name": "Ultra-Clear 108MP Image",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno7_portrait"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "flash_snapshot",
+      "name": "Flash Snapshot",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno7_portrait"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "pop_cam",
+      "name": "Pop Cam",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno16_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "pop_cam_filters",
+      "name": "Pop Cam camera-style filters",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno16_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "pop_cam_motion_photo",
+      "name": "Pop Cam Motion Photo",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno16_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_flash_photography",
+      "name": "AI Flash Photography",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno16_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_motion_photo_popout",
+      "name": "AI Motion Photo Popout",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno16_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_clear_camera_system",
+      "name": "Ultra-Clear Camera System",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno16_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "portrait_super_night",
+      "name": "Portrait Super Night",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x2_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_clear_night_mode",
+      "name": "Ultra Clear Night Mode",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x2_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "night_zoom_60x",
+      "name": "Night photography zoom up to 60x",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x2_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultrashot",
+      "name": "UltraShot",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_7t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultrashot_engine",
+      "name": "UltraShot Engine",
+      "category": "pipeline",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_7t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "nightscape_2",
+      "name": "Nightscape 2.0",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_7pro_page"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "studio_lighting",
+      "name": "Studio Lighting",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_6t_specs",
+        "oneplus_6t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "smile_capture",
+      "name": "Smile Capture",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_6t_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hq_mode",
+      "name": "HQ Image Mode",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_6t_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "macro_mode_2",
+      "name": "Macro Mode 2.0",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_8pro_page"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "smart_pet_capture",
+      "name": "Smart Pet Capture",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_8pro_page"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "dynamic_video",
+      "name": "Dynamic Video",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_8pro_page"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "color_filter_camera",
+      "name": "Color Filter Camera / Lens",
+      "category": "optics_hardware",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_8pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "audio_zoom",
+      "name": "Audio Zoom",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_8pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "audio_3d",
+      "name": "Audio 3D",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_8pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "960fps_slow_motion",
+      "name": "720p 960fps Slow Motion",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_7t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "multilens_video_switching",
+      "name": "Video switching between rear lenses",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_7t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultrawide_nightscape",
+      "name": "Ultra-wide Nightscape",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_7t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "nightscape_hdr_multiframe",
+      "name": "Nightscape HDR multi-frame fusion",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_6t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "nightscape_detail_optimization",
+      "name": "Nightscape Detail Optimization",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_6t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "nightscape_noise_reduction",
+      "name": "Nightscape Noise Reduction",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_6t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "nightscape_multiframe_stabilisation",
+      "name": "Nightscape Multi-frame Stabilisation",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_6t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "fisheye_mode",
+      "name": "Fisheye Mode",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_10_pro"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_style",
+      "name": "Master Style",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_10_pro",
+        "oneplus_11_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hasselblad_pro_mode_2",
+      "name": "Second-generation Hasselblad Pro Mode",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_10_pro"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hasselblad_12bit_raw_all_rear",
+      "name": "12-bit RAW on all rear cameras with Hasselblad Natural Color Solution",
+      "category": "capture_format",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_10_pro"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "turboraw_hdr",
+      "name": "TurboRAW HDR",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_page"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "accu_spectrum_identifier",
+      "name": "Accu-spectrum Light-color Identifier",
+      "category": "optics_hardware",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_page"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "natural_color_calibration_hasselblad",
+      "name": "Natural Color Calibration with Hasselblad",
+      "category": "pipeline",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_page"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "auto_macro",
+      "name": "Auto Macro",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_scene_enhancement",
+      "name": "AI Scene Enhancement",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_steady_pro",
+      "name": "Ultra Steady Pro",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "high_efficiency_image",
+      "name": "High Efficiency Image",
+      "category": "capture_format",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ten_bit_color_capture",
+      "name": "10-bit Color capture",
+      "category": "capture_format",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_style_filters",
+      "name": "Master Style Filters",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_specs"
+      ],
+      "status": "officially_observed"
+    }
+  ],
+  "official_kernel_feature_macros": [
+    {
+      "symbol": "OPLUS_ARCH_EXTENDS_CAM_TUNING_LIB",
+      "meaning": "camera tuning library extension",
+      "status": "resolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ]
+    },
+    {
+      "symbol": "OPLUS_ARCH_EXTENDS_CAM_TUNING_PARAMS",
+      "meaning": "camera tuning parameter extension",
+      "status": "resolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ]
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAMERA_COMMON",
+      "meaning": "common OPlus camera kernel feature set",
+      "status": "resolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ],
+      "official_org_scan_confirmed": true
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAMERA_IZOOM",
+      "meaning": null,
+      "status": "semantics_unresolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ],
+      "official_org_scan_confirmed": true
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAMERA_AIS",
+      "meaning": null,
+      "status": "semantics_unresolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ],
+      "official_org_scan_confirmed": true
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAMERA_FB",
+      "meaning": null,
+      "status": "semantics_unresolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ],
+      "official_org_scan_confirmed": true
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAMERA_AISCP",
+      "meaning": null,
+      "status": "semantics_unresolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ],
+      "official_org_scan_confirmed": true
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAMERA_UPSCALE",
+      "meaning": "camera upscaling pipeline",
+      "status": "resolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ],
+      "official_org_scan_confirmed": true
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAMERA_SUPERNIGHT",
+      "meaning": "camera super-night pipeline",
+      "status": "resolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ],
+      "official_org_scan_confirmed": true
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAMERA_VIDEO",
+      "meaning": "camera video extensions",
+      "status": "resolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ],
+      "official_org_scan_confirmed": true
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAMERA_SMVR",
+      "meaning": null,
+      "status": "semantics_unresolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ],
+      "official_org_scan_confirmed": true
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAMERA_MSNR",
+      "meaning": null,
+      "status": "semantics_unresolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ],
+      "official_org_scan_confirmed": true
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAMERA_SAU",
+      "meaning": null,
+      "status": "semantics_unresolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ],
+      "official_org_scan_confirmed": true
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAMERA_OIS",
+      "meaning": "optical image stabilization support",
+      "status": "resolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ],
+      "official_org_scan_confirmed": true
+    },
+    {
+      "symbol": "OPLUS_FEATURE_VIRTUAL_CAMERA",
+      "meaning": "virtual camera support",
+      "status": "resolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ]
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAM_3A_ISP7",
+      "meaning": "OPlus camera 3A / ISP7 feature",
+      "status": "partially_resolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ]
+    },
+    {
+      "symbol": "CONFIG_OPLUS_CAM_EVENT_REPORT",
+      "meaning": "camera exception/event reporting",
+      "status": "resolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ]
+    },
+    {
+      "symbol": "CONFIG_OPLUS_FEATURE_CAMERA_PROTECT",
+      "meaning": "camera-protection sensor feature",
+      "status": "resolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ]
+    },
+    {
+      "symbol": "OPLUS_FEATURE_NEW_FTMFLASHLIGHT_NODE",
+      "meaning": "factory-test flashlight node",
+      "status": "resolved",
+      "sources": [
+        "oneplusoss_mt6833_features",
+        "oppo_mtk419_features"
+      ]
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAMERA_LAHAINA",
+      "meaning": "camera feature flag for Qualcomm Lahaina platform family",
+      "status": "partially_resolved",
+      "sources": [],
+      "evidence_urls": [
+        "https://github.com/oppo-source/android_kernel_oppo_sm7325/blob/5c498a6074bc0cd6afd4a446c7c860e2b3fb65fe/oplus_native_features.mk"
+      ]
+    },
+    {
+      "symbol": "CONFIG_OPLUS_CAM_THERMAL",
+      "meaning": "camera thermal integration",
+      "status": "resolved",
+      "sources": [],
+      "evidence_urls": [
+        "https://github.com/oppo-source/android_kernel_oppo_mt6895/blob/f97a6436bea32658443ea63df0eeca99a3bc97e9/drivers/thermal/mediatek/Makefile",
+        "https://github.com/OnePlusOSS/android_kernel_5.10_oneplus_mt6895/blob/627e10bcc7a36ce80ca9ac834fde02153f73571d/drivers/thermal/mediatek/Makefile"
+      ]
+    },
+    {
+      "symbol": "CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE",
+      "meaning": "camera event-report module integration",
+      "status": "resolved",
+      "sources": [],
+      "evidence_urls": [
+        "https://github.com/oppo-source/android_kernel_oppo_mt6835/blob/9c93b939b3198a82775bbe3fb74f6e647b533825/drivers/misc/mediatek/imgsensor/src-v4l2/adaptor-i2c.c",
+        "https://github.com/OnePlusOSS/android_kernel_5.10_oneplus_mt6983/blob/ff51a39c66a87f91d870bfff1611e2b36371c8a4/drivers/misc/mediatek/imgsensor/src-v4l2/adaptor-i2c.h"
+      ]
+    },
+    {
+      "symbol": "CONFIG_OPLUS_CAMERA_NOTIFY",
+      "meaning": "camera notification kernel feature",
+      "status": "partially_resolved",
+      "sources": [],
+      "evidence_urls": [
+        "https://github.com/oppo-source/android_kernel_modules_and_devicetree_oppo_mt6991/blob/a98a9db1584a71c42919a78bfe2de7160f355ff9/kernel/kernel_device_modules-6.6/arch/arm64/configs/mgk_64_k66_defconfig",
+        "https://github.com/OnePlusOSS/android_kernel_modules_and_devicetree_oneplus_mt6991/blob/76d6e1e5b8deb0bcd00355d7a9e68638a501d8bc/kernel/kernel_device_modules-6.6/arch/arm64/configs/mgk_64_k66_defconfig"
+      ]
+    },
+    {
+      "symbol": "CONFIG_OPLUS_CAMERA_AW37004",
+      "meaning": "camera power-regulator support (AW37004)",
+      "status": "resolved",
+      "sources": [],
+      "evidence_urls": [
+        "https://github.com/oppo-source/android_kernel_oppo_sm6650/blob/ee83843c6c7278180dcad8ad551efd3f591daf51/drivers/regulator/camera_aw37004/Makefile",
+        "https://github.com/OnePlusOSS/android_kernel_oneplus_sm8550/blob/c462ef8ffab7a58e035ee04705b16cdfced494b1/drivers/regulator/camera_aw37004/Makefile"
+      ]
+    },
+    {
+      "symbol": "CONFIG_OPLUS_CAMERA_WL2826C",
+      "meaning": "camera power-regulator support (WL2826C family flag)",
+      "status": "resolved",
+      "sources": [],
+      "evidence_urls": [
+        "https://github.com/OnePlusOSS/android_kernel_oneplus_sm6375/blob/0ec570e538c8dea1a43da3e2ca1813df4fdfc5f9/drivers/regulator/camera_wl2868c/Makefile"
+      ]
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAMERASOUND_FORCE",
+      "meaning": "forced camera shutter-sound policy feature",
+      "status": "resolved",
+      "sources": [],
+      "evidence_urls": [
+        "https://github.com/oppo-source/android_kernel_oppo_mtk_4.19/blob/f1ac3e53f433c6b68e2f6f37191e488d2bd41557/oplus_native_features.mk",
+        "https://github.com/OnePlusOSS/android_kernel_oneplus_mt6893/blob/48f1797695e24d46986a7c87dd91dd21cbf8c342/oplus_native_features.sh"
+      ]
+    }
+  ],
+  "audit": {
+    "official_feature_count": 209,
+    "official_kernel_macro_count": 26,
+    "entries_without_sources": [],
+    "semantics_unresolved": [
+      "OPLUS_FEATURE_CAMERA_IZOOM",
+      "OPLUS_FEATURE_CAMERA_AIS",
+      "OPLUS_FEATURE_CAMERA_FB",
+      "OPLUS_FEATURE_CAMERA_AISCP",
+      "OPLUS_FEATURE_CAMERA_SMVR",
+      "OPLUS_FEATURE_CAMERA_MSNR",
+      "OPLUS_FEATURE_CAMERA_SAU"
+    ],
+    "macros_without_evidence": [],
+    "category_counts": {
+      "capture_format": 17,
+      "computational": 47,
+      "optics_hardware": 19,
+      "pipeline": 27,
+      "post_capture": 9,
+      "user_mode": 61,
+      "video": 29
+    },
+    "brand_feature_memberships": {
+      "OPPO": 148,
+      "OnePlus": 106
+    },
+    "source_count": 46
+  }
+}
