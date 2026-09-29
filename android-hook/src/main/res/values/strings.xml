@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CameraBoost OPlus 10-bit</string>
+    <string name="xposed_description">OnePlus 13 10-bit HEIC capability probe and conservative OPlus Camera feature-gate hook.</string>
+</resources>
