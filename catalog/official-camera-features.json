@@ -13,7 +13,8 @@
       "computational",
       "optics_hardware",
       "pipeline",
-      "kernel_compile_symbol"
+      "kernel_compile_symbol",
+      "post_capture"
     ],
     "note": "Union of camera capabilities explicitly surfaced by inspected official OPPO/OnePlus product pages, imaging publications, white papers, and official source repositories. Absence from this catalog is not proof of absence."
   },
@@ -153,6 +154,51 @@
       "kind": "official_support",
       "brand": "OnePlus",
       "url": "https://service.oneplus.com/"
+    },
+    "oppo_x9_launch": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/oppo-find-x9-series-coloros-16-global-launch-camera-battery-performance/"
+    },
+    "oppo_x9_upcoming": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/oppo-find-x9-series-coloros-16-global-launch-upcoming/"
+    },
+    "oppo_hasselblad_2025": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/oppo-hasselblad-partnership-imaging-system/"
+    },
+    "oppo_hypertone_system": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/oppo-hasselblad-hypertone-camera-systems/"
+    },
+    "oppo_marisilicon_x": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/oppo-imaging-npu-marisilicon-x/"
+    },
+    "oppo_find_x5_launch": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/oppo-launches-find-x-five-series/"
+    },
+    "oppo_find_x6_launch": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/find-x6-series-launch/"
+    },
+    "oppo_imaging_technology": {
+      "kind": "official_technology_page",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/discover/technology/imaging/"
+    },
+    "oppo_ai_imaging_2025": {
+      "kind": "official_imaging_story",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/stories/empowering-creative-freedom-and-expression-in-mobile-photography-with-ai/"
     }
   },
   "features": [
@@ -1407,6 +1453,681 @@
         "oneplus_9_pro_specs"
       ],
       "status": "officially_observed"
+    },
+    {
+      "id": "lumo_image_engine",
+      "name": "LUMO Image Engine",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_x9_upcoming"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "true_color_camera",
+      "name": "True Color Camera / True Chroma Camera",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_x9_launch",
+        "oppo_hasselblad_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_xdr_main_camera",
+      "name": "Ultra XDR Main Camera",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_x9_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "real_time_triple_exposure",
+      "name": "Real-Time Triple Exposure",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_x9_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "active_optical_alignment",
+      "name": "Active Optical Alignment",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_x9_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "stage_mode",
+      "name": "Stage Mode",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_telescope_zoom"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hasselblad_master_camera_system",
+      "name": "Hasselblad Master Camera System",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hasselblad_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hasselblad_natural_color_solution",
+      "name": "Hasselblad Natural Color Solution",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hasselblad_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_bokeh_engine",
+      "name": "AI Bokeh Engine",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hasselblad_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "jpeg_max_50mp",
+      "name": "JPEG Max 50MP",
+      "category": "capture_format",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hasselblad_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "raw_max_16bit_50mp",
+      "name": "RAW Max 50MP / 16-bit",
+      "category": "capture_format",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hasselblad_2025",
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "raw_max_bt2020",
+      "name": "RAW Max BT.2020",
+      "category": "capture_format",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "raw_max_13stop",
+      "name": "RAW Max 13-stop dynamic range",
+      "category": "capture_format",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_manual_iso",
+      "name": "Master Mode manual ISO",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_manual_shutter",
+      "name": "Master Mode manual shutter speed",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_manual_ev",
+      "name": "Master Mode manual EV",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_manual_focus",
+      "name": "Master Mode manual focus",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_manual_white_balance",
+      "name": "Master Mode manual white balance",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_saturation",
+      "name": "Master Mode saturation control",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_contrast",
+      "name": "Master Mode contrast control",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_sharpness",
+      "name": "Master Mode sharpness control",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_vignette",
+      "name": "Master Mode vignette control",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_x7"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hypertone_all_main_camera",
+      "name": "HyperTone All Main Camera System",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_system"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hypertone_proxdr_display",
+      "name": "HyperTone ProXDR Display",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_system"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "proxdr",
+      "name": "ProXDR",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_hypertone_system",
+        "oppo_ai_livephoto"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "marisilicon_x",
+      "name": "MariSilicon X Imaging NPU",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "20bit_ultra_hdr",
+      "name": "20-bit Ultra HDR imaging pipeline",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "20bit_raw_processing",
+      "name": "20-bit RAW-domain processing / HDR fusion",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "realtime_raw_processing",
+      "name": "Real-time RAW processing",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "rgbw_pro_mode",
+      "name": "RGBW Pro Mode",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "dual_image_pipeline",
+      "name": "Dual Image Pipeline",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "double_raw_super_sampling",
+      "name": "Double RAW super sampling",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "4k_ai_night_video",
+      "name": "4K AI Night Video",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "4k_ai_night_live_preview",
+      "name": "4K AI Night Video live preview",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_noise_reduction",
+      "name": "AI Noise Reduction (AINR)",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_marisilicon_x"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "4k_ultra_night_video",
+      "name": "4K Ultra Night Video",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x5_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hdr_fusion",
+      "name": "HDR Fusion Algorithm",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x5_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "rgbw_pro_pipeline",
+      "name": "RGBW Pro Pipeline",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x5_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "five_axis_ois",
+      "name": "Five-axis OIS",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x5_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "4k_cinematic_portrait_video",
+      "name": "4K Cinematic Portrait Video",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_imaging_technology"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "cinematic_tone_mapping",
+      "name": "Cinematic Tone Mapping",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_imaging_technology"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "portrait_22_apertures",
+      "name": "Portrait bokeh adjustment with 22 apertures",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_imaging_technology"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "smart_selfie_auto_wide",
+      "name": "Smart Selfie automatic wide-angle switching",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_imaging_technology"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "three_main_camera_system",
+      "name": "Three Main Camera System",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x6_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "low_light_telephoto",
+      "name": "Low-light telephotography",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x6_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "uncompressed_raw_deep_fusion",
+      "name": "Simultaneous deep fusion of uncompressed RAW data",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x6_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "13_channel_spectral_sensor",
+      "name": "13-channel spectral sensor color sensing",
+      "category": "optics_hardware",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x6_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "photon_matrix",
+      "name": "Photon Matrix Technology",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x6_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "log_aces",
+      "name": "LOG recording with ACES support",
+      "category": "capture_format",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_x9_upcoming"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_clarity_enhancer",
+      "name": "AI Clarity Enhancer",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_imaging_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_unblur",
+      "name": "AI Unblur",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_imaging_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_reflection_remover",
+      "name": "AI Reflection Remover",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_imaging_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_clear_face",
+      "name": "AI Clear Face",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_imaging_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_eraser",
+      "name": "AI Eraser 2.0",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_imaging_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_best_face",
+      "name": "AI Best Face",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_imaging_2025"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_motion",
+      "name": "AI Motion",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_imaging_2025"
+      ],
+      "status": "officially_observed"
     }
   ],
   "official_kernel_feature_macros": [
@@ -1663,7 +2384,7 @@
     }
   ],
   "audit": {
-    "official_feature_count": 98,
+    "official_feature_count": 154,
     "official_kernel_macro_count": 26,
     "entries_without_sources": [],
     "semantics_unresolved": [
