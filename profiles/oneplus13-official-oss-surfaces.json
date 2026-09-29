@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "target": "OnePlus 13",
+  "official_repo": {
+    "name": "OnePlusOSS/android_kernel_modules_and_devicetree_oneplus_sm8750",
+    "branch": "oneplus/sm8750_b_16.0.0_oneplus_13",
+    "url": "https://github.com/OnePlusOSS/android_kernel_modules_and_devicetree_oneplus_sm8750"
+  },
+  "platform": {
+    "base_target": "sun",
+    "device_codename": "dodge",
+    "device_overlay": "kernel_platform/qcom/opensource/devicetree/oplus/dodge-23821-sun-overlay.dts",
+    "build_entry": "kernel_platform/oplus/build/oplus_build.sh"
+  },
+  "modules": [
+    {
+      "id": "qcom-camera",
+      "output": "camera.ko",
+      "build_definition": "vendor/qcom/opensource/camera-kernel/camera_modules.bzl",
+      "source_root": "vendor/qcom/opensource/camera-kernel",
+      "responsibilities": [
+        "camera request manager and memory manager",
+        "camera SMMU and synchronization",
+        "CPAS / camera power and system fabric",
+        "interconnect bandwidth voting through cam_soc_icc",
+        "Spectra ISP (IFE/SFE/VFE)",
+        "ICP / IPE / BPS / OFE processing",
+        "JPEG encoder/DMA",
+        "sensor / CCI / CSIPHY / actuator / EEPROM / OIS / flash",
+        "OPlus camera link extensions under CONFIG_SPECTRA_OPLUS"
+      ],
+      "platform_dependencies": [
+        "synx",
+        "smcinvoke",
+        "smmu_proxy",
+        "mmrm-driver"
+      ],
+      "key_configs": [
+        "CONFIG_SPECTRA_ISP",
+        "CONFIG_SPECTRA_ICP",
+        "CONFIG_SPECTRA_JPEG",
+        "CONFIG_SPECTRA_SENSOR",
+        "CONFIG_INTERCONNECT_QCOM",
+        "CONFIG_SPECTRA_OPLUS"
+      ]
+    },
+    {
+      "id": "oplus-camera-extension",
+      "output": "camera_extension.ko",
+      "build_definition": "vendor/oplus/kernel/camera/camera_extension_modules.bzl",
+      "source_root": "vendor/oplus/kernel/camera/camera_extension",
+      "responsibilities": [
+        "custom actuator behavior",
+        "custom sensor I/O and sensor utilities",
+        "custom EEPROM handling",
+        "custom sensor behavior",
+        "custom OIS behavior and firmware loading",
+        "camera monitoring/debug",
+        "ToF extension drivers"
+      ]
+    },
+    {
+      "id": "camera-devicetree",
+      "output": "camera DT/DTBO",
+      "source_root": "vendor/qcom/opensource/camera-devicetree",
+      "responsibilities": [
+        "camera hardware resources",
+        "CSI/clock/power/interconnect topology",
+        "platform camera device-tree configuration"
+      ]
+    },
+    {
+      "id": "mmrm",
+      "output": "msm-mmrm.ko",
+      "evidence_path": "kernel_platform/oplus/tools/qcom_base_ko.txt",
+      "responsibilities": [
+        "multimedia resource management",
+        "camera/video resource arbitration and clock/resource voting dependency"
+      ]
+    }
+  ],
+  "workstream_mapping": {
+    "color-still": {
+      "kernel_relevance": "low-initial",
+      "first_layers": [
+        "OPlus Camera feature/config",
+        "Camera HAL/VendorTags",
+        "HEIF/HEIC encoder",
+        "color metadata"
+      ],
+      "kernel_layers_if_blocked": [
+        "camera.ko stream/memory path",
+        "CPAS/ICC only if bandwidth/resource failure is proven"
+      ],
+      "do_not_start_with": [
+        "sensor driver",
+        "OIS",
+        "camera DT"
+      ]
+    },
+    "pro-video": {
+      "kernel_relevance": "medium-after-mode-discovery",
+      "first_layers": [
+        "Camera HAL sensor-mode exposure",
+        "CamX/CHI",
+        "video encoder",
+        "OPlus Camera mode/config"
+      ],
+      "kernel_layers_if_blocked": [
+        "cam_sensor/CSIPHY",
+        "ISP/ICP",
+        "CPAS/ICC",
+        "MMRM",
+        "thermal/resource policy"
+      ],
+      "do_not_start_with": [
+        "OIS firmware unless stabilization itself is the failure"
+      ]
+    },
+    "raw": {
+      "kernel_relevance": "medium",
+      "first_layers": [
+        "Camera HAL RAW stream",
+        "APS RAW fusion",
+        "DNG/metadata writer",
+        "Master mode"
+      ],
+      "kernel_layers_if_blocked": [
+        "sensor RAW path",
+        "ISP bypass/RDI path",
+        "SMMU/memory path"
+      ],
+      "do_not_start_with": [
+        "JPEG path for RAW precision issues"
+      ]
+    },
+    "master-hasselblad": {
+      "kernel_relevance": "low",
+      "first_layers": [
+        "OPlus Camera feature table",
+        "Camera2 request parameters",
+        "APS style/tone config",
+        "per-lens capability masks"
+      ],
+      "kernel_layers_if_blocked": [
+        "sensor/actuator only for a proven physical control limit"
+      ],
+      "do_not_start_with": [
+        "MMRM",
+        "camera DT",
+        "OIS firmware"
+      ]
+    },
+    "tele-hdr": {
+      "kernel_relevance": "medium",
+      "first_layers": [
+        "SAT/zoom routing",
+        "APS fusion",
+        "camera calibration",
+        "multi-exposure HDR logic"
+      ],
+      "kernel_layers_if_blocked": [
+        "ISP/ICP",
+        "CPAS/ICC",
+        "sensor synchronization",
+        "MMRM"
+      ],
+      "do_not_start_with": [
+        "camera DT unless resource topology is proven wrong"
+      ]
+    }
+  },
+  "conclusions": [
+    "The official camera kernel exposes JPEG but no equivalent 10-bit HEIF feature switch; 10-bit HEIF should be investigated above the kernel first.",
+    "4K120 capability should first be searched in sensor-mode/HAL/encoder configuration; kernel changes are justified only after a streaming/resource failure is isolated.",
+    "Master/Hasselblad controls are primarily app/HAL/APS work, not kernel work.",
+    "MMRM/ICC/CPAS are performance/stability layers, not image-quality algorithms."
+  ]
+}
