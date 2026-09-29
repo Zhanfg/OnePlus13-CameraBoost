@@ -1,0 +1,2684 @@
+{
+  "schema_version": 1,
+  "target": {
+    "name": "OnePlus 13",
+    "model_ids": [
+      "PJZ110",
+      "CPH2653",
+      "CPH2655"
+    ],
+    "codename": "dodge",
+    "soc": "Snapdragon 8 Elite",
+    "camera_hardware": {
+      "main": {
+        "sensor": "Sony LYT-808",
+        "resolution_mp": 50,
+        "ois": true
+      },
+      "telephoto": {
+        "sensor": "Sony LYT-600",
+        "resolution_mp": 50,
+        "optical_zoom": "3x",
+        "ois": true
+      },
+      "ultrawide": {
+        "sensor": "Samsung S5KJN5",
+        "resolution_mp": 50,
+        "autofocus": true,
+        "fov_deg": 120
+      },
+      "front": {
+        "sensor": "Sony IMX615",
+        "resolution_mp": 32
+      }
+    },
+    "official_video_baseline": [
+      "8K30",
+      "4K60",
+      "4K60 Dolby Vision",
+      "4K60 steady video",
+      "1080p240 slow motion",
+      "720p480 slow motion"
+    ]
+  },
+  "classification_semantics": {
+    "native": "Explicitly exposed by OnePlus 13 official materials or directly represented by official target hardware.",
+    "high-confidence": "Strong first-party platform/hardware evidence says the prerequisite exists; still needs OPlus HAL/APS/app implementation mapping.",
+    "portable-with-adaptation": "No hard blocker established, but substantial adaptation/reimplementation may be required.",
+    "hardware-blocked": "The exact feature requires dedicated hardware absent from OnePlus 13 official specifications.",
+    "unknown": "Evidence is insufficient to classify."
+  },
+  "external_platform_evidence": {
+    "qualcomm_8_elite": {
+      "url": "https://www.qualcomm.com/content/dam/qcomm-martech/dm-assets/documents/Snapdragon-8-Elite-Platform-Product-Brief.pdf",
+      "relevant_capabilities": [
+        "Triple 18-bit ISPs",
+        "Rec.2020 photo/video capture",
+        "Up to 10-bit color depth photo/video capture",
+        "10-bit HEIF/HEIC photo capture",
+        "HDR10/HDR10+/HLG/Dolby Vision video",
+        "4K video capture at 120 FPS",
+        "Computational HDR up to 4 exposures"
+      ]
+    },
+    "oneplus_13_specs": {
+      "url": "https://www.oneplus.com/us/13/specs"
+    },
+    "oneplus_13_product": {
+      "url": "https://www.oneplus.com/us/13"
+    }
+  },
+  "donor_strategy": {
+    "primary_sensor_donor": {
+      "name": "OPPO Find X9",
+      "soc": "MediaTek Dimensity 9500",
+      "compatibility_scope": "camera sensors, app modes, feature semantics, sensor-side behavior",
+      "limitations": "Do not transplant MediaTek ISP binaries/tuning directly into Snapdragon CamX/CHI.",
+      "hardware_matches": {
+        "main": {
+          "target": "LYT-808",
+          "donor": "LYT-808",
+          "match": "exact"
+        },
+        "telephoto": {
+          "target": "LYT-600",
+          "donor": "LYT-600",
+          "match": "exact"
+        },
+        "ultrawide": {
+          "target": "S5KJN5",
+          "donor": "JN5",
+          "match": "same-sensor-family/likely exact"
+        },
+        "front": {
+          "target": "IMX615",
+          "donor": "IMX615",
+          "match": "exact"
+        }
+      },
+      "donor_unique_hardware": [
+        "True Color Camera"
+      ],
+      "official_source": "https://www.oppo.com/in/newsroom/press/oppo-find-x9-series-launched-in-india/"
+    },
+    "platform_reference": {
+      "name": "Snapdragon 8 Elite reference capability",
+      "scope": "ISP/encoder ceiling and public Qualcomm camera capabilities",
+      "note": "Use Qualcomm platform capability as the hard upper-bound reference; OPlus product enablement remains separate."
+    }
+  },
+  "priorities": {
+    "P0": "Core image-quality/pro capture workstream; investigate first.",
+    "P1": "Second-wave computational/algorithm enhancements.",
+    "P2": "Lower-value, legacy, cosmetic or broad adaptation work.",
+    "native": "Already present; optimize rather than unlock.",
+    "skip": "Exact implementation is hardware-blocked."
+  },
+  "entries": [
+    {
+      "id": "photo",
+      "name": "Photo",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "video",
+      "name": "Video",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "portrait",
+      "name": "Portrait",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "night",
+      "name": "Night / Nightscape",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "pro",
+      "name": "Pro",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oppo_reno14_pro_specs",
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "master",
+      "name": "Master",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "panorama",
+      "name": "Panorama",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "slow_motion",
+      "name": "Slow Motion",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "time_lapse",
+      "name": "Time-Lapse",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "hyperlapse",
+      "name": "Hyperlapse",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "long_exposure",
+      "name": "Long Exposure",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "dual_view_video",
+      "name": "Dual-view Video",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "movie_cinematic",
+      "name": "Movie / Cinematic",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oneplus_13_specs",
+        "oppo_find_x8_pro_specs"
+      ]
+    },
+    {
+      "id": "pro_video",
+      "name": "Pro Video",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_15_specs"
+      ]
+    },
+    {
+      "id": "xpan",
+      "name": "XPAN",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_12_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "tilt_shift",
+      "name": "Tilt-Shift / Axis Shift",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oneplus_15_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "hi_res",
+      "name": "HI-RES / High Pixel / Extra HD",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "hasselblad_hi_res",
+      "name": "Hasselblad HI-RES",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "OnePlus 13 already has Hasselblad stack and 50MP sensors; likely primarily app/algorithm exposure.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs"
+      ]
+    },
+    {
+      "id": "macro",
+      "name": "Macro / Super Macro",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_reno14_pro_specs",
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "microscope",
+      "name": "Microscope",
+      "category": "user_mode",
+      "status": "hardware-blocked",
+      "confidence": "high",
+      "priority": "skip",
+      "reason": "Requires dedicated close-focus optics/sensor configuration not present in official OnePlus 13 hardware specifications.",
+      "official_feature_sources": [
+        "oppo_a98_specs"
+      ]
+    },
+    {
+      "id": "underwater",
+      "name": "Underwater",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_15_specs"
+      ]
+    },
+    {
+      "id": "sticker",
+      "name": "Sticker",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs"
+      ]
+    },
+    {
+      "id": "text_scanner",
+      "name": "Text / Hypertext Scanner",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_15_specs"
+      ]
+    },
+    {
+      "id": "document_scanner",
+      "name": "Document Scanner",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "google_lens",
+      "name": "Google Lens",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oppo_reno14_pro_specs",
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "150_degree",
+      "name": "150° Mode",
+      "category": "user_mode",
+      "status": "hardware-blocked",
+      "confidence": "high",
+      "priority": "skip",
+      "reason": "OnePlus 13 ultra-wide is 120°, so a true 150° optical field of view cannot be created in software.",
+      "official_feature_sources": [
+        "oneplus_10_pro"
+      ]
+    },
+    {
+      "id": "hasselblad_teleconverter",
+      "name": "Hasselblad Teleconverter",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs"
+      ]
+    },
+    {
+      "id": "retouch",
+      "name": "Retouch / Beauty",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_reno14_pro_specs",
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "screen_flash",
+      "name": "Screen Fill Light / Screen Flash",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_reno14_pro_specs",
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "focus_peaking",
+      "name": "Focus Peaking",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "focus_lock",
+      "name": "Focus Lock",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "focus_tracking",
+      "name": "Focus Tracking",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_9_pro_specs"
+      ]
+    },
+    {
+      "id": "filters",
+      "name": "Filters",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "raw",
+      "name": "RAW",
+      "category": "capture_format",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P0",
+      "reason": "Format/pipeline feature; requires HAL/encoder/metadata/color-management integration.",
+      "official_feature_sources": [
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "raw_plus",
+      "name": "RAW Plus",
+      "category": "capture_format",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P0",
+      "reason": "Format/pipeline feature; requires HAL/encoder/metadata/color-management integration.",
+      "official_feature_sources": [
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "heif",
+      "name": "HEIF still storage",
+      "category": "capture_format",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_billion_colour"
+      ]
+    },
+    {
+      "id": "heif_10bit",
+      "name": "10-bit HEIF still storage",
+      "category": "capture_format",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "Snapdragon 8 Elite officially supports up to 10-bit photo/video and 10-bit HEIF/HEIC capture.",
+      "official_feature_sources": [
+        "oppo_billion_colour"
+      ]
+    },
+    {
+      "id": "full_path_10bit",
+      "name": "Full-path 10-bit capture/storage/display",
+      "category": "pipeline",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "Snapdragon 8 Elite exposes 10-bit capture and Rec.2020; target work is OPlus HAL/APS/color-pipeline integration.",
+      "official_feature_sources": [
+        "oppo_billion_colour"
+      ]
+    },
+    {
+      "id": "billion_color",
+      "name": "One Billion Colors / Billion Color Solution",
+      "category": "pipeline",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Imaging-pipeline feature; requires ISP/HAL/APS adaptation.",
+      "official_feature_sources": [
+        "oppo_billion_colour",
+        "oneplus_10_pro"
+      ]
+    },
+    {
+      "id": "dci_p3_10bit",
+      "name": "Full DCI-P3 in 10-bit color",
+      "category": "pipeline",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "Platform and display are 10-bit/HDR capable; target work is still-image color-management exposure.",
+      "official_feature_sources": [
+        "oppo_billion_colour"
+      ]
+    },
+    {
+      "id": "olog",
+      "name": "OPPO O-Log",
+      "category": "capture_format",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Format/pipeline feature; requires HAL/encoder/metadata/color-management integration.",
+      "official_feature_sources": [
+        "oppo_olog_whitepaper"
+      ]
+    },
+    {
+      "id": "olog_10bit",
+      "name": "O-Log 10-bit logarithmic encoding",
+      "category": "capture_format",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Format/pipeline feature; requires HAL/encoder/metadata/color-management integration.",
+      "official_feature_sources": [
+        "oppo_olog_whitepaper"
+      ]
+    },
+    {
+      "id": "olog_h265_420",
+      "name": "O-Log H.265 YUV 4:2:0",
+      "category": "capture_format",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Format/pipeline feature; requires HAL/encoder/metadata/color-management integration.",
+      "official_feature_sources": [
+        "oppo_olog_whitepaper"
+      ]
+    },
+    {
+      "id": "olog_bt2020",
+      "name": "O-Log BT.2020 / OPPO Wide Gamut",
+      "category": "pipeline",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Imaging-pipeline feature; requires ISP/HAL/APS adaptation.",
+      "official_feature_sources": [
+        "oppo_olog_whitepaper"
+      ]
+    },
+    {
+      "id": "8k_video",
+      "name": "8K Video",
+      "category": "video",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_15_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "4k120_video",
+      "name": "4K 120 fps Video",
+      "category": "video",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "Snapdragon 8 Elite officially supports 4K120 capture and Find X9 demonstrates LYT-808 at 4K120; target still needs sensor-mode/HAL validation.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_15_specs"
+      ]
+    },
+    {
+      "id": "dolby_vision_video",
+      "name": "Dolby Vision Video",
+      "category": "video",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_12_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "hdr_video",
+      "name": "HDR Video",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "video_nightscape",
+      "name": "Video Nightscape",
+      "category": "video",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P1",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "video_portrait",
+      "name": "Video Portrait",
+      "category": "video",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P1",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_9_pro_specs"
+      ]
+    },
+    {
+      "id": "video_stabilization",
+      "name": "Super Stable / Ultra Steady / SuperEIS",
+      "category": "video",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_reno14_pro_specs",
+        "oneplus_12_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "video_zoom",
+      "name": "Video Zoom",
+      "category": "video",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "cine_aspect_video",
+      "name": "CINE Aspect Ratio Video",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oneplus_n10_specs"
+      ]
+    },
+    {
+      "id": "selfie_hdr",
+      "name": "Selfie HDR",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "nightscape_selfie",
+      "name": "Nightscape Selfie",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "ai_scene_recognition",
+      "name": "AI / Smart Scene Recognition",
+      "category": "computational",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "cat_dog_face_focus",
+      "name": "Cat/Dog Face Focus",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oneplus_9_pro_specs"
+      ]
+    },
+    {
+      "id": "hypertone",
+      "name": "HyperTone Image Engine",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P1",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_hypertone_x7"
+      ]
+    },
+    {
+      "id": "extra_hd_ai_raw_fusion",
+      "name": "Extra HD Algorithm / AI RAW Fusion",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P1",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_hypertone_x7"
+      ]
+    },
+    {
+      "id": "lightning_snap",
+      "name": "Lightning Snap",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P1",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_lightning_snap"
+      ]
+    },
+    {
+      "id": "instant_dual_exposure",
+      "name": "Instant Dual Exposure",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P1",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_lightning_snap"
+      ]
+    },
+    {
+      "id": "off_peak_compute",
+      "name": "Off-Peak Computing Architecture",
+      "category": "pipeline",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P1",
+      "reason": "Imaging-pipeline feature; requires ISP/HAL/APS adaptation.",
+      "official_feature_sources": [
+        "oppo_lightning_snap"
+      ]
+    },
+    {
+      "id": "zero_shutter_lag",
+      "name": "Near-zero shutter lag",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P1",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_lightning_snap"
+      ]
+    },
+    {
+      "id": "quality_burst",
+      "name": "Quality burst / continuous high-quality capture",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P1",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_lightning_snap"
+      ]
+    },
+    {
+      "id": "ai_telescope_zoom",
+      "name": "AI Telescope Zoom",
+      "category": "computational",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "OnePlus 13 already advertises up to 120x digital zoom and has a 3x LYT-600 telephoto; algorithm portability is plausible.",
+      "official_feature_sources": [
+        "oppo_ai_telescope_zoom"
+      ]
+    },
+    {
+      "id": "gapless_zoom",
+      "name": "Gapless / Uninterrupted Zoom",
+      "category": "computational",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "Triple rear cameras and target-side zoom video already exist; needs calibration, transition and fusion work.",
+      "official_feature_sources": [
+        "oppo_ai_telescope_zoom"
+      ]
+    },
+    {
+      "id": "hasselblad_portrait",
+      "name": "Hasselblad Portrait",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_hypertone_x7",
+        "oneplus_12_specs"
+      ]
+    },
+    {
+      "id": "detailmax",
+      "name": "DetailMax Engine",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oneplus_15_press"
+      ]
+    },
+    {
+      "id": "ultrashot_hdr",
+      "name": "UltraShot HDR / Ultra HDR",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oneplus_10_pro"
+      ]
+    },
+    {
+      "id": "snapshot",
+      "name": "Snapshot",
+      "category": "computational",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oneplus_13_specs"
+      ]
+    },
+    {
+      "id": "ois",
+      "name": "Optical Image Stabilization",
+      "category": "optics_hardware",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_mtk419_features"
+      ]
+    },
+    {
+      "id": "eis",
+      "name": "Electronic Image Stabilization",
+      "category": "optics_hardware",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_reno14_pro_specs"
+      ]
+    },
+    {
+      "id": "periscope",
+      "name": "Periscope / Triprism Telephoto",
+      "category": "optics_hardware",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs"
+      ]
+    },
+    {
+      "id": "telemacro",
+      "name": "Telemacro",
+      "category": "optics_hardware",
+      "status": "portable-with-adaptation",
+      "confidence": "low",
+      "priority": "P2",
+      "reason": "Hardware-oriented feature with incomplete target equivalence; needs exact component/driver comparison.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs"
+      ]
+    },
+    {
+      "id": "ultrawide_macro",
+      "name": "Ultra-wide Macro",
+      "category": "optics_hardware",
+      "status": "portable-with-adaptation",
+      "confidence": "low",
+      "priority": "P2",
+      "reason": "Hardware-oriented feature with incomplete target equivalence; needs exact component/driver comparison.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs"
+      ]
+    },
+    {
+      "id": "monochrome_sensor",
+      "name": "Monochrome Camera / Sensor",
+      "category": "optics_hardware",
+      "status": "hardware-blocked",
+      "confidence": "high",
+      "priority": "skip",
+      "reason": "Requires a dedicated monochrome sensor absent from the OnePlus 13 camera array.",
+      "official_feature_sources": [
+        "oneplus_9_pro_specs"
+      ]
+    },
+    {
+      "id": "color_temperature_sensor",
+      "name": "Color Temperature / Multispectral Sensor",
+      "category": "optics_hardware",
+      "status": "portable-with-adaptation",
+      "confidence": "low",
+      "priority": "P2",
+      "reason": "Hardware-oriented feature with incomplete target equivalence; needs exact component/driver comparison.",
+      "official_feature_sources": [
+        "oppo_find_x9_ultra_specs"
+      ]
+    },
+    {
+      "id": "autofocus",
+      "name": "Autofocus / actuator support",
+      "category": "optics_hardware",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_sm8350_camera_main"
+      ]
+    },
+    {
+      "id": "ois_driver",
+      "name": "OIS driver stack",
+      "category": "optics_hardware",
+      "status": "portable-with-adaptation",
+      "confidence": "low",
+      "priority": "P2",
+      "reason": "Hardware-oriented feature with incomplete target equivalence; needs exact component/driver comparison.",
+      "official_feature_sources": [
+        "oppo_sm8350_camera_main"
+      ]
+    },
+    {
+      "id": "camera_eeprom",
+      "name": "Camera EEPROM support",
+      "category": "optics_hardware",
+      "status": "portable-with-adaptation",
+      "confidence": "low",
+      "priority": "P2",
+      "reason": "Hardware-oriented feature with incomplete target equivalence; needs exact component/driver comparison.",
+      "official_feature_sources": [
+        "oppo_sm8350_camera_main"
+      ]
+    },
+    {
+      "id": "tof",
+      "name": "Time-of-Flight camera support",
+      "category": "optics_hardware",
+      "status": "hardware-blocked",
+      "confidence": "high",
+      "priority": "skip",
+      "reason": "Requires a dedicated ToF camera/sensor absent from OnePlus 13 official camera specifications.",
+      "official_feature_sources": [
+        "oppo_sm8350_camera_main"
+      ]
+    },
+    {
+      "id": "live_photo",
+      "name": "Live Photo",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_ai_livephoto",
+        "oneplus_13_press"
+      ]
+    },
+    {
+      "id": "clear_burst",
+      "name": "Clear Burst",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oneplus_13_press",
+        "oneplus_15_press"
+      ]
+    },
+    {
+      "id": "ai_livephoto",
+      "name": "AI Livephoto",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_ai_livephoto"
+      ]
+    },
+    {
+      "id": "livephoto_eis",
+      "name": "Livephoto EIS stabilization",
+      "category": "computational",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P1",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_ai_livephoto"
+      ]
+    },
+    {
+      "id": "livephoto_realtime_still_processing",
+      "name": "Still-photo algorithms applied to every Livephoto frame in real time",
+      "category": "pipeline",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P1",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_ai_livephoto"
+      ]
+    },
+    {
+      "id": "dual_exposure_algorithm",
+      "name": "Dual Exposure Algorithm",
+      "category": "computational",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oneplus_13_press"
+      ]
+    },
+    {
+      "id": "action_mode",
+      "name": "Action Mode",
+      "category": "user_mode",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oneplus_13_press"
+      ]
+    },
+    {
+      "id": "ai_telephoto",
+      "name": "AI Telephoto",
+      "category": "computational",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oneplus_13_press"
+      ]
+    },
+    {
+      "id": "ultra_steady_4k",
+      "name": "Ultra Steady Mode with 4K capture",
+      "category": "video",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oneplus_13_press"
+      ]
+    },
+    {
+      "id": "ultra_clear_26mp",
+      "name": "Ultra Clear 26MP Mode",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oneplus_15_press"
+      ]
+    },
+    {
+      "id": "clear_night_engine",
+      "name": "Clear Night Engine",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oneplus_15_press"
+      ]
+    },
+    {
+      "id": "log_video",
+      "name": "LOG Video",
+      "category": "capture_format",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "10-bit/Rec.2020 platform capability exists; implementation needs an OPlus/OnePlus log curve and HAL/app exposure.",
+      "official_feature_sources": [
+        "oneplus_15_press"
+      ]
+    },
+    {
+      "id": "realtime_lut_preview",
+      "name": "Real-time LUT Preview",
+      "category": "video",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_15_press"
+      ]
+    },
+    {
+      "id": "12bit_raw",
+      "name": "12-bit RAW",
+      "category": "capture_format",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P0",
+      "reason": "Format/pipeline feature; requires HAL/encoder/metadata/color-management integration.",
+      "official_feature_sources": [
+        "oneplus_9_pro_specs"
+      ]
+    },
+    {
+      "id": "dual_iso",
+      "name": "Dual ISO",
+      "category": "pipeline",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Imaging-pipeline feature; requires ISP/HAL/APS adaptation.",
+      "official_feature_sources": [
+        "oneplus_9_pro_specs"
+      ]
+    },
+    {
+      "id": "dol_hdr",
+      "name": "DOL-HDR",
+      "category": "pipeline",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Imaging-pipeline feature; requires ISP/HAL/APS adaptation.",
+      "official_feature_sources": [
+        "oneplus_9_pro_specs"
+      ]
+    },
+    {
+      "id": "laser_autofocus",
+      "name": "Laser Autofocus (LAF)",
+      "category": "optics_hardware",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oneplus_9_pro_specs"
+      ]
+    },
+    {
+      "id": "lumo_image_engine",
+      "name": "LUMO Image Engine",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P1",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_x9_upcoming"
+      ]
+    },
+    {
+      "id": "true_color_camera",
+      "name": "True Color Camera / True Chroma Camera",
+      "category": "optics_hardware",
+      "status": "hardware-blocked",
+      "confidence": "high",
+      "priority": "skip",
+      "reason": "Find X9 includes a dedicated True Color/multispectral camera; OnePlus 13 official hardware does not list one.",
+      "official_feature_sources": [
+        "oppo_x9_launch",
+        "oppo_hasselblad_2025"
+      ]
+    },
+    {
+      "id": "ultra_xdr_main_camera",
+      "name": "Ultra XDR Main Camera",
+      "category": "optics_hardware",
+      "status": "portable-with-adaptation",
+      "confidence": "low",
+      "priority": "P2",
+      "reason": "Hardware-oriented feature with incomplete target equivalence; needs exact component/driver comparison.",
+      "official_feature_sources": [
+        "oppo_x9_launch"
+      ]
+    },
+    {
+      "id": "real_time_triple_exposure",
+      "name": "Real-Time Triple Exposure",
+      "category": "computational",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "Same LYT-808 donor demonstrates the feature and Snapdragon 8 Elite supports multi-exposure computational HDR.",
+      "official_feature_sources": [
+        "oppo_x9_launch"
+      ]
+    },
+    {
+      "id": "active_optical_alignment",
+      "name": "Active Optical Alignment",
+      "category": "optics_hardware",
+      "status": "hardware-blocked",
+      "confidence": "high",
+      "priority": "skip",
+      "reason": "Manufacturing/optical alignment capability, not a runtime software feature that can be ported.",
+      "official_feature_sources": [
+        "oppo_x9_launch"
+      ]
+    },
+    {
+      "id": "stage_mode",
+      "name": "Stage Mode",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "Primarily an algorithm/UI profile layered on the existing telephoto/zoom stack.",
+      "official_feature_sources": [
+        "oppo_ai_telescope_zoom"
+      ]
+    },
+    {
+      "id": "hasselblad_master_camera_system",
+      "name": "Hasselblad Master Camera System",
+      "category": "pipeline",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P1",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_hasselblad_2025"
+      ]
+    },
+    {
+      "id": "hasselblad_natural_color_solution",
+      "name": "Hasselblad Natural Color Solution",
+      "category": "pipeline",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P1",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_hasselblad_2025"
+      ]
+    },
+    {
+      "id": "ai_bokeh_engine",
+      "name": "AI Bokeh Engine",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_hasselblad_2025"
+      ]
+    },
+    {
+      "id": "jpeg_max_50mp",
+      "name": "JPEG Max 50MP",
+      "category": "capture_format",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Format/pipeline feature; requires HAL/encoder/metadata/color-management integration.",
+      "official_feature_sources": [
+        "oppo_hasselblad_2025"
+      ]
+    },
+    {
+      "id": "raw_max_16bit_50mp",
+      "name": "RAW Max 50MP / 16-bit",
+      "category": "capture_format",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P0",
+      "reason": "Format/pipeline feature; requires HAL/encoder/metadata/color-management integration.",
+      "official_feature_sources": [
+        "oppo_hasselblad_2025",
+        "oppo_hypertone_x7"
+      ]
+    },
+    {
+      "id": "raw_max_bt2020",
+      "name": "RAW Max BT.2020",
+      "category": "capture_format",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P0",
+      "reason": "Format/pipeline feature; requires HAL/encoder/metadata/color-management integration.",
+      "official_feature_sources": [
+        "oppo_hypertone_x7"
+      ]
+    },
+    {
+      "id": "raw_max_13stop",
+      "name": "RAW Max 13-stop dynamic range",
+      "category": "capture_format",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P0",
+      "reason": "Format/pipeline feature; requires HAL/encoder/metadata/color-management integration.",
+      "official_feature_sources": [
+        "oppo_hypertone_x7"
+      ]
+    },
+    {
+      "id": "master_manual_iso",
+      "name": "Master Mode manual ISO",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_hypertone_x7"
+      ]
+    },
+    {
+      "id": "master_manual_shutter",
+      "name": "Master Mode manual shutter speed",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_hypertone_x7"
+      ]
+    },
+    {
+      "id": "master_manual_ev",
+      "name": "Master Mode manual EV",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_hypertone_x7"
+      ]
+    },
+    {
+      "id": "master_manual_focus",
+      "name": "Master Mode manual focus",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_hypertone_x7"
+      ]
+    },
+    {
+      "id": "master_manual_white_balance",
+      "name": "Master Mode manual white balance",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_hypertone_x7"
+      ]
+    },
+    {
+      "id": "master_saturation",
+      "name": "Master Mode saturation control",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_hypertone_x7"
+      ]
+    },
+    {
+      "id": "master_contrast",
+      "name": "Master Mode contrast control",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_hypertone_x7"
+      ]
+    },
+    {
+      "id": "master_sharpness",
+      "name": "Master Mode sharpness control",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_hypertone_x7"
+      ]
+    },
+    {
+      "id": "master_vignette",
+      "name": "Master Mode vignette control",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oppo_hypertone_x7"
+      ]
+    },
+    {
+      "id": "hypertone_all_main_camera",
+      "name": "HyperTone All Main Camera System",
+      "category": "pipeline",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Imaging-pipeline feature; requires ISP/HAL/APS adaptation.",
+      "official_feature_sources": [
+        "oppo_hypertone_system"
+      ]
+    },
+    {
+      "id": "hypertone_proxdr_display",
+      "name": "HyperTone ProXDR Display",
+      "category": "pipeline",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Imaging-pipeline feature; requires ISP/HAL/APS adaptation.",
+      "official_feature_sources": [
+        "oppo_hypertone_system"
+      ]
+    },
+    {
+      "id": "proxdr",
+      "name": "ProXDR",
+      "category": "pipeline",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P0",
+      "reason": "Imaging-pipeline feature; requires ISP/HAL/APS adaptation.",
+      "official_feature_sources": [
+        "oppo_hypertone_system",
+        "oppo_ai_livephoto"
+      ]
+    },
+    {
+      "id": "marisilicon_x",
+      "name": "MariSilicon X Imaging NPU",
+      "category": "pipeline",
+      "status": "hardware-blocked",
+      "confidence": "high",
+      "priority": "skip",
+      "reason": "Dedicated OPPO imaging NPU hardware is absent from OnePlus 13.",
+      "official_feature_sources": [
+        "oppo_marisilicon_x"
+      ]
+    },
+    {
+      "id": "20bit_ultra_hdr",
+      "name": "20-bit Ultra HDR imaging pipeline",
+      "category": "pipeline",
+      "status": "hardware-blocked",
+      "confidence": "high",
+      "priority": "skip",
+      "reason": "Exact 20-bit MariSilicon imaging path requires hardware not present; Snapdragon 8 Elite uses triple 18-bit ISPs instead.",
+      "official_feature_sources": [
+        "oppo_marisilicon_x"
+      ]
+    },
+    {
+      "id": "20bit_raw_processing",
+      "name": "20-bit RAW-domain processing / HDR fusion",
+      "category": "pipeline",
+      "status": "hardware-blocked",
+      "confidence": "high",
+      "priority": "skip",
+      "reason": "Exact 20-bit MariSilicon RAW processing path requires hardware not present.",
+      "official_feature_sources": [
+        "oppo_marisilicon_x"
+      ]
+    },
+    {
+      "id": "realtime_raw_processing",
+      "name": "Real-time RAW processing",
+      "category": "pipeline",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Imaging-pipeline feature; requires ISP/HAL/APS adaptation.",
+      "official_feature_sources": [
+        "oppo_marisilicon_x"
+      ]
+    },
+    {
+      "id": "rgbw_pro_mode",
+      "name": "RGBW Pro Mode",
+      "category": "pipeline",
+      "status": "hardware-blocked",
+      "confidence": "high",
+      "priority": "skip",
+      "reason": "Depends on an RGBW sensor/pipeline absent from the official OnePlus 13 camera hardware.",
+      "official_feature_sources": [
+        "oppo_marisilicon_x"
+      ]
+    },
+    {
+      "id": "dual_image_pipeline",
+      "name": "Dual Image Pipeline",
+      "category": "pipeline",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Imaging-pipeline feature; requires ISP/HAL/APS adaptation.",
+      "official_feature_sources": [
+        "oppo_marisilicon_x"
+      ]
+    },
+    {
+      "id": "double_raw_super_sampling",
+      "name": "Double RAW super sampling",
+      "category": "pipeline",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Imaging-pipeline feature; requires ISP/HAL/APS adaptation.",
+      "official_feature_sources": [
+        "oppo_marisilicon_x"
+      ]
+    },
+    {
+      "id": "4k_ai_night_video",
+      "name": "4K AI Night Video",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oppo_marisilicon_x"
+      ]
+    },
+    {
+      "id": "4k_ai_night_live_preview",
+      "name": "4K AI Night Video live preview",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oppo_marisilicon_x"
+      ]
+    },
+    {
+      "id": "ai_noise_reduction",
+      "name": "AI Noise Reduction (AINR)",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P1",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_marisilicon_x"
+      ]
+    },
+    {
+      "id": "4k_ultra_night_video",
+      "name": "4K Ultra Night Video",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oppo_find_x5_launch"
+      ]
+    },
+    {
+      "id": "hdr_fusion",
+      "name": "HDR Fusion Algorithm",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P1",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_find_x5_launch"
+      ]
+    },
+    {
+      "id": "rgbw_pro_pipeline",
+      "name": "RGBW Pro Pipeline",
+      "category": "pipeline",
+      "status": "hardware-blocked",
+      "confidence": "high",
+      "priority": "skip",
+      "reason": "Depends on an RGBW sensor/pipeline absent from the official OnePlus 13 camera hardware.",
+      "official_feature_sources": [
+        "oppo_find_x5_launch"
+      ]
+    },
+    {
+      "id": "five_axis_ois",
+      "name": "Five-axis OIS",
+      "category": "optics_hardware",
+      "status": "hardware-blocked",
+      "confidence": "high",
+      "priority": "skip",
+      "reason": "Requires a specific five-axis stabilization mechanism not listed for OnePlus 13.",
+      "official_feature_sources": [
+        "oppo_find_x5_launch"
+      ]
+    },
+    {
+      "id": "4k_cinematic_portrait_video",
+      "name": "4K Cinematic Portrait Video",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oppo_imaging_technology"
+      ]
+    },
+    {
+      "id": "cinematic_tone_mapping",
+      "name": "Cinematic Tone Mapping",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_imaging_technology"
+      ]
+    },
+    {
+      "id": "portrait_22_apertures",
+      "name": "Portrait bokeh adjustment with 22 apertures",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oppo_imaging_technology"
+      ]
+    },
+    {
+      "id": "smart_selfie_auto_wide",
+      "name": "Smart Selfie automatic wide-angle switching",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_imaging_technology"
+      ]
+    },
+    {
+      "id": "three_main_camera_system",
+      "name": "Three Main Camera System",
+      "category": "pipeline",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Imaging-pipeline feature; requires ISP/HAL/APS adaptation.",
+      "official_feature_sources": [
+        "oppo_find_x6_launch"
+      ]
+    },
+    {
+      "id": "low_light_telephoto",
+      "name": "Low-light telephotography",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P1",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_find_x6_launch"
+      ]
+    },
+    {
+      "id": "uncompressed_raw_deep_fusion",
+      "name": "Simultaneous deep fusion of uncompressed RAW data",
+      "category": "pipeline",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P1",
+      "reason": "Imaging-pipeline feature; requires ISP/HAL/APS adaptation.",
+      "official_feature_sources": [
+        "oppo_find_x6_launch"
+      ]
+    },
+    {
+      "id": "13_channel_spectral_sensor",
+      "name": "13-channel spectral sensor color sensing",
+      "category": "optics_hardware",
+      "status": "hardware-blocked",
+      "confidence": "high",
+      "priority": "skip",
+      "reason": "Requires a dedicated spectral sensor absent from OnePlus 13 official hardware.",
+      "official_feature_sources": [
+        "oppo_find_x6_launch"
+      ]
+    },
+    {
+      "id": "photon_matrix",
+      "name": "Photon Matrix Technology",
+      "category": "pipeline",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P1",
+      "reason": "Imaging-pipeline feature; requires ISP/HAL/APS adaptation.",
+      "official_feature_sources": [
+        "oppo_find_x6_launch"
+      ]
+    },
+    {
+      "id": "log_aces",
+      "name": "LOG recording with ACES support",
+      "category": "capture_format",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "Find X9 provides LOG+ACES on the same LYT-808 main sensor, but its MediaTek ISP means the implementation cannot be copied directly.",
+      "official_feature_sources": [
+        "oppo_x9_upcoming"
+      ]
+    },
+    {
+      "id": "ai_clarity_enhancer",
+      "name": "AI Clarity Enhancer",
+      "category": "post_capture",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Software/model feature; portable in principle but requires the corresponding model/runtime or reimplementation.",
+      "official_feature_sources": [
+        "oppo_ai_imaging_2025"
+      ]
+    },
+    {
+      "id": "ai_unblur",
+      "name": "AI Unblur",
+      "category": "post_capture",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_ai_imaging_2025",
+        "oneplus_13_page"
+      ]
+    },
+    {
+      "id": "ai_reflection_remover",
+      "name": "AI Reflection Remover",
+      "category": "post_capture",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oppo_ai_imaging_2025",
+        "oneplus_13_page"
+      ]
+    },
+    {
+      "id": "ai_clear_face",
+      "name": "AI Clear Face",
+      "category": "post_capture",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Software/model feature; portable in principle but requires the corresponding model/runtime or reimplementation.",
+      "official_feature_sources": [
+        "oppo_ai_imaging_2025"
+      ]
+    },
+    {
+      "id": "ai_eraser",
+      "name": "AI Eraser 2.0",
+      "category": "post_capture",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Software/model feature; portable in principle but requires the corresponding model/runtime or reimplementation.",
+      "official_feature_sources": [
+        "oppo_ai_imaging_2025"
+      ]
+    },
+    {
+      "id": "ai_best_face",
+      "name": "AI Best Face",
+      "category": "post_capture",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Software/model feature; portable in principle but requires the corresponding model/runtime or reimplementation.",
+      "official_feature_sources": [
+        "oppo_ai_imaging_2025"
+      ]
+    },
+    {
+      "id": "ai_motion",
+      "name": "AI Motion",
+      "category": "post_capture",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Software/model feature; portable in principle but requires the corresponding model/runtime or reimplementation.",
+      "official_feature_sources": [
+        "oppo_ai_imaging_2025"
+      ]
+    },
+    {
+      "id": "ultra_steady_2",
+      "name": "Ultra Steady 2.0",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oppo_reno3_launch"
+      ]
+    },
+    {
+      "id": "wide_angle_stabilization",
+      "name": "Wide-angle Stabilization Mode",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oppo_reno3_launch"
+      ]
+    },
+    {
+      "id": "video_portrait_bokeh",
+      "name": "Video Portrait Bokeh",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oppo_reno3_launch"
+      ]
+    },
+    {
+      "id": "video_smart_editing",
+      "name": "Video Smart Editing / SoLoop integration",
+      "category": "post_capture",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Software/model feature; portable in principle but requires the corresponding model/runtime or reimplementation.",
+      "official_feature_sources": [
+        "oppo_reno3_launch"
+      ]
+    },
+    {
+      "id": "ai_ultra_clear_night_scene",
+      "name": "AI Ultra-Clear Night Scene",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_reno3_launch"
+      ]
+    },
+    {
+      "id": "portrait_beautify_2",
+      "name": "Portrait Beautify 2.0",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_reno3_launch"
+      ]
+    },
+    {
+      "id": "bokeh_flare_portrait_video",
+      "name": "Bokeh Flare Portrait Video",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oppo_reno7_portrait"
+      ]
+    },
+    {
+      "id": "ai_highlight_video",
+      "name": "AI Highlight Video",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oppo_reno7_portrait",
+        "oneplus_11_specs"
+      ]
+    },
+    {
+      "id": "live_hdr_video",
+      "name": "Live HDR video algorithm",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_reno7_portrait"
+      ]
+    },
+    {
+      "id": "ultra_night_video",
+      "name": "Ultra Night Video algorithm",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_reno7_portrait"
+      ]
+    },
+    {
+      "id": "ai_color_portrait_video",
+      "name": "AI Color Portrait Video",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oppo_reno7_portrait"
+      ]
+    },
+    {
+      "id": "portrait_retouching_video",
+      "name": "Per-person Portrait Retouching for video",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oppo_reno7_portrait"
+      ]
+    },
+    {
+      "id": "ultra_clear_108mp",
+      "name": "Ultra-Clear 108MP Image",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oppo_reno7_portrait"
+      ]
+    },
+    {
+      "id": "flash_snapshot",
+      "name": "Flash Snapshot",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_reno7_portrait"
+      ]
+    },
+    {
+      "id": "pop_cam",
+      "name": "Pop Cam",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oppo_reno16_story"
+      ]
+    },
+    {
+      "id": "pop_cam_filters",
+      "name": "Pop Cam camera-style filters",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oppo_reno16_story"
+      ]
+    },
+    {
+      "id": "pop_cam_motion_photo",
+      "name": "Pop Cam Motion Photo",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oppo_reno16_story"
+      ]
+    },
+    {
+      "id": "ai_flash_photography",
+      "name": "AI Flash Photography",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_reno16_story"
+      ]
+    },
+    {
+      "id": "ai_motion_photo_popout",
+      "name": "AI Motion Photo Popout",
+      "category": "post_capture",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Software/model feature; portable in principle but requires the corresponding model/runtime or reimplementation.",
+      "official_feature_sources": [
+        "oppo_reno16_story"
+      ]
+    },
+    {
+      "id": "ultra_clear_camera_system",
+      "name": "Ultra-Clear Camera System",
+      "category": "pipeline",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Imaging-pipeline feature; requires ISP/HAL/APS adaptation.",
+      "official_feature_sources": [
+        "oppo_reno16_story"
+      ]
+    },
+    {
+      "id": "portrait_super_night",
+      "name": "Portrait Super Night",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_find_x2_story"
+      ]
+    },
+    {
+      "id": "ultra_clear_night_mode",
+      "name": "Ultra Clear Night Mode",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oppo_find_x2_story"
+      ]
+    },
+    {
+      "id": "night_zoom_60x",
+      "name": "Night photography zoom up to 60x",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oppo_find_x2_story"
+      ]
+    },
+    {
+      "id": "ultrashot",
+      "name": "UltraShot",
+      "category": "computational",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_7t_press"
+      ]
+    },
+    {
+      "id": "ultrashot_engine",
+      "name": "UltraShot Engine",
+      "category": "pipeline",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_7t_press"
+      ]
+    },
+    {
+      "id": "nightscape_2",
+      "name": "Nightscape 2.0",
+      "category": "computational",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_7pro_page"
+      ]
+    },
+    {
+      "id": "studio_lighting",
+      "name": "Studio Lighting",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oneplus_6t_specs",
+        "oneplus_6t_press"
+      ]
+    },
+    {
+      "id": "smile_capture",
+      "name": "Smile Capture",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oneplus_6t_specs"
+      ]
+    },
+    {
+      "id": "hq_mode",
+      "name": "HQ Image Mode",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oneplus_6t_specs"
+      ]
+    },
+    {
+      "id": "macro_mode_2",
+      "name": "Macro Mode 2.0",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oneplus_8pro_page"
+      ]
+    },
+    {
+      "id": "smart_pet_capture",
+      "name": "Smart Pet Capture",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oneplus_8pro_page"
+      ]
+    },
+    {
+      "id": "dynamic_video",
+      "name": "Dynamic Video",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oneplus_8pro_page"
+      ]
+    },
+    {
+      "id": "color_filter_camera",
+      "name": "Color Filter Camera / Lens",
+      "category": "optics_hardware",
+      "status": "hardware-blocked",
+      "confidence": "high",
+      "priority": "skip",
+      "reason": "Requires the dedicated Color Filter Camera used by older OnePlus hardware.",
+      "official_feature_sources": [
+        "oneplus_8pro_specs"
+      ]
+    },
+    {
+      "id": "audio_zoom",
+      "name": "Audio Zoom",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oneplus_8pro_specs"
+      ]
+    },
+    {
+      "id": "audio_3d",
+      "name": "Audio 3D",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oneplus_8pro_specs"
+      ]
+    },
+    {
+      "id": "960fps_slow_motion",
+      "name": "720p 960fps Slow Motion",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oneplus_7t_press"
+      ]
+    },
+    {
+      "id": "multilens_video_switching",
+      "name": "Video switching between rear lenses",
+      "category": "video",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_7t_press"
+      ]
+    },
+    {
+      "id": "ultrawide_nightscape",
+      "name": "Ultra-wide Nightscape",
+      "category": "computational",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_7t_press"
+      ]
+    },
+    {
+      "id": "nightscape_hdr_multiframe",
+      "name": "Nightscape HDR multi-frame fusion",
+      "category": "computational",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_6t_press"
+      ]
+    },
+    {
+      "id": "nightscape_detail_optimization",
+      "name": "Nightscape Detail Optimization",
+      "category": "computational",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_6t_press"
+      ]
+    },
+    {
+      "id": "nightscape_noise_reduction",
+      "name": "Nightscape Noise Reduction",
+      "category": "computational",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_6t_press"
+      ]
+    },
+    {
+      "id": "nightscape_multiframe_stabilisation",
+      "name": "Nightscape Multi-frame Stabilisation",
+      "category": "computational",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_6t_press"
+      ]
+    },
+    {
+      "id": "fisheye_mode",
+      "name": "Fisheye Mode",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oneplus_10_pro"
+      ]
+    },
+    {
+      "id": "master_style",
+      "name": "Master Style",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oneplus_10_pro",
+        "oneplus_11_specs"
+      ]
+    },
+    {
+      "id": "hasselblad_pro_mode_2",
+      "name": "Second-generation Hasselblad Pro Mode",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oneplus_10_pro"
+      ]
+    },
+    {
+      "id": "hasselblad_12bit_raw_all_rear",
+      "name": "12-bit RAW on all rear cameras with Hasselblad Natural Color Solution",
+      "category": "capture_format",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P1",
+      "reason": "Format/pipeline feature; requires HAL/encoder/metadata/color-management integration.",
+      "official_feature_sources": [
+        "oneplus_10_pro"
+      ]
+    },
+    {
+      "id": "turboraw_hdr",
+      "name": "TurboRAW HDR",
+      "category": "computational",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_11_page"
+      ]
+    },
+    {
+      "id": "accu_spectrum_identifier",
+      "name": "Accu-spectrum Light-color Identifier",
+      "category": "optics_hardware",
+      "status": "hardware-blocked",
+      "confidence": "high",
+      "priority": "skip",
+      "reason": "Requires the dedicated light-color identifier/spectral hardware of the source device.",
+      "official_feature_sources": [
+        "oneplus_11_page"
+      ]
+    },
+    {
+      "id": "natural_color_calibration_hasselblad",
+      "name": "Natural Color Calibration with Hasselblad",
+      "category": "pipeline",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P1",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_11_page"
+      ]
+    },
+    {
+      "id": "auto_macro",
+      "name": "Auto Macro",
+      "category": "user_mode",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P2",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_11_specs"
+      ]
+    },
+    {
+      "id": "ai_scene_enhancement",
+      "name": "AI Scene Enhancement",
+      "category": "computational",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P1",
+      "reason": "Algorithmic feature; requires APS/HAL/model adaptation and cannot be assumed compatible from the name alone.",
+      "official_feature_sources": [
+        "oneplus_11_specs"
+      ]
+    },
+    {
+      "id": "ultra_steady_pro",
+      "name": "Ultra Steady Pro",
+      "category": "video",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Video pipeline feature; requires encoder/sensor-mode/HAL compatibility work.",
+      "official_feature_sources": [
+        "oneplus_11_specs"
+      ]
+    },
+    {
+      "id": "high_efficiency_image",
+      "name": "High Efficiency Image",
+      "category": "capture_format",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P1",
+      "reason": "No official OnePlus 13 hardware blocker is evident; existing target hardware/pipeline covers the core prerequisite.",
+      "official_feature_sources": [
+        "oneplus_11_specs"
+      ]
+    },
+    {
+      "id": "ten_bit_color_capture",
+      "name": "10-bit Color capture",
+      "category": "capture_format",
+      "status": "high-confidence",
+      "confidence": "high",
+      "priority": "P0",
+      "reason": "Snapdragon 8 Elite explicitly supports up to 10-bit photo/video capture.",
+      "official_feature_sources": [
+        "oneplus_11_specs"
+      ]
+    },
+    {
+      "id": "master_style_filters",
+      "name": "Master Style Filters",
+      "category": "user_mode",
+      "status": "portable-with-adaptation",
+      "confidence": "medium",
+      "priority": "P2",
+      "reason": "Primarily UI/control/feature-gate behavior; may be portable but mode-specific dependencies must be mapped.",
+      "official_feature_sources": [
+        "oneplus_11_specs"
+      ]
+    },
+    {
+      "id": "ai_detail_boost",
+      "name": "AI Detail Boost",
+      "category": "post_capture",
+      "status": "native",
+      "confidence": "confirmed",
+      "priority": "native",
+      "reason": "Explicitly present in OnePlus 13 official specifications/product materials or directly represented by its official camera hardware.",
+      "official_feature_sources": [
+        "oneplus_13_page"
+      ]
+    }
+  ]
+}
