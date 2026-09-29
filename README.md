@@ -33,6 +33,22 @@ variants:
 
 See `docs/10bit-still.md` for the validation procedure.
 
+## OnePlus 13 compatibility matrix
+
+The complete official camera universe is mapped to OnePlus 13 in
+`profiles/oneplus13-compatibility.json`.
+
+Current engineering classification:
+
+- 33 native
+- 53 high-confidence
+- 109 portable-with-adaptation
+- 15 hardware-blocked
+
+The first implementation wave is defined in `profiles/oneplus13-p0-plan.json` and
+covers 10-bit stills, professional video, RAW, Master/Hasselblad controls and
+telephoto/HDR.
+
 ## Goals
 
 1. Maintain an auditable official-source camera feature universe.

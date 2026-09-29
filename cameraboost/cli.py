@@ -25,7 +25,21 @@ def cmd_matrix(args: argparse.Namespace) -> int:
         print(text)
     return 0
 
-def build_parser() -> argparse.ArgumentParser:
+def cmd_compat(args: argparse.Namespace) -> int:
+    from .compatibility import load_profile, select_entries, summarize
+    profile = load_profile(args.profile)
+    rows = select_entries(
+        profile,
+        status=args.status,
+        priority=args.priority,
+        category=args.category,
+    )
+    if args.summary:
+        print(json.dumps(summarize(profile), ensure_ascii=False, indent=2))
+        return 0
+    print(json.dumps(rows, ensure_ascii=False, indent=2))
+    return 0
+\ndef build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="cameraboost")
     sub = p.add_subparsers(dest="cmd", required=True)
 

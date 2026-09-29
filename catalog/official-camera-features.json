@@ -264,6 +264,11 @@
       "kind": "official_product_specs",
       "brand": "OnePlus",
       "url": "https://www.oneplus.com/gr/11/specs"
+    },
+    "oneplus_13_page": {
+      "kind": "official_product_page",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/13"
     }
   },
   "features": [
@@ -471,7 +476,8 @@
       ],
       "sources": [
         "oppo_find_x9_ultra_specs",
-        "oneplus_12_specs"
+        "oneplus_12_specs",
+        "oneplus_13_specs"
       ],
       "status": "officially_observed"
     },
@@ -856,7 +862,8 @@
       ],
       "sources": [
         "oppo_find_x9_ultra_specs",
-        "oneplus_15_specs"
+        "oneplus_15_specs",
+        "oneplus_13_specs"
       ],
       "status": "officially_observed"
     },
@@ -884,7 +891,8 @@
       ],
       "sources": [
         "oppo_find_x9_ultra_specs",
-        "oneplus_12_specs"
+        "oneplus_12_specs",
+        "oneplus_13_specs"
       ],
       "status": "officially_observed"
     },
@@ -936,7 +944,8 @@
       ],
       "sources": [
         "oppo_reno14_pro_specs",
-        "oneplus_12_specs"
+        "oneplus_12_specs",
+        "oneplus_13_specs"
       ],
       "status": "officially_observed"
     },
@@ -949,7 +958,8 @@
         "OnePlus"
       ],
       "sources": [
-        "oppo_find_x9_ultra_specs"
+        "oppo_find_x9_ultra_specs",
+        "oneplus_13_specs"
       ],
       "status": "officially_observed"
     },
@@ -2127,10 +2137,12 @@
       "name": "AI Unblur",
       "category": "post_capture",
       "brands": [
-        "OPPO"
+        "OPPO",
+        "OnePlus"
       ],
       "sources": [
-        "oppo_ai_imaging_2025"
+        "oppo_ai_imaging_2025",
+        "oneplus_13_page"
       ],
       "status": "officially_observed"
     },
@@ -2139,10 +2151,12 @@
       "name": "AI Reflection Remover",
       "category": "post_capture",
       "brands": [
-        "OPPO"
+        "OPPO",
+        "OnePlus"
       ],
       "sources": [
-        "oppo_ai_imaging_2025"
+        "oppo_ai_imaging_2025",
+        "oneplus_13_page"
       ],
       "status": "officially_observed"
     },
@@ -2857,6 +2871,18 @@
         "oneplus_11_specs"
       ],
       "status": "officially_observed"
+    },
+    {
+      "id": "ai_detail_boost",
+      "name": "AI Detail Boost",
+      "category": "post_capture",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_13_page"
+      ],
+      "status": "officially_observed"
     }
   ],
   "official_kernel_feature_macros": [
@@ -3113,7 +3139,7 @@
     }
   ],
   "audit": {
-    "official_feature_count": 209,
+    "official_feature_count": 210,
     "official_kernel_macro_count": 26,
     "entries_without_sources": [],
     "semantics_unresolved": [
@@ -3131,14 +3157,14 @@
       "computational": 47,
       "optics_hardware": 19,
       "pipeline": 27,
-      "post_capture": 9,
+      "post_capture": 10,
       "user_mode": 61,
       "video": 29
     },
     "brand_feature_memberships": {
       "OPPO": 148,
-      "OnePlus": 106
+      "OnePlus": 109
     },
-    "source_count": 46
+    "source_count": 47
   }
 }

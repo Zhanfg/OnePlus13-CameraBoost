@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "target": "OnePlus 13",
+  "source_profile": "profiles/oneplus13-compatibility.json",
+  "policy": {
+    "no_device_testing_yet": true,
+    "current_phase": "official-source and implementation-surface mapping",
+    "rule": "A workstream may prepare hooks/config parsers before device testing, but must not promote a capability to validated."
+  },
+  "workstreams": [
+    {
+      "id": "color-still",
+      "name": "10-bit still and color pipeline",
+      "goal": "Enable real high-bit-depth still capture and preserve wide-gamut/HDR metadata end-to-end.",
+      "feature_ids": [
+        "heif_10bit",
+        "full_path_10bit",
+        "dci_p3_10bit",
+        "ten_bit_color_capture",
+        "proxdr"
+      ],
+      "primary_layers": [
+        "OPlus feature gates",
+        "Camera HAL/VendorTags",
+        "HEIF encoder",
+        "color metadata",
+        "Gallery compatibility"
+      ],
+      "evidence_gate": "Do not call complete until final-file bit depth and color metadata are validated.",
+      "donor_refs": [
+        "Snapdragon 8 Elite official capability",
+        "OPPO full-path 10-bit/HEIF official imaging material"
+      ]
+    },
+    {
+      "id": "pro-video",
+      "name": "Professional video pipeline",
+      "goal": "Expose the platform's professional video ceiling without inventing unsupported sensor modes.",
+      "feature_ids": [
+        "pro_video",
+        "4k120_video",
+        "log_video",
+        "realtime_lut_preview",
+        "log_aces"
+      ],
+      "primary_layers": [
+        "sensor modes",
+        "Camera HAL",
+        "CamX/CHI",
+        "video encoder",
+        "OPlus Camera UI"
+      ],
+      "evidence_gate": "4K120 requires target sensor-mode and sustained-stream evidence; LOG requires real 10-bit/transfer-function metadata.",
+      "donor_refs": [
+        "OPPO Find X9 same LYT-808 sensor",
+        "Snapdragon 8 Elite official 4K120/10-bit capability"
+      ]
+    },
+    {
+      "id": "raw",
+      "name": "RAW and computational RAW",
+      "goal": "Map and expand RAW precision, RAW fusion and high-quality output modes.",
+      "feature_ids": [
+        "raw",
+        "raw_plus",
+        "12bit_raw",
+        "raw_max_16bit_50mp",
+        "raw_max_bt2020",
+        "raw_max_13stop",
+        "turboraw_hdr"
+      ],
+      "primary_layers": [
+        "sensor RAW mode",
+        "HAL RAW stream",
+        "APS multi-frame RAW",
+        "DNG/metadata writer",
+        "Master mode"
+      ],
+      "evidence_gate": "Container bit depth, sensor source precision and computational output precision must be distinguished.",
+      "donor_refs": [
+        "OnePlus historical 12-bit RAW",
+        "OPPO RAW Max/TurboRAW official material"
+      ]
+    },
+    {
+      "id": "master-hasselblad",
+      "name": "Master and Hasselblad controls",
+      "goal": "Expose useful manual controls and Hasselblad high-resolution paths already compatible with target optics.",
+      "feature_ids": [
+        "hasselblad_hi_res",
+        "master_manual_iso",
+        "master_manual_shutter",
+        "master_manual_ev",
+        "master_manual_focus",
+        "master_manual_white_balance",
+        "master_saturation",
+        "master_contrast",
+        "master_sharpness",
+        "master_vignette"
+      ],
+      "primary_layers": [
+        "OPlus Camera feature table",
+        "manual request parameters",
+        "APS style/tone configuration",
+        "per-lens capability masks"
+      ],
+      "evidence_gate": "Controls must alter real capture requests/output, not only render UI.",
+      "donor_refs": [
+        "OnePlus 13 native Master Mode",
+        "OPPO/OnePlus Hasselblad official modes"
+      ]
+    },
+    {
+      "id": "tele-hdr",
+      "name": "Telephoto, zoom and multi-exposure",
+      "goal": "Exploit the LYT-600 telephoto and Snapdragon computational HDR path for higher-quality zoom and stage/action capture.",
+      "feature_ids": [
+        "ai_telescope_zoom",
+        "gapless_zoom",
+        "stage_mode",
+        "real_time_triple_exposure"
+      ],
+      "primary_layers": [
+        "SAT/zoom routing",
+        "APS fusion",
+        "camera calibration",
+        "multi-exposure HDR",
+        "telephoto tuning"
+      ],
+      "evidence_gate": "Zoom features must be evaluated for real detail retention and seamless lens transitions, not UI zoom limits.",
+      "donor_refs": [
+        "OPPO Find X9 LYT-600 telephoto",
+        "OPPO Find X9 Stage/Super Zoom behavior",
+        "Snapdragon multi-exposure HDR capability"
+      ]
+    }
+  ],
+  "audit": {
+    "p0_count": 31,
+    "covered_p0_count": 31,
+    "missing_p0": [],
+    "non_p0_in_plan": []
+  }
+}
