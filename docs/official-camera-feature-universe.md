@@ -112,3 +112,30 @@ Action Mode, AI Telephoto, Ultra Clear 26MP, Clear Night Engine, LOG recording a
 real-time LUT previews. Official OnePlus 9 Pro specifications also establish 12-bit RAW,
 Dual ISO, DOL-HDR, Video Portrait, Focus Tracking, monochrome camera and related focus
 features.
+
+
+## Current official-corpus snapshot
+
+At the current research checkpoint the first-party corpus contains:
+
+- **209** source-backed camera features;
+- **26** official OPlus camera-related kernel/build symbols;
+- **46** first-party source records;
+- **0** feature entries without an official source.
+
+Feature memberships by layer:
+
+| Layer | Count |
+|---|---:|
+| User modes / controls | 61 |
+| Computational photography | 47 |
+| Video | 29 |
+| Imaging pipeline / ISP / NPU | 27 |
+| Optics / hardware | 19 |
+| Capture formats / color | 17 |
+| Post-capture processing | 9 |
+
+A feature may belong to both OPPO and OnePlus, so brand memberships are not mutually
+exclusive: the current union contains 148 OPPO memberships and 106 OnePlus memberships.
+
+These are **corpus counts**, not claims that every device exposes every capability.
