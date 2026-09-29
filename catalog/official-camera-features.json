@@ -1435,7 +1435,8 @@
       "sources": [
         "oneplusoss_mt6833_features",
         "oppo_mtk419_features"
-      ]
+      ],
+      "official_org_scan_confirmed": true
     },
     {
       "symbol": "OPLUS_FEATURE_CAMERA_IZOOM",
@@ -1444,7 +1445,8 @@
       "sources": [
         "oneplusoss_mt6833_features",
         "oppo_mtk419_features"
-      ]
+      ],
+      "official_org_scan_confirmed": true
     },
     {
       "symbol": "OPLUS_FEATURE_CAMERA_AIS",
@@ -1453,7 +1455,8 @@
       "sources": [
         "oneplusoss_mt6833_features",
         "oppo_mtk419_features"
-      ]
+      ],
+      "official_org_scan_confirmed": true
     },
     {
       "symbol": "OPLUS_FEATURE_CAMERA_FB",
@@ -1462,7 +1465,8 @@
       "sources": [
         "oneplusoss_mt6833_features",
         "oppo_mtk419_features"
-      ]
+      ],
+      "official_org_scan_confirmed": true
     },
     {
       "symbol": "OPLUS_FEATURE_CAMERA_AISCP",
@@ -1471,7 +1475,8 @@
       "sources": [
         "oneplusoss_mt6833_features",
         "oppo_mtk419_features"
-      ]
+      ],
+      "official_org_scan_confirmed": true
     },
     {
       "symbol": "OPLUS_FEATURE_CAMERA_UPSCALE",
@@ -1480,7 +1485,8 @@
       "sources": [
         "oneplusoss_mt6833_features",
         "oppo_mtk419_features"
-      ]
+      ],
+      "official_org_scan_confirmed": true
     },
     {
       "symbol": "OPLUS_FEATURE_CAMERA_SUPERNIGHT",
@@ -1489,7 +1495,8 @@
       "sources": [
         "oneplusoss_mt6833_features",
         "oppo_mtk419_features"
-      ]
+      ],
+      "official_org_scan_confirmed": true
     },
     {
       "symbol": "OPLUS_FEATURE_CAMERA_VIDEO",
@@ -1498,7 +1505,8 @@
       "sources": [
         "oneplusoss_mt6833_features",
         "oppo_mtk419_features"
-      ]
+      ],
+      "official_org_scan_confirmed": true
     },
     {
       "symbol": "OPLUS_FEATURE_CAMERA_SMVR",
@@ -1507,7 +1515,8 @@
       "sources": [
         "oneplusoss_mt6833_features",
         "oppo_mtk419_features"
-      ]
+      ],
+      "official_org_scan_confirmed": true
     },
     {
       "symbol": "OPLUS_FEATURE_CAMERA_MSNR",
@@ -1516,7 +1525,8 @@
       "sources": [
         "oneplusoss_mt6833_features",
         "oppo_mtk419_features"
-      ]
+      ],
+      "official_org_scan_confirmed": true
     },
     {
       "symbol": "OPLUS_FEATURE_CAMERA_SAU",
@@ -1525,7 +1535,8 @@
       "sources": [
         "oneplusoss_mt6833_features",
         "oppo_mtk419_features"
-      ]
+      ],
+      "official_org_scan_confirmed": true
     },
     {
       "symbol": "OPLUS_FEATURE_CAMERA_OIS",
@@ -1534,7 +1545,8 @@
       "sources": [
         "oneplusoss_mt6833_features",
         "oppo_mtk419_features"
-      ]
+      ],
+      "official_org_scan_confirmed": true
     },
     {
       "symbol": "OPLUS_FEATURE_VIRTUAL_CAMERA",
@@ -1580,11 +1592,79 @@
         "oneplusoss_mt6833_features",
         "oppo_mtk419_features"
       ]
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAMERA_LAHAINA",
+      "meaning": "camera feature flag for Qualcomm Lahaina platform family",
+      "status": "partially_resolved",
+      "sources": [],
+      "evidence_urls": [
+        "https://github.com/oppo-source/android_kernel_oppo_sm7325/blob/5c498a6074bc0cd6afd4a446c7c860e2b3fb65fe/oplus_native_features.mk"
+      ]
+    },
+    {
+      "symbol": "CONFIG_OPLUS_CAM_THERMAL",
+      "meaning": "camera thermal integration",
+      "status": "resolved",
+      "sources": [],
+      "evidence_urls": [
+        "https://github.com/oppo-source/android_kernel_oppo_mt6895/blob/f97a6436bea32658443ea63df0eeca99a3bc97e9/drivers/thermal/mediatek/Makefile",
+        "https://github.com/OnePlusOSS/android_kernel_5.10_oneplus_mt6895/blob/627e10bcc7a36ce80ca9ac834fde02153f73571d/drivers/thermal/mediatek/Makefile"
+      ]
+    },
+    {
+      "symbol": "CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE",
+      "meaning": "camera event-report module integration",
+      "status": "resolved",
+      "sources": [],
+      "evidence_urls": [
+        "https://github.com/oppo-source/android_kernel_oppo_mt6835/blob/9c93b939b3198a82775bbe3fb74f6e647b533825/drivers/misc/mediatek/imgsensor/src-v4l2/adaptor-i2c.c",
+        "https://github.com/OnePlusOSS/android_kernel_5.10_oneplus_mt6983/blob/ff51a39c66a87f91d870bfff1611e2b36371c8a4/drivers/misc/mediatek/imgsensor/src-v4l2/adaptor-i2c.h"
+      ]
+    },
+    {
+      "symbol": "CONFIG_OPLUS_CAMERA_NOTIFY",
+      "meaning": "camera notification kernel feature",
+      "status": "partially_resolved",
+      "sources": [],
+      "evidence_urls": [
+        "https://github.com/oppo-source/android_kernel_modules_and_devicetree_oppo_mt6991/blob/a98a9db1584a71c42919a78bfe2de7160f355ff9/kernel/kernel_device_modules-6.6/arch/arm64/configs/mgk_64_k66_defconfig",
+        "https://github.com/OnePlusOSS/android_kernel_modules_and_devicetree_oneplus_mt6991/blob/76d6e1e5b8deb0bcd00355d7a9e68638a501d8bc/kernel/kernel_device_modules-6.6/arch/arm64/configs/mgk_64_k66_defconfig"
+      ]
+    },
+    {
+      "symbol": "CONFIG_OPLUS_CAMERA_AW37004",
+      "meaning": "camera power-regulator support (AW37004)",
+      "status": "resolved",
+      "sources": [],
+      "evidence_urls": [
+        "https://github.com/oppo-source/android_kernel_oppo_sm6650/blob/ee83843c6c7278180dcad8ad551efd3f591daf51/drivers/regulator/camera_aw37004/Makefile",
+        "https://github.com/OnePlusOSS/android_kernel_oneplus_sm8550/blob/c462ef8ffab7a58e035ee04705b16cdfced494b1/drivers/regulator/camera_aw37004/Makefile"
+      ]
+    },
+    {
+      "symbol": "CONFIG_OPLUS_CAMERA_WL2826C",
+      "meaning": "camera power-regulator support (WL2826C family flag)",
+      "status": "resolved",
+      "sources": [],
+      "evidence_urls": [
+        "https://github.com/OnePlusOSS/android_kernel_oneplus_sm6375/blob/0ec570e538c8dea1a43da3e2ca1813df4fdfc5f9/drivers/regulator/camera_wl2868c/Makefile"
+      ]
+    },
+    {
+      "symbol": "OPLUS_FEATURE_CAMERASOUND_FORCE",
+      "meaning": "forced camera shutter-sound policy feature",
+      "status": "resolved",
+      "sources": [],
+      "evidence_urls": [
+        "https://github.com/oppo-source/android_kernel_oppo_mtk_4.19/blob/f1ac3e53f433c6b68e2f6f37191e488d2bd41557/oplus_native_features.mk",
+        "https://github.com/OnePlusOSS/android_kernel_oneplus_mt6893/blob/48f1797695e24d46986a7c87dd91dd21cbf8c342/oplus_native_features.sh"
+      ]
     }
   ],
   "audit": {
     "official_feature_count": 98,
-    "official_kernel_macro_count": 19,
+    "official_kernel_macro_count": 26,
     "entries_without_sources": [],
     "semantics_unresolved": [
       "OPLUS_FEATURE_CAMERA_IZOOM",
@@ -1594,6 +1674,7 @@
       "OPLUS_FEATURE_CAMERA_SMVR",
       "OPLUS_FEATURE_CAMERA_MSNR",
       "OPLUS_FEATURE_CAMERA_SAU"
-    ]
+    ],
+    "macros_without_evidence": []
   }
 }
