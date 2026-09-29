@@ -1,0 +1,12 @@
+{
+  "name": "OnePlus 13",
+  "known_model_ids": ["PJZ110", "CPH2653"],
+  "platform": "SM8750",
+  "status": "research-target",
+  "rules": {
+    "unsafe_feature_default": "off",
+    "require_runtime_probe": true,
+    "require_recording_test_for_video_modes": true,
+    "treat_ui_gate_as_hardware_support": false
+  }
+}

@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oneplus13-cameraboost"
+version = "0.1.0"
+description = "Clean-room OPlus camera capability and APS diff toolkit"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+dependencies = []
+
+[project.scripts]
+cameraboost = "cameraboost.cli:main"
+
+[tool.setuptools]
+packages = ["cameraboost"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
