@@ -199,6 +199,56 @@
       "kind": "official_imaging_story",
       "brand": "OPPO",
       "url": "https://www.oppo.com/en/newsroom/stories/empowering-creative-freedom-and-expression-in-mobile-photography-with-ai/"
+    },
+    "oppo_reno3_launch": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/press/OPPO-Reno3-Series-Officially-Launched-A-New-Era-Unfolding-for-5G-Video-Smartphones/"
+    },
+    "oppo_reno7_portrait": {
+      "kind": "official_press_release",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/ae/newsroom/press/oppo-spotlights-reno7-5g-portrait-photo-video/"
+    },
+    "oppo_reno16_story": {
+      "kind": "official_imaging_story",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/stories/reno16-series-a-creative-companion-for-every-vibrant-moment/"
+    },
+    "oppo_find_x2_story": {
+      "kind": "official_imaging_story",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/stories/breaking-through-limitations-with-oppo-find-x2-series-ultra-vision-camera-system/"
+    },
+    "oneplus_6t_specs": {
+      "kind": "official_product_specs",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/6t/specs"
+    },
+    "oneplus_6t_press": {
+      "kind": "official_press_release",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/press/press-release/unlock-the-speed-with-the-oneplus-6t"
+    },
+    "oneplus_7t_press": {
+      "kind": "official_press_release",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/press-releases/presenting-oneplus-unveils-new-oneplus-7t"
+    },
+    "oneplus_8pro_page": {
+      "kind": "official_product_page",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/8-pro"
+    },
+    "oneplus_8pro_specs": {
+      "kind": "official_product_specs",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/ro/8-pro/specs"
+    },
+    "oneplus_7pro_page": {
+      "kind": "official_product_page",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/7pro"
     }
   },
   "features": [
@@ -2128,6 +2178,511 @@
         "oppo_ai_imaging_2025"
       ],
       "status": "officially_observed"
+    },
+    {
+      "id": "ultra_steady_2",
+      "name": "Ultra Steady 2.0",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno3_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "wide_angle_stabilization",
+      "name": "Wide-angle Stabilization Mode",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno3_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "video_portrait_bokeh",
+      "name": "Video Portrait Bokeh",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno3_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "video_smart_editing",
+      "name": "Video Smart Editing / SoLoop integration",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno3_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_ultra_clear_night_scene",
+      "name": "AI Ultra-Clear Night Scene",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno3_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "portrait_beautify_2",
+      "name": "Portrait Beautify 2.0",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno3_launch"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "bokeh_flare_portrait_video",
+      "name": "Bokeh Flare Portrait Video",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno7_portrait"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_highlight_video",
+      "name": "AI Highlight Video",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno7_portrait"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "live_hdr_video",
+      "name": "Live HDR video algorithm",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno7_portrait"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_night_video",
+      "name": "Ultra Night Video algorithm",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno7_portrait"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_color_portrait_video",
+      "name": "AI Color Portrait Video",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno7_portrait"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "portrait_retouching_video",
+      "name": "Per-person Portrait Retouching for video",
+      "category": "video",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno7_portrait"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_clear_108mp",
+      "name": "Ultra-Clear 108MP Image",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno7_portrait"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "flash_snapshot",
+      "name": "Flash Snapshot",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno7_portrait"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "pop_cam",
+      "name": "Pop Cam",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno16_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "pop_cam_filters",
+      "name": "Pop Cam camera-style filters",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno16_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "pop_cam_motion_photo",
+      "name": "Pop Cam Motion Photo",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno16_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_flash_photography",
+      "name": "AI Flash Photography",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno16_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_motion_photo_popout",
+      "name": "AI Motion Photo Popout",
+      "category": "post_capture",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno16_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_clear_camera_system",
+      "name": "Ultra-Clear Camera System",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_reno16_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "portrait_super_night",
+      "name": "Portrait Super Night",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x2_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_clear_night_mode",
+      "name": "Ultra Clear Night Mode",
+      "category": "user_mode",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x2_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "night_zoom_60x",
+      "name": "Night photography zoom up to 60x",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_find_x2_story"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultrashot",
+      "name": "UltraShot",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_7t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultrashot_engine",
+      "name": "UltraShot Engine",
+      "category": "pipeline",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_7t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "nightscape_2",
+      "name": "Nightscape 2.0",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_7pro_page"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "studio_lighting",
+      "name": "Studio Lighting",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_6t_specs",
+        "oneplus_6t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "smile_capture",
+      "name": "Smile Capture",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_6t_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hq_mode",
+      "name": "HQ Image Mode",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_6t_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "macro_mode_2",
+      "name": "Macro Mode 2.0",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_8pro_page"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "smart_pet_capture",
+      "name": "Smart Pet Capture",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_8pro_page"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "dynamic_video",
+      "name": "Dynamic Video",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_8pro_page"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "color_filter_camera",
+      "name": "Color Filter Camera / Lens",
+      "category": "optics_hardware",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_8pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "audio_zoom",
+      "name": "Audio Zoom",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_8pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "audio_3d",
+      "name": "Audio 3D",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_8pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "960fps_slow_motion",
+      "name": "720p 960fps Slow Motion",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_7t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "multilens_video_switching",
+      "name": "Video switching between rear lenses",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_7t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultrawide_nightscape",
+      "name": "Ultra-wide Nightscape",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_7t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "nightscape_hdr_multiframe",
+      "name": "Nightscape HDR multi-frame fusion",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_6t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "nightscape_detail_optimization",
+      "name": "Nightscape Detail Optimization",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_6t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "nightscape_noise_reduction",
+      "name": "Nightscape Noise Reduction",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_6t_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "nightscape_multiframe_stabilisation",
+      "name": "Nightscape Multi-frame Stabilisation",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_6t_press"
+      ],
+      "status": "officially_observed"
     }
   ],
   "official_kernel_feature_macros": [
@@ -2384,7 +2939,7 @@
     }
   ],
   "audit": {
-    "official_feature_count": 154,
+    "official_feature_count": 196,
     "official_kernel_macro_count": 26,
     "entries_without_sources": [],
     "semantics_unresolved": [
