@@ -249,6 +249,21 @@
       "kind": "official_product_page",
       "brand": "OnePlus",
       "url": "https://www.oneplus.com/us/7pro"
+    },
+    "oneplus_10_pro_specs": {
+      "kind": "official_product_specs",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/10-pro/specs"
+    },
+    "oneplus_11_page": {
+      "kind": "official_product_page",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/11"
+    },
+    "oneplus_11_specs": {
+      "kind": "official_product_specs",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/gr/11/specs"
     }
   },
   "features": [
@@ -2268,10 +2283,12 @@
       "name": "AI Highlight Video",
       "category": "video",
       "brands": [
-        "OPPO"
+        "OPPO",
+        "OnePlus"
       ],
       "sources": [
-        "oppo_reno7_portrait"
+        "oppo_reno7_portrait",
+        "oneplus_11_specs"
       ],
       "status": "officially_observed"
     },
@@ -2683,6 +2700,163 @@
         "oneplus_6t_press"
       ],
       "status": "officially_observed"
+    },
+    {
+      "id": "fisheye_mode",
+      "name": "Fisheye Mode",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_10_pro"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_style",
+      "name": "Master Style",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_10_pro",
+        "oneplus_11_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hasselblad_pro_mode_2",
+      "name": "Second-generation Hasselblad Pro Mode",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_10_pro"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "hasselblad_12bit_raw_all_rear",
+      "name": "12-bit RAW on all rear cameras with Hasselblad Natural Color Solution",
+      "category": "capture_format",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_10_pro"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "turboraw_hdr",
+      "name": "TurboRAW HDR",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_page"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "accu_spectrum_identifier",
+      "name": "Accu-spectrum Light-color Identifier",
+      "category": "optics_hardware",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_page"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "natural_color_calibration_hasselblad",
+      "name": "Natural Color Calibration with Hasselblad",
+      "category": "pipeline",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_page"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "auto_macro",
+      "name": "Auto Macro",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_scene_enhancement",
+      "name": "AI Scene Enhancement",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_steady_pro",
+      "name": "Ultra Steady Pro",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "high_efficiency_image",
+      "name": "High Efficiency Image",
+      "category": "capture_format",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ten_bit_color_capture",
+      "name": "10-bit Color capture",
+      "category": "capture_format",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "master_style_filters",
+      "name": "Master Style Filters",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_11_specs"
+      ],
+      "status": "officially_observed"
     }
   ],
   "official_kernel_feature_macros": [
@@ -2939,7 +3113,7 @@
     }
   ],
   "audit": {
-    "official_feature_count": 196,
+    "official_feature_count": 209,
     "official_kernel_macro_count": 26,
     "entries_without_sources": [],
     "semantics_unresolved": [
@@ -2951,6 +3125,20 @@
       "OPLUS_FEATURE_CAMERA_MSNR",
       "OPLUS_FEATURE_CAMERA_SAU"
     ],
-    "macros_without_evidence": []
+    "macros_without_evidence": [],
+    "category_counts": {
+      "capture_format": 17,
+      "computational": 47,
+      "optics_hardware": 19,
+      "pipeline": 27,
+      "post_capture": 9,
+      "user_mode": 61,
+      "video": 29
+    },
+    "brand_feature_memberships": {
+      "OPPO": 148,
+      "OnePlus": 106
+    },
+    "source_count": 46
   }
 }
