@@ -3,7 +3,7 @@ from cameraboost.tenbit import (
     inspect_oplus_tenbit_flags,
     tenbit_photo_gate_enabled,
 )
-from tools.verify_10bit import classify_ffprobe
+from cameraboost.verify_media import classify_ffprobe
 
 def test_detects_oplus_10bit_heic_gate():
     config = {
