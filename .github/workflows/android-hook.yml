@@ -1,0 +1,60 @@
+name: Android hook APK
+
+on:
+  push:
+    paths:
+      - android-hook/**
+      - build.gradle.kts
+      - settings.gradle.kts
+      - gradle.properties
+      - .github/workflows/android-hook.yml
+  pull_request:
+    paths:
+      - android-hook/**
+      - build.gradle.kts
+      - settings.gradle.kts
+      - gradle.properties
+      - .github/workflows/android-hook.yml
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Prepare Android SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          SDKMANAGER="$(find "$SDK_ROOT/cmdline-tools" -type f -name sdkmanager -print | sort -V | tail -n 1)"
+          test -x "$SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.6.0'
+
+      - name: Build APKs
+        shell: bash
+        run: gradle :android-hook:assembleProbe :android-hook:assembleEnable10bit --stacktrace
+
+      - name: Stage APKs
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          cp android-hook/build/outputs/apk/probe/android-hook-probe.apk out/CameraBoost-10bit-probe.apk
+          cp android-hook/build/outputs/apk/enable10bit/android-hook-enable10bit.apk out/CameraBoost-10bit-enable.apk
+          sha256sum out/*.apk | tee out/SHA256SUMS.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: CameraBoost-10bit-apks
+          path: out/

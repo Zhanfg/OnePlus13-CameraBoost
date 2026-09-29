@@ -1,0 +1,1 @@
+-keep class dev.cameraboost.oplus10bit.CameraBoostHook { *; }
