@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "policy": "Donors are references only. Do not transplant values unless target-side evidence reaches the required validation stage.",
+  "candidates": [
+    {
+      "name": "OPPO Find X8 Pro",
+      "role": ["camera-tuning-reference"],
+      "platform_match_required": false,
+      "sensor_match_required": true,
+      "status": "candidate",
+      "notes": "Use only after target and donor sensor IDs, actuator/OIS and calibration layout are verified."
+    },
+    {
+      "name": "OPPO Find X8 Ultra",
+      "role": ["sm8750-camera-stack-reference", "video-pipeline-reference"],
+      "platform_match_required": true,
+      "sensor_match_required": false,
+      "status": "candidate",
+      "notes": "Useful for SM8750 Camera HAL/ISP/video-stack comparison; do not assume sensor-mode compatibility."
+    }
+  ]
+}
