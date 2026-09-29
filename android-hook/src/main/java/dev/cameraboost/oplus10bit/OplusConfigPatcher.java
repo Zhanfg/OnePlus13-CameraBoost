@@ -11,6 +11,7 @@ final class OplusConfigPatcher {
     static final String TAG_10BIT_HEIC = "com.oplus.10bits.heic.encode.support";
     static final String TAG_HEIF_LIVE_PHOTO = "com.oplus.camera.heif.support.livephoto";
     static final String TAG_10BIT_LIVE_PHOTO = "com.oplus.livephoto.support.10bit";
+    static final String TAG_VIDEO_10BIT = "com.oplus.feature.video.10bit.support";
 
     private OplusConfigPatcher() {}
 
@@ -56,6 +57,7 @@ final class OplusConfigPatcher {
         result.put(TAG_10BIT_HEIC, null);
         result.put(TAG_HEIF_LIVE_PHOTO, null);
         result.put(TAG_10BIT_LIVE_PHOTO, null);
+        result.put(TAG_VIDEO_10BIT, null);
 
         for (int i = 0; i < array.length(); i++) {
             JSONObject obj = array.optJSONObject(i);

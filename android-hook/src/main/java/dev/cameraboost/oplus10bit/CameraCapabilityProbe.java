@@ -44,7 +44,7 @@ final class CameraCapabilityProbe {
         out.append("\nInterpretation:\n");
         out.append("- DYNAMIC_RANGE_TEN_BIT + P010 proves Android public 10-bit output capability.\n");
         out.append("- HEIC output support alone does not prove 10-bit HEIC encoding.\n");
-        out.append("- JPEG_R is Android Ultra HDR and is distinct from OPlus 10-bit HEIC.\n");
+        out.append("- JPEG_R / HEIC_ULTRAHDR are gain-map Ultra HDR formats, distinct from plain 10-bit HEIC.\n");
         out.append("- The OPlus feature gate still requires final-file verification.\n");
         return out.toString();
     }
@@ -103,6 +103,9 @@ final class CameraCapabilityProbe {
             appendSizes(out, "RAW12", safeSizes(map, ImageFormat.RAW12));
             if (Build.VERSION.SDK_INT >= 34) {
                 appendSizes(out, "JPEG_R(UltraHDR)", safeSizes(map, ImageFormat.JPEG_R));
+            }
+            if (Build.VERSION.SDK_INT >= 36) {
+                appendSizes(out, "HEIC_ULTRAHDR", safeSizes(map, ImageFormat.HEIC_ULTRAHDR));
             }
         }
 

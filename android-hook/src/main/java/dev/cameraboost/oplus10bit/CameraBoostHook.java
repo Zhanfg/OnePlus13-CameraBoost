@@ -28,8 +28,13 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
             log("device guard rejected this device; hook will stay observation-only");
         }
 
+        VendorTagGateHook.install(lpparam.classLoader);
+        installConfigDocumentHook(lpparam.classLoader);
+    }
+
+    private static void installConfigDocumentHook(ClassLoader classLoader) {
         try {
-            Class<?> helper = XposedHelpers.findClass(UPDATE_HELPER, lpparam.classLoader);
+            Class<?> helper = XposedHelpers.findClass(UPDATE_HELPER, classLoader);
             XposedBridge.hookAllMethods(helper, "getValidConfigData", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
@@ -38,7 +43,7 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
             });
             log("hooked " + UPDATE_HELPER + "#getValidConfigData");
         } catch (Throwable t) {
-            log("failed to hook config path: " + t);
+            log("config document path unavailable: " + t.getClass().getSimpleName());
         }
     }
 
