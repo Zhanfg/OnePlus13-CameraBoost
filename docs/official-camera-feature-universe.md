@@ -93,3 +93,22 @@ The extractor currently identifies:
 - explicit camera-mode lists in plaintext official documents
 
 It contains no proprietary decryption key and does not redistribute vendor blobs.
+
+
+## Evidence audit
+
+The catalog is self-auditing. Its `audit.entries_without_sources` list must remain empty.
+This prevents a remembered or community-only capability from silently becoming an
+"official" catalog fact.
+
+A second distinction is also enforced:
+
+- **OPPO O-Log** is the named OPPO log encoding defined by the official OPPO white paper.
+- **OnePlus LOG Video** is recorded separately from OnePlus' official product release.
+  The catalog does not equate the two names without an official statement doing so.
+
+Additional official OnePlus releases establish Dual Exposure Algorithm, Clear Burst,
+Action Mode, AI Telephoto, Ultra Clear 26MP, Clear Night Engine, LOG recording and
+real-time LUT previews. Official OnePlus 9 Pro specifications also establish 12-bit RAW,
+Dual ISO, DOL-HDR, Video Portrait, Focus Tracking, monochrome camera and related focus
+features.

@@ -118,6 +118,41 @@
       "kind": "official_source_release",
       "brand": "OPPO",
       "url": "https://github.com/oppo-source/android_kernel_modules_and_devicetree_oppo_sm8350/blob/40ec89ce4c948b7a8fba0fe9e8efd74334cdd1b3/kernel/msm-5.4/techpack/camera/drivers/camera_main.c"
+    },
+    "oppo_a98_specs": {
+      "kind": "official_product_specs",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/smartphones/series-a/a98-5g/specs/"
+    },
+    "oppo_ai_livephoto": {
+      "kind": "official_imaging_story",
+      "brand": "OPPO",
+      "url": "https://www.oppo.com/en/newsroom/stories/turning-moments-into-living-memories-with-the-new-oppo-ai-livephoto/"
+    },
+    "oneplus_9_pro_specs": {
+      "kind": "official_product_specs",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/9-pro/specs"
+    },
+    "oneplus_n10_specs": {
+      "kind": "official_product_specs",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/n10/specs"
+    },
+    "oneplus_13_press": {
+      "kind": "official_press_release",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/press/press-release/oneplus-launches-new-smartphone-flagship-series-in-north-america-oneplus-13-and-oneplus-13r"
+    },
+    "oneplus_15_press": {
+      "kind": "official_press_release",
+      "brand": "OnePlus",
+      "url": "https://www.oneplus.com/us/press/press-release/oneplus-launches-the-oneplus-15--the-ultimate-performance-flagship-smartphone-for-north-america"
+    },
+    "oneplus_support": {
+      "kind": "official_support",
+      "brand": "OnePlus",
+      "url": "https://service.oneplus.com/"
     }
   },
   "features": [
@@ -390,7 +425,9 @@
       "brands": [
         "OPPO"
       ],
-      "sources": [],
+      "sources": [
+        "oppo_a98_specs"
+      ],
       "status": "officially_observed"
     },
     {
@@ -544,7 +581,9 @@
       "brands": [
         "OnePlus"
       ],
-      "sources": [],
+      "sources": [
+        "oneplus_9_pro_specs"
+      ],
       "status": "officially_observed"
     },
     {
@@ -603,8 +642,7 @@
       "name": "10-bit HEIF still storage",
       "category": "capture_format",
       "brands": [
-        "OPPO",
-        "OnePlus"
+        "OPPO"
       ],
       "sources": [
         "oppo_billion_colour"
@@ -654,8 +692,7 @@
       "name": "OPPO O-Log",
       "category": "capture_format",
       "brands": [
-        "OPPO",
-        "OnePlus"
+        "OPPO"
       ],
       "sources": [
         "oppo_olog_whitepaper"
@@ -667,8 +704,7 @@
       "name": "O-Log 10-bit logarithmic encoding",
       "category": "capture_format",
       "brands": [
-        "OPPO",
-        "OnePlus"
+        "OPPO"
       ],
       "sources": [
         "oppo_olog_whitepaper"
@@ -680,8 +716,7 @@
       "name": "O-Log H.265 YUV 4:2:0",
       "category": "capture_format",
       "brands": [
-        "OPPO",
-        "OnePlus"
+        "OPPO"
       ],
       "sources": [
         "oppo_olog_whitepaper"
@@ -693,8 +728,7 @@
       "name": "O-Log BT.2020 / OPPO Wide Gamut",
       "category": "pipeline",
       "brands": [
-        "OPPO",
-        "OnePlus"
+        "OPPO"
       ],
       "sources": [
         "oppo_olog_whitepaper"
@@ -776,7 +810,9 @@
       "brands": [
         "OnePlus"
       ],
-      "sources": [],
+      "sources": [
+        "oneplus_9_pro_specs"
+      ],
       "status": "officially_observed"
     },
     {
@@ -813,7 +849,9 @@
       "brands": [
         "OnePlus"
       ],
-      "sources": [],
+      "sources": [
+        "oneplus_n10_specs"
+      ],
       "status": "officially_observed"
     },
     {
@@ -860,7 +898,9 @@
       "brands": [
         "OnePlus"
       ],
-      "sources": [],
+      "sources": [
+        "oneplus_9_pro_specs"
+      ],
       "status": "officially_observed"
     },
     {
@@ -992,7 +1032,9 @@
       "brands": [
         "OnePlus"
       ],
-      "sources": [],
+      "sources": [
+        "oneplus_15_press"
+      ],
       "status": "officially_observed"
     },
     {
@@ -1090,7 +1132,9 @@
       "brands": [
         "OnePlus"
       ],
-      "sources": [],
+      "sources": [
+        "oneplus_9_pro_specs"
+      ],
       "status": "officially_observed"
     },
     {
@@ -1165,7 +1209,10 @@
         "OPPO",
         "OnePlus"
       ],
-      "sources": [],
+      "sources": [
+        "oppo_ai_livephoto",
+        "oneplus_13_press"
+      ],
       "status": "officially_observed"
     },
     {
@@ -1175,7 +1222,190 @@
       "brands": [
         "OnePlus"
       ],
-      "sources": [],
+      "sources": [
+        "oneplus_13_press",
+        "oneplus_15_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_livephoto",
+      "name": "AI Livephoto",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_livephoto"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "livephoto_eis",
+      "name": "Livephoto EIS stabilization",
+      "category": "computational",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_livephoto"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "livephoto_realtime_still_processing",
+      "name": "Still-photo algorithms applied to every Livephoto frame in real time",
+      "category": "pipeline",
+      "brands": [
+        "OPPO"
+      ],
+      "sources": [
+        "oppo_ai_livephoto"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "dual_exposure_algorithm",
+      "name": "Dual Exposure Algorithm",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_13_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "action_mode",
+      "name": "Action Mode",
+      "category": "user_mode",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_13_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ai_telephoto",
+      "name": "AI Telephoto",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_13_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_steady_4k",
+      "name": "Ultra Steady Mode with 4K capture",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_13_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "ultra_clear_26mp",
+      "name": "Ultra Clear 26MP Mode",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_15_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "clear_night_engine",
+      "name": "Clear Night Engine",
+      "category": "computational",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_15_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "log_video",
+      "name": "LOG Video",
+      "category": "capture_format",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_15_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "realtime_lut_preview",
+      "name": "Real-time LUT Preview",
+      "category": "video",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_15_press"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "12bit_raw",
+      "name": "12-bit RAW",
+      "category": "capture_format",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_9_pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "dual_iso",
+      "name": "Dual ISO",
+      "category": "pipeline",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_9_pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "dol_hdr",
+      "name": "DOL-HDR",
+      "category": "pipeline",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_9_pro_specs"
+      ],
+      "status": "officially_observed"
+    },
+    {
+      "id": "laser_autofocus",
+      "name": "Laser Autofocus (LAF)",
+      "category": "optics_hardware",
+      "brands": [
+        "OnePlus"
+      ],
+      "sources": [
+        "oneplus_9_pro_specs"
+      ],
       "status": "officially_observed"
     }
   ],
@@ -1351,5 +1581,19 @@
         "oppo_mtk419_features"
       ]
     }
-  ]
+  ],
+  "audit": {
+    "official_feature_count": 98,
+    "official_kernel_macro_count": 19,
+    "entries_without_sources": [],
+    "semantics_unresolved": [
+      "OPLUS_FEATURE_CAMERA_IZOOM",
+      "OPLUS_FEATURE_CAMERA_AIS",
+      "OPLUS_FEATURE_CAMERA_FB",
+      "OPLUS_FEATURE_CAMERA_AISCP",
+      "OPLUS_FEATURE_CAMERA_SMVR",
+      "OPLUS_FEATURE_CAMERA_MSNR",
+      "OPLUS_FEATURE_CAMERA_SAU"
+    ]
+  }
 }
