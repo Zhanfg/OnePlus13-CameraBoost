@@ -12,8 +12,45 @@ PATTERNS = {
         r"CONFIG_OPLUS_CAM[A-Z0-9_]*"
         r")\b"
     ),
+    "imaging_symbols": re.compile(
+        r"\b(?:"
+        r"OPLUS_FEATURE_10BIT_HEIF|"
+        r"OPLUS_FEATRUE_HEIF_OPTIMIZE|"
+        r"OPLUS_FEATURE_HEIF_CONVERTER|"
+        r"OPLUS_FEATURE_IMAGE_PROCESSING|"
+        r"OPLUS_FEATURE_ROI_ENCODE_QCOM"
+        r")\b"
+    ),
     "vendor_tags": re.compile(r"\bcom\.oplus\.[A-Za-z0-9._-]+\b"),
     "aps_algorithms": re.compile(r"\bAPS_ALGO_[A-Z0-9_]+\b"),
+    "android_10bit_tokens": re.compile(
+        r"\b(?:"
+        r"ANDROID_REQUEST_AVAILABLE_CAPABILITIES_DYNAMIC_RANGE_TEN_BIT|"
+        r"ANDROID_REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES_MAP|"
+        r"ANDROID_REQUEST_RECOMMENDED_TEN_BIT_DYNAMIC_RANGE_PROFILE|"
+        r"DYNAMIC_RANGE_TEN_BIT|"
+        r"recommendedTenBitDynamicRangeProfile|"
+        r"availableDynamicRangeProfilesMap|"
+        r"YCBCR_P010|"
+        r"HEIC_ULTRAHDR|"
+        r"HEIC|"
+        r"HEIF"
+        r")\b",
+        re.IGNORECASE,
+    ),
+    "color_tokens": re.compile(
+        r"\b(?:"
+        r"REC[ ._-]?2020|"
+        r"BT[ ._-]?2020|"
+        r"DCI[ ._-]?P3|"
+        r"DISPLAY[ ._-]?P3|"
+        r"HLG10|"
+        r"HDR10\+?|"
+        r"DOLBY[ ._-]?VISION|"
+        r"PROXDR"
+        r")\b",
+        re.IGNORECASE,
+    ),
 }
 
 MODE_LINE = re.compile(

@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "target": "OnePlus 13",
+  "workstream": "color-still",
+  "scope": [
+    "heif_10bit",
+    "full_path_10bit",
+    "dci_p3_10bit",
+    "ten_bit_color_capture",
+    "proxdr"
+  ],
+  "evidence_policy": {
+    "accepted": [
+      "OnePlusOSS official source releases",
+      "oppo-source official source releases",
+      "Android Open Source Project camera HAL documentation",
+      "Qualcomm Snapdragon platform documentation",
+      "OPPO / OnePlus official product and imaging publications",
+      "official OTA/ROM artifacts materialized by the device owner"
+    ],
+    "excluded_from_official_claims": [
+      "third-party LSPosed modules",
+      "community ROM dumps",
+      "reverse-engineered feature keys without matching official artifact evidence"
+    ]
+  },
+  "stages": [
+    {
+      "id": "platform-capability",
+      "status": "confirmed",
+      "layer": "SoC / ISP / encoder ceiling",
+      "evidence": [
+        {
+          "source": "Qualcomm Snapdragon 8 Elite product brief",
+          "url": "https://docs.qualcomm.com/doc/87-83196-1/87-83196-1_REV_C_Snapdragon_8_Elite_Mobile_Platform_Product_Brief.pdf",
+          "facts": [
+            "Rec. 2020 photo and video capture",
+            "up to 10-bit color depth photo and video capture",
+            "10-bit HEIF / HEIC photo capture",
+            "Google Ultra HDR photo capture"
+          ]
+        }
+      ],
+      "conclusion": "The SoC does not impose an 8-bit-only ceiling for still capture."
+    },
+    {
+      "id": "oplus-system-feature-lineage",
+      "status": "confirmed-historically",
+      "layer": "OPlus system image / build feature layer",
+      "evidence": [
+        {
+          "source": "OnePlusOSS android_kernel_oneplus_sm7325",
+          "url": "https://github.com/OnePlusOSS/android_kernel_oneplus_sm7325/blob/2ec4a9041e5937210155fd47a21ad13baf55730e/oplus_native_features.mk",
+          "enabled_symbols": [
+            "OPLUS_FEATURE_10BIT_HEIF",
+            "OPLUS_FEATRUE_HEIF_OPTIMIZE",
+            "OPLUS_FEATURE_HEIF_CONVERTER",
+            "OPLUS_FEATURE_IMAGE_PROCESSING",
+            "OPLUS_FEATURE_ROI_ENCODE_QCOM"
+          ]
+        },
+        {
+          "source": "oppo-source android_kernel_oppo_sm8350",
+          "url": "https://github.com/oppo-source/android_kernel_oppo_sm8350/blob/5cf625dd5932c6560d845080ecc9365b3098a864/oplus_native_features.mk",
+          "enabled_symbols": [
+            "OPLUS_FEATURE_10BIT_HEIF",
+            "OPLUS_FEATRUE_HEIF_OPTIMIZE",
+            "OPLUS_FEATURE_HEIF_CONVERTER",
+            "OPLUS_FEATURE_IMAGE_PROCESSING",
+            "OPLUS_FEATURE_ROI_ENCODE_QCOM"
+          ]
+        }
+      ],
+      "conclusion": "OPlus historically treated 10-bit HEIF as part of a wider system imaging/HEIF feature stack, not only a Camera UI toggle."
+    },
+    {
+      "id": "android-hal-contract",
+      "status": "required-by-platform-contract",
+      "layer": "Android Camera AIDL HAL",
+      "evidence": [
+        {
+          "source": "Android Open Source Project: 10-bit camera output",
+          "url": "https://source.android.com/docs/core/camera/10-bit-camera-output",
+          "required_signals": [
+            "ANDROID_REQUEST_AVAILABLE_CAPABILITIES_DYNAMIC_RANGE_TEN_BIT",
+            "ANDROID_REQUEST_AVAILABLE_DYNAMIC_RANGE_PROFILES_MAP",
+            "HLG10 dynamic range profile",
+            "ANDROID_REQUEST_RECOMMENDED_TEN_BIT_DYNAMIC_RANGE_PROFILE",
+            "P010 or implementation-defined PRIVATE output stream support",
+            "Gralloc 4 static or dynamic HDR metadata"
+          ]
+        }
+      ],
+      "conclusion": "A real 10-bit public camera path requires HAL metadata and a 10-bit stream path; a feature-menu toggle alone is insufficient."
+    },
+    {
+      "id": "oneplus13-public-kernel",
+      "status": "mapped",
+      "layer": "OnePlus 13 public kernel / camera modules",
+      "evidence": [
+        {
+          "source": "OnePlusOSS SM8750 camera module",
+          "url": "https://github.com/OnePlusOSS/android_kernel_modules_and_devicetree_oneplus_sm8750/blob/oneplus/sm8750_b_16.0.0_oneplus_13/vendor/qcom/opensource/camera-kernel/camera_modules.bzl",
+          "surfaces": [
+            "Spectra ISP",
+            "ICP / IPE / BPS / OFE",
+            "JPEG encoder/DMA",
+            "sensor / CSIPHY",
+            "SMMU / memory",
+            "CPAS / interconnect"
+          ]
+        }
+      ],
+      "conclusion": "The public kernel does not expose a OnePlus-13-specific 10-bit HEIF switch. Initial implementation work belongs above camera.ko; kernel work is conditional on an isolated stream/resource failure."
+    },
+    {
+      "id": "oneplus13-official-ota-user-space",
+      "status": "pending-official-artifact-ingestion",
+      "layer": "OPlus userspace / vendor / HAL configuration",
+      "official_artifact_targets": [
+        "OPlus native feature/build property material",
+        "Camera provider/HAL metadata and vendor-tag declarations",
+        "media codec and HEIF/HEIC encoder declarations",
+        "OPlus Camera / APS configuration",
+        "color-space / HDR / ICC / CICP metadata configuration",
+        "Gallery/Photos HEIF and HDR decode/edit capability"
+      ],
+      "required_evidence_before_implementation_claim": [
+        "identify the OnePlus 13 official user-space gate or configuration owner",
+        "identify the selected HEIF/HEIC encoder path",
+        "identify 10-bit HAL stream/profile exposure",
+        "identify output color primaries/transfer/matrix metadata path"
+      ],
+      "conclusion": "This is the principal unresolved official-source layer."
+    }
+  ],
+  "historical_oplus_imaging_symbols": [
+    {
+      "symbol": "OPLUS_FEATURE_10BIT_HEIF",
+      "semantics": "10-bit HEIF feature",
+      "status": "resolved"
+    },
+    {
+      "symbol": "OPLUS_FEATRUE_HEIF_OPTIMIZE",
+      "semantics": "HEIF optimization feature (official spelling retained)",
+      "status": "resolved"
+    },
+    {
+      "symbol": "OPLUS_FEATURE_HEIF_CONVERTER",
+      "semantics": "HEIF converter feature",
+      "status": "resolved"
+    },
+    {
+      "symbol": "OPLUS_FEATURE_IMAGE_PROCESSING",
+      "semantics": "general OPlus image-processing feature",
+      "status": "partially-resolved"
+    },
+    {
+      "symbol": "OPLUS_FEATURE_ROI_ENCODE_QCOM",
+      "semantics": "Qualcomm ROI encode feature",
+      "status": "partially-resolved"
+    }
+  ],
+  "implementation_order": [
+    "ingest official OnePlus 13 OTA/userspace text/config artifacts",
+    "resolve 10-bit HAL dynamic-range and P010/PRIVATE exposure",
+    "resolve HEIF/HEIC encoder path and bit-depth control",
+    "resolve color primaries/transfer/matrix and HDR metadata path",
+    "map OPlus Camera/APS feature gating",
+    "only then prepare target-specific enablement",
+    "enter camera.ko/CPAS/ICC/MMRM only after a lower-layer resource failure is proven"
+  ],
+  "non_equivalences": [
+    "10-bit HEIF is not the same thing as RAW10/RAW12",
+    "10-bit HEIF is not the same thing as JPEG_R / Ultra HDR",
+    "ProXDR display metadata is not proof that the stored HEIF samples are 10-bit",
+    "P010 stream support is strong HAL evidence but does not by itself prove the proprietary HEIF still encoder is configured for 10-bit"
+  ]
+}
