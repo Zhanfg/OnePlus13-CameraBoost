@@ -269,6 +269,16 @@
       "kind": "official_product_page",
       "brand": "OnePlus",
       "url": "https://www.oneplus.com/us/13"
+    },
+    "oneplusoss_sm7325_native_features": {
+      "kind": "official_source_release",
+      "brand": "OnePlus",
+      "url": "https://github.com/OnePlusOSS/android_kernel_oneplus_sm7325/blob/2ec4a9041e5937210155fd47a21ad13baf55730e/oplus_native_features.mk"
+    },
+    "oppo_sm8350_native_features": {
+      "kind": "official_source_release",
+      "brand": "OPPO",
+      "url": "https://github.com/oppo-source/android_kernel_oppo_sm8350/blob/5cf625dd5932c6560d845080ecc9365b3098a864/oplus_native_features.mk"
     }
   },
   "features": [
@@ -3165,6 +3175,54 @@
       "OPPO": 148,
       "OnePlus": 109
     },
-    "source_count": 47
-  }
+    "source_count": 49,
+    "official_system_imaging_macro_count": 5
+  },
+  "official_system_imaging_macros": [
+    {
+      "symbol": "OPLUS_FEATURE_10BIT_HEIF",
+      "meaning": "10-bit HEIF feature",
+      "status": "resolved",
+      "sources": [
+        "oneplusoss_sm7325_native_features",
+        "oppo_sm8350_native_features"
+      ]
+    },
+    {
+      "symbol": "OPLUS_FEATRUE_HEIF_OPTIMIZE",
+      "meaning": "HEIF optimization feature; official source spelling retained",
+      "status": "resolved",
+      "sources": [
+        "oneplusoss_sm7325_native_features",
+        "oppo_sm8350_native_features"
+      ]
+    },
+    {
+      "symbol": "OPLUS_FEATURE_HEIF_CONVERTER",
+      "meaning": "HEIF converter feature",
+      "status": "resolved",
+      "sources": [
+        "oneplusoss_sm7325_native_features",
+        "oppo_sm8350_native_features"
+      ]
+    },
+    {
+      "symbol": "OPLUS_FEATURE_IMAGE_PROCESSING",
+      "meaning": "general OPlus image-processing feature adjacent to the HEIF feature family",
+      "status": "partially_resolved",
+      "sources": [
+        "oneplusoss_sm7325_native_features",
+        "oppo_sm8350_native_features"
+      ]
+    },
+    {
+      "symbol": "OPLUS_FEATURE_ROI_ENCODE_QCOM",
+      "meaning": "Qualcomm ROI encode feature adjacent to the OPlus image-processing/HEIF feature family",
+      "status": "partially_resolved",
+      "sources": [
+        "oneplusoss_sm7325_native_features",
+        "oppo_sm8350_native_features"
+      ]
+    }
+  ]
 }
