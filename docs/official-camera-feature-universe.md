@@ -139,3 +139,20 @@ A feature may belong to both OPPO and OnePlus, so brand memberships are not mutu
 exclusive: the current union contains 148 OPPO memberships and 106 OnePlus memberships.
 
 These are **corpus counts**, not claims that every device exposes every capability.
+
+
+## OPlus system imaging feature layer
+
+The camera universe now keeps a separate list of **system imaging macros** rather than
+misclassifying them as camera-kernel switches. Official OnePlusOSS and OPPO source releases
+both expose:
+
+- `OPLUS_FEATURE_10BIT_HEIF`
+- `OPLUS_FEATRUE_HEIF_OPTIMIZE`
+- `OPLUS_FEATURE_HEIF_CONVERTER`
+- `OPLUS_FEATURE_IMAGE_PROCESSING`
+- `OPLUS_FEATURE_ROI_ENCODE_QCOM`
+
+These are especially important for the OnePlus 13 10-bit still workstream because they show
+that OPlus historically implemented HEIF across system image-processing/encoding layers in
+addition to the camera stack.

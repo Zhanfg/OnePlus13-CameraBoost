@@ -71,8 +71,10 @@ def test_catalog_ids_and_symbols_are_unique():
     data = load_catalog()
     feature_ids = [row["id"] for row in data["features"]]
     symbols = [row["symbol"] for row in data["official_kernel_feature_macros"]]
+    imaging_symbols = [row["symbol"] for row in data["official_system_imaging_macros"]]
     assert len(feature_ids) == len(set(feature_ids))
     assert len(symbols) == len(set(symbols))
+    assert len(imaging_symbols) == len(set(imaging_symbols))
 
 def test_catalog_audit_counts_are_not_stale():
     data = load_catalog()
@@ -87,6 +89,23 @@ def test_catalog_audit_counts_are_not_stale():
 
     assert audit["official_feature_count"] == len(data["features"])
     assert audit["official_kernel_macro_count"] == len(data["official_kernel_feature_macros"])
+    assert audit["official_system_imaging_macro_count"] == len(data["official_system_imaging_macros"])
     assert audit["source_count"] == len(data["sources"])
     assert audit["category_counts"] == dict(sorted(category_counts.items()))
     assert audit["brand_feature_memberships"] == dict(sorted(brand_counts.items()))
+
+
+def test_system_imaging_macros_are_source_backed():
+    data = load_catalog()
+    source_ids = set(data["sources"])
+    rows = data["official_system_imaging_macros"]
+    assert {row["symbol"] for row in rows} == {
+        "OPLUS_FEATURE_10BIT_HEIF",
+        "OPLUS_FEATRUE_HEIF_OPTIMIZE",
+        "OPLUS_FEATURE_HEIF_CONVERTER",
+        "OPLUS_FEATURE_IMAGE_PROCESSING",
+        "OPLUS_FEATURE_ROI_ENCODE_QCOM",
+    }
+    for row in rows:
+        assert row["sources"]
+        assert set(row["sources"]) <= source_ids
