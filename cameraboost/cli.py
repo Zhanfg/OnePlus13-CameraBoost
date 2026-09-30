@@ -69,6 +69,22 @@ def cmd_color_path(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_ota_index(args: argparse.Namespace) -> int:
+    from .ota_inventory import index_source
+
+    payload = index_source(
+        args.source,
+        max_text_bytes=args.max_text_bytes,
+        max_hash_bytes=args.max_hash_bytes,
+    )
+    text = json.dumps(payload, ensure_ascii=False, indent=2)
+    if args.out:
+        Path(args.out).write_text(text + "\n", encoding="utf-8")
+    else:
+        print(text)
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="cameraboost")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -99,6 +115,16 @@ def build_parser() -> argparse.ArgumentParser:
     cp.add_argument("scan", help="JSON produced by extract_official_camera_features.py")
     cp.add_argument("--out")
     cp.set_defaults(func=cmd_color_path)
+
+    oi = sub.add_parser(
+        "ota-index",
+        help="Index camera/color/HEIF surfaces in an official OTA/ROM archive or extracted tree",
+    )
+    oi.add_argument("source", type=Path)
+    oi.add_argument("--out")
+    oi.add_argument("--max-text-bytes", type=int, default=4 * 1024 * 1024)
+    oi.add_argument("--max-hash-bytes", type=int, default=8 * 1024 * 1024)
+    oi.set_defaults(func=cmd_ota_index)
 
     return p
 

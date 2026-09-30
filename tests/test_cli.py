@@ -48,3 +48,9 @@ def test_color_path_cli_reports_next_missing_layer(tmp_path, capsys):
     payload = json.loads(capsys.readouterr().out)
     assert payload["hal_contract_complete"] is True
     assert payload["next_layer"] == "heif-encoder"
+
+
+def test_cli_registers_ota_index():
+    parser = build_parser()
+    args = parser.parse_args(["ota-index", "official.zip"])
+    assert args.cmd == "ota-index"

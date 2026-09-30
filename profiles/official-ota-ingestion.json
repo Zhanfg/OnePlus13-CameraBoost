@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "purpose": "Index materialized official OnePlus/OPPO OTA or ROM artifacts without redistributing proprietary contents.",
+  "target": "OnePlus 13",
+  "accepted_sources": [
+    "official OnePlus Software Upgrade / local-upgrade packages",
+    "official OnePlus Community rollback packages published by OnePlus software staff",
+    "official OPPO System Upgrade / ColorOS packages",
+    "owner-materialized partitions extracted from those official packages"
+  ],
+  "privacy_and_license_policy": [
+    "store paths, sizes, hashes and derived text signals by default",
+    "do not commit proprietary binaries, decrypted calibration blobs, camera models or full vendor configs",
+    "large binary hashing may be skipped unless explicitly requested",
+    "derived evidence is not a license grant to redistribute source artifacts"
+  ],
+  "layers": {
+    "system_features": [
+      "oplus_native_features",
+      "build.prop / vendor.prop / product.prop",
+      "permissions/sysconfig feature declarations"
+    ],
+    "camera_hal": [
+      "camera provider services and manifests",
+      "camera HAL libraries and provider declarations",
+      "CameraMetadata/VendorTag declarations"
+    ],
+    "camera_aps_config": [
+      "OPlus Camera/APS config",
+      "CamX / CHI / Chromatix configuration",
+      "sensor-mode and feature tables"
+    ],
+    "heif_codec": [
+      "HEIF/HEIC codec declarations",
+      "MediaCodec / Codec2 configuration",
+      "HEVC still-image encoder path"
+    ],
+    "color_metadata": [
+      "Rec.2020 / BT.2020 / P3 declarations",
+      "HDR / dataspace / CICP metadata",
+      "ICC/color-profile assets"
+    ],
+    "gallery_media": [
+      "OPlus Gallery / Photos / MediaProvider handling",
+      "HEIF/HDR decode/edit integration"
+    ]
+  },
+  "container_artifacts": [
+    "payload.bin",
+    "super.img",
+    "vendor.img",
+    "odm.img",
+    "system.img",
+    "system_ext.img",
+    "product.img"
+  ]
+}
