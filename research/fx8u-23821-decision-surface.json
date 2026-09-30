@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "source_artifact": {
+    "name": "FX8U Camera Processing For OP13_v3.97.zip",
+    "sha256": "6e6a733544261537af6c6ad2f2e2a1a32f41417129ff719c8b7ef93d39e11068"
+  },
+  "target_project": "23821",
+  "source_library": "odm/lib64/libAlgoInterface.so",
+  "interpretation_policy": [
+    "Exported/demangled symbol names and embedded OPlus key strings are treated as capability/decision-surface evidence only.",
+    "A target-specific parameter function is not proof that every mode successfully executes the corresponding algorithm.",
+    "Absence of a 23821-specific override is not proof of absence because the implementation may inherit a generic/base decision."
+  ],
+  "preview_decision_overrides": [
+    "isPfEnable",
+    "isOtherMode",
+    "afterCapture",
+    "afterProcess",
+    "switchToMFNR",
+    "beforeCapture",
+    "beforeProcess",
+    "hdrParameters",
+    "initParamsExt",
+    "onStartCapture",
+    "hqRawParameters",
+    "nightParameters",
+    "remapInputImages",
+    "updateOtherParams",
+    "turbohdrParameters",
+    "sensorModeParameters",
+    "faceRectifyParameters",
+    "hrDebugModeParameters",
+    "updateQuickShotParams"
+  ],
+  "target_specific_state": [
+    {
+      "symbol": "ApsPreviewDecision23821::mBurstThermalThreshold",
+      "observation": "target-specific burst thermal threshold table exists",
+      "public_value": "not-published"
+    }
+  ],
+  "capture_decision_modes": [
+    "rear-normal",
+    "front-normal",
+    "rear-bokeh",
+    "front-bokeh",
+    "ai-high-pixel"
+  ],
+  "capture_pipeline_overrides": [
+    "ApsCapDecisionRearNormal23821::updatePipelines",
+    "ApsCapDecisionFrontNormal23821::updatePipelines",
+    "ApsCapDecisionRearBokeh23821::updatePipelines",
+    "ApsCapDecisionFrontBokeh23821::updatePipelines"
+  ],
+  "observed_generic_algorithm_triggers": [
+    "APS_ALGO_HYBRIDRAW",
+    "APS_ALGO_TURBO_HDR",
+    "APS_ALGO_FUSION",
+    "APS_ALGO_MFLL",
+    "APS_ALGO_EDOF",
+    "APS_ALGO_FACEBEAUTY",
+    "APS_ALGO_FACE_INFO"
+  ],
+  "oplus_parameter_surfaces": {
+    "raw_hdr": [
+      "com.oplus.aps.hybridraw.support.version",
+      "com.oplus.aps.hybridraw.thread.priority",
+      "com.oplus.aps.inner.hybridraw.orms.params",
+      "com.oplus.aps.use.hybridraw.skinMask",
+      "com.oplus.hybrid.raw.param",
+      "com.oplus.aps.params.turboraw.movingobject.trigger",
+      "com.oplus.aps.params.turboraw.shutterwait",
+      "com.oplus.aps.params.turboraw.thermallevel",
+      "com.oplus.aps.support.TurboRawTripod",
+      "com.oplus.aps.turboraw.version",
+      "com.oplus.aps.turboraw.tmccallback.enable",
+      "com.oplus.aps.turbohdr.2dol.memsize",
+      "com.oplus.aps.turbohdr.bindCpuCores",
+      "com.oplus.aps.turbohdr.israw2raw",
+      "com.oplus.aps.turbohdr.limit.threshold",
+      "com.oplus.aps.turbohdr.night.memsize",
+      "com.oplus.aps.turbohdr.runtime.memsize",
+      "com.oplus.aps.turbohdr.sensorName",
+      "com.oplus.turbohdr.support.separate.lpnr",
+      "com.oplus.rawhdr.hdr.scope",
+      "com.oplus.rawhdr.sensor.exposure.time",
+      "com.oplus.rawhdr.sensor.gain",
+      "com.oplus.rawhdr.isp.digital.gain",
+      "com.oplus.rawhdr.isp.luxindex",
+      "com.oplus.front.uhdr.support",
+      "com.oplus.aps.params.hdrv4.enable",
+      "com.oplus.aps.params.mergehdr",
+      "com.oplus.aps.params.hdrtransform.lightup.enable"
+    ],
+    "zoom_sat": [
+      "com.oplus.InputMetadataOpticalZoomAPS",
+      "com.oplus.aps.optical.zoom.param",
+      "com.oplus.aps.sat.logicCameraId",
+      "com.oplus.aps.sat.preview.master.pipeline",
+      "com.oplus.aps.sat.preview.sensors.mask",
+      "com.oplus.aps.sat.snapshot.master.pipeline",
+      "com.oplus.aps.sat.snapshot.multicamera.number",
+      "com.oplus.aps.sat.snapshot.sensors.mask",
+      "com.oplus.aps.sat.telelen.zoom.gate",
+      "com.oplus.capture.insensorzoom.en",
+      "com.oplus.preview.inSensorZoom.en",
+      "com.oplus.double.insensorzoom.support",
+      "com.oplus.aps.inSensorZoom.Xin1",
+      "com.oplus.aps.params.tele.upscale",
+      "com.oplus.aps.params.ultrawide.upscale",
+      "com.oplus.aps.upscale.frontzoomsupport",
+      "com.oplus.tele.calibration",
+      "com.oplus.ultratele.calibration"
+    ],
+    "quality_high_pixel": [
+      "com.oplus.aps.params.superphoto",
+      "com.oplus.aps.params.superphoto.izoomparam.enable",
+      "com.oplus.aps.params.superphoto.ultrahd.haveface",
+      "com.oplus.aps.params.superphoto.ultrahd.noface",
+      "com.oplus.aps.params.supersensor",
+      "com.oplus.aps.params.supersensor.izoom",
+      "com.oplus.aps.params.ultraHighDefinition.haveface.v3",
+      "com.oplus.aps.params.ultraHighDefinition.noface.v3",
+      "com.oplus.aps.yuvsr.izoom.support",
+      "com.oplus.yuvsr.insensorzoombasicratio"
+    ],
+    "quickshot_thermal": [
+      "com.oplus.aps.params.quickshot.threshold.master",
+      "com.oplus.aps.params.quickshot.threshold.rawmax",
+      "com.oplus.aps.params.quickshot.threshold.rearnight",
+      "com.oplus.aps.params.supernight.thermallevel",
+      "com.oplus.aps.params.turboraw.thermallevel",
+      "com.oplus.turborawProcess.timesLimit"
+    ]
+  },
+  "oneplus13_policy": {
+    "valid_target_surfaces": [
+      "23821 preview/capture decisions",
+      "main/front/ultrawide/3x tele paths",
+      "HQ RAW / HybridRAW",
+      "TurboHDR / HDR",
+      "high-pixel",
+      "quick-shot and thermal policy",
+      "SAT/zoom routing",
+      "in-sensor zoom where target sensor/HAL exposes it"
+    ],
+    "block_by_default": [
+      "ultratele calibration",
+      "utele / camera_id 4",
+      "Tele2 / 6x donor path"
+    ],
+    "caution": [
+      "The presence of com.oplus.front.uhdr.support is evidence of a decision/config surface, not proof of stored 10-bit HEIF.",
+      "The 23821 class has target-specific overrides for HQ RAW/TurboHDR/HDR/night/sensor-mode/quick-shot, but algorithm selection still depends on surrounding configs and runtime plugins.",
+      "Master-mode behavior may be inherited from generic/base classes; lack of a 23821-specific RearMaster class is not a blocker by itself."
+    ]
+  },
+  "engineering_value": [
+    "Use the 23821 decision methods as the initial clean-room map for locating OnePlus 13 APS feature gates.",
+    "Treat quick-shot and thermal keys as tuning/policy surfaces rather than image-quality algorithms.",
+    "Use SAT sensor masks and logicCameraId to construct a strict OnePlus 13 lens map before loading donor models.",
+    "Map HQ RAW/TurboHDR/UltraHDR surfaces into CameraBoost P0 RAW and color-still workstreams."
+  ]
+}
