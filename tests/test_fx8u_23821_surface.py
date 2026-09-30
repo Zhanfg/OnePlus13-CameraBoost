@@ -24,11 +24,16 @@ def test_23821_surface_has_core_p0_decision_methods():
     } <= methods
 
 
-def test_23821_lens_policy_blocks_donor_ultratele():
+def test_23821_lens_policy_preserves_stock_tele2_until_mapped():
     data = load()
-    blocked = set(data["oneplus13_policy"]["block_by_default"])
-    assert "utele / camera_id 4" in blocked
-    assert "Tele2 / 6x donor path" in blocked
+    policy = data["oneplus13_policy"]
+    blocked = " ".join(policy["block_by_default"]).lower()
+    preserve = " ".join(policy["preserve_until_mapped"]).lower()
+
+    assert "synthetic extra physical camera" in blocked
+    assert "tele2" in preserve
+    assert "6x" in preserve
+    assert "ultratele" in preserve
 
 
 def test_23821_parameter_families_include_raw_hdr_and_sat():

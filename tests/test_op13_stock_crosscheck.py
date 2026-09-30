@@ -19,7 +19,7 @@ def test_stock_and_addon_unet_are_different():
     data = load("research/op13-stock-slot-crosscheck.json")
     stock = data["stock_hybridraw_baseline"]["stock_unet"]
     addon = data["stock_hybridraw_baseline"]["addon_unet"]
-    assert stock["sha256"] != addon["sha256"]
+    assert stock["lfs_sha256"] != addon["sha256"]
     assert stock["size_bytes"] != addon["size_bytes"]
 
 
