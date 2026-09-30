@@ -34,11 +34,11 @@ def test_blob_audit_detects_module_and_candidate_buckets(tmp_path):
 
     assert result["module"]["id"] == "test_addon"
     assert result["buckets"]["stable_diffusion_sr_core"]["files"] == 1
-    assert result["buckets"]["tele2_6x_specific"]["files"] == 1
-    assert result["buckets"]["ultratele_video_model"]["files"] == 1
+    assert result["buckets"]["tele2_or_6x_named"]["files"] == 1
+    assert result["buckets"]["ultratele_named_video_model"]["files"] == 1
     assert result["intended_main_module_dependency"]["commented_out"] is True
     assert "odm/etc/camera/target.json" in result["text_signal_files"]["23821"]
-    assert result["candidate_prune"]["compressed_bytes"] > 0
+    assert result["candidate_externalize"]["compressed_bytes"] > 0
 
     missing = {
         row["reference"]: row

@@ -96,59 +96,67 @@ Those five assets consume about **735 MiB uncompressed / 476 MiB compressed**.
 Therefore they should be treated as an optional high-super-resolution capability pack,
 not automatically as a baseline dependency for 10-bit/HDR photography.
 
-## X8 Ultra donor contamination that must not be auto-enabled
+## Stock cross-check changes the lens interpretation
 
-The package still retains a five-camera donor model:
+A public stock OnePlus 13 vendor extraction shows that project **23821 itself** uses
+`dodgetele2` as an active telephoto route:
 
-- `main`
-- `front`
-- `uwide`
-- `tele`
-- `utele` (camera ID 4)
+- the stock hardware config declares five logical camera names:
+  `dodgemain / dodgefront / dodgeultrawide / dodgetele / dodgetele2`;
+- engineering-mode entries expose CameraId 2 as `dodgetele2` and mark it available;
+- stock Photo, SAT, portrait, night, Hi-RES and XPAN mappings repeatedly select
+  `dodgetele2`;
+- stock configuration also uses `utele / UltraTele` terminology and ships
+  `VigTab_UTele`.
 
-It also contains explicit `Tele2` / 6x HybridRAW classes and models, plus an
-`AIAEVideoModelUltraTele.bin` asset.
+Therefore the earlier shortcut **Tele2 = donor-only second physical telephoto** is wrong.
+OPlus' internal slot and zoom-region names do not map one-to-one to physical-lens count.
 
-OPPO's official Find X8 Ultra specification exposes both 3x and 6x telephoto cameras,
-whereas OnePlus 13 officially exposes a single 3x LYT-600 telephoto. Therefore the
-`tele2 / 6x / utele / Camera4` branch must default to **blocked** on OnePlus 13.
+The correct policy is:
 
-Do **not** broadly delete every color/spectral asset: OnePlus 13 official specifications
-also list spectral sensors. Exact calibration compatibility still needs mapping.
+- preserve Tele2/6x/UTele assets until their target decision/config route is mapped;
+- do not create a synthetic extra physical camera merely because a logical `Camera4`
+  or `utele` label exists;
+- never delete an asset solely because its filename contains `tele2`, `6x` or
+  `ultratele`.
 
-## Size architecture
+## Stock already contains the large AI-SR family
 
-A practical packaging direction is:
+The same public stock vendor manifest already includes:
 
-### Core Processing
+- `unet.bix` and all four VAE model files;
+- GAN enhancer models;
+- `highmagsol_20x / 40x / 80x`;
+- telephoto 60x HybridRAW models;
+- UTele BasicTone assets.
 
-Keep the target APS decision layer and the normal main/ultrawide/3x/front processing
-families:
+The stock `unet.bix` LFS object is 533,283,432 bytes with SHA-256
+`6ae4057f9707e1f3330720982dc7d20249e6abac75f6a675b4075b72e6f3575e`.
 
-- AlgoInterface / AlgoProcess;
-- HybridRAW core;
-- HDR transform / TurboHDR surface;
-- BasicTone;
-- Video AI-NR / VideoLTM;
-- segmentation/bokeh dependencies;
-- main / ultrawide / tele1 / front model families.
+The uploaded addon `unet.bix` is 532,771,432 bytes with SHA-256
+`4335f15420edb5cccbc4ca5eb2bc6ea4a99bcb80dfbfe9ca19b94ab80b1268cc`.
 
-### Optional AI-SR pack
+They are not identical.
 
-Move the Stable-Diffusion SR family and high-magnification generative enhancement into a
-separate optional pack after the runtime dependency graph is confirmed.
+That changes the architecture interpretation again: the addon is **replacing/extending an
+existing OnePlus 13 HybridRAW/Stable-Diffusion-style SR stack**, not adding that whole
+capability from scratch.
 
-### X8 Ultra-only pack
+## Size architecture — corrected
 
-Do not load by default:
+The five Stable-Diffusion SR core assets still account for roughly **476 MiB compressed**,
+so they are an excellent **optional-pack / externalization** candidate.
 
-- Tele2 / 6x-specific HybridRAW models;
-- Camera4 / utele-only configuration;
-- UltraTele video model.
+They are **not** a safe deletion candidate. Two safe designs are possible only after
+dependency analysis:
 
-Just externalizing the five Stable-Diffusion SR core files plus obvious Tele2/UltraTele
-assets removes roughly **514 MiB of compressed payload**, leaving an estimated **568 MiB**
-before further dependency-aware slimming.
+1. keep donor HybridRAW/tuning plus its matching donor AI-SR pack; or
+2. disable the donor Stable-Diffusion SR branch when its donor model pack is absent.
+
+Blindly removing donor models and falling back to stock models could cause
+model/runtime/tuning incompatibility.
+
+Tele2/6x/UltraTele files are no longer included in any automatic size-pruning estimate.
 
 ## It is not standalone
 

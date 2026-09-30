@@ -70,29 +70,6 @@
     ],
     "conclusion": "This is a distinct high-super-resolution branch and is not evidence of a requirement for baseline 10-bit/HDR capture."
   },
-  "donor_only_or_mismatched_assets": {
-    "evidence": [
-      "vainr_cfg.json and dolby_vainr_cfg.json define main/uwide/tele/front/utele with camera IDs 0..4.",
-      "video_ltm.json and video_ltm_ctrl.json include Camera0..Camera4.",
-      "HybridRAW includes PhotoTele2/Tele2 6x classes and model paths.",
-      "AIAE_Models contains AIAEVideoModelUltraTele.bin.",
-      "basictone includes VigTab_UTele."
-    ],
-    "oneplus13_default_policy": "Disable or exclude tele2/6x/UltraTele assets until an explicit mapping exists. OnePlus 13 official specs expose one 3x telephoto, not a second 6x telephoto.",
-    "keep_spectral_assets_pending_mapping": true,
-    "spectral_note": "Do not remove spectral/color-sensor assets solely because they came from the donor; OnePlus 13 official specs list spectral sensors."
-  },
-  "size_reduction_candidate": {
-    "remove_or_externalize": [
-      "stable_diffusion_sr_core",
-      "tele2_6x_specific",
-      "UltraTele video model"
-    ],
-    "candidate_uncompressed_mib": 794.28,
-    "candidate_compressed_mib": 514.03,
-    "estimated_remaining_compressed_payload_mib": 567.65,
-    "warning": "Estimate assumes the same per-file ZIP compression. Runtime dependency closure must be proven before building a slim package."
-  },
   "critical_external_dependencies": [
     "libapsjpeg.so",
     "libapsexif.so",
@@ -111,10 +88,11 @@
     "vendor.oplus.hardware.osense.client-V1-ndk.so"
   ],
   "next_steps": [
-    "Obtain or inventory the matching main module um8s_op13_ocvm to close the dynamic dependency graph.",
-    "Build a target-lens map that rejects camera_id 4 / tele2 / utele on OnePlus 13.",
-    "Separate Core Processing, AI-SR and donor-only asset packs.",
-    "Map the observed P010/UltraHDR/JPEG_R paths into the existing P0 color-still workstream.",
+    "Inventory the matching main module um8s_op13_ocvm or a stock-equivalent userspace to close the dynamic dependency graph.",
+    "Build an explicit stock logical-camera/physical-module map; preserve dodgetele2 as a valid OnePlus 13 tele route.",
+    "Compute stock-vs-addon file deltas and classify replacements by feature family.",
+    "Modularize high-cost AI-SR models only behind dependency/tuning compatibility gates.",
+    "Map P010/UltraHDR/JPEG_R/HEIC and HQ RAW/TurboHDR decisions into CameraBoost P0 workstreams.",
     "Do not redistribute donor blobs in the public repository."
   ],
   "runtime_reference_closure": {
@@ -227,5 +205,38 @@
       }
     ],
     "architecture_conclusion": "The addon is best understood as a target-adapted APS orchestration/processing overlay plus selected donor libraries/models. It still expects a broader stock/main-module algorithm universe at runtime; therefore slimming and standalone repackaging require both ELF and runtime-path dependency closure."
+  },
+  "stock_crosscheck": {
+    "source_class": "public-stock-vendor-dump",
+    "source": "TheMuppets/proprietary_vendor_oneplus_dodge @ 5cdea50164c2c9435e8612da132396877acd8730",
+    "conclusions": [
+      "Stock project 23821 declares logical sensor names dodgemain/dodgefront/dodgeultrawide/dodgetele/dodgetele2.",
+      "Engineering-mode entries expose CameraId 0 main, 1 ultrawide, 2 dodgetele2 and 3 front as available modules.",
+      "Stock mode routing uses dodgetele2 for many tele photo/night/portrait/Hi-RES/XPAN paths.",
+      "Stock files also use utele/UltraTele terminology and VigTab_UTele.",
+      "Therefore tele2/6x/utele naming is not sufficient evidence of a second physical donor telephoto."
+    ],
+    "stock_ai_sr_baseline": [
+      "Stock manifest already includes unet.bix and four VAE files.",
+      "Stock manifest already includes GAN enhancer and highmagsol 20x/40x/80x assets.",
+      "Stock manifest already includes tele 60x HybridRAW models."
+    ],
+    "unet_delta": {
+      "stock_sha256": "6ae4057f9707e1f3330720982dc7d20249e6abac75f6a675b4075b72e6f3575e",
+      "stock_size_bytes": 533283432,
+      "addon_sha256": "4335f15420edb5cccbc4ca5eb2bc6ea4a99bcb80dfbfe9ca19b94ab80b1268cc",
+      "addon_size_bytes": 532771432,
+      "identical": false
+    },
+    "interpretation": "The addon replaces or extends an existing OnePlus 13 HybridRAW/AI-SR family. It should be analyzed as a delta overlay, not as a package that creates this capability from scratch."
+  },
+  "modularization_candidate": {
+    "externalize": [
+      "stable_diffusion_sr_core"
+    ],
+    "uncompressed_mib": 735.05,
+    "compressed_mib": 475.69,
+    "estimated_remaining_compressed_payload_mib": 605.99,
+    "policy": "Optional-pack candidate only. Do not fall back to stock models unless compatibility with the donor HybridRAW libraries/tuning is proven; alternatively disable the donor SR branch when the donor model pack is absent."
   }
 }

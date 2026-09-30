@@ -145,14 +145,19 @@
       "in-sensor zoom where target sensor/HAL exposes it"
     ],
     "block_by_default": [
-      "ultratele calibration",
-      "utele / camera_id 4",
-      "Tele2 / 6x donor path"
+      "synthetic extra physical camera creation from Camera4/utele labels"
     ],
     "caution": [
+      "Stock OnePlus 13 project 23821 itself routes many real tele modes through dodgetele2, so Tele2 is not donor-only by name.",
+      "Stock OnePlus 13 also contains UTele/UltraTele naming; logical zoom-zone names must not be treated as physical-lens count.",
       "The presence of com.oplus.front.uhdr.support is evidence of a decision/config surface, not proof of stored 10-bit HEIF.",
       "The 23821 class has target-specific overrides for HQ RAW/TurboHDR/HDR/night/sensor-mode/quick-shot, but algorithm selection still depends on surrounding configs and runtime plugins.",
       "Master-mode behavior may be inherited from generic/base classes; lack of a 23821-specific RearMaster class is not a blocker by itself."
+    ],
+    "preserve_until_mapped": [
+      "dodgetele2 / Tele2-named assets",
+      "6x-named tele models",
+      "UTele / UltraTele tuning and model assets"
     ]
   },
   "engineering_value": [

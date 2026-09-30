@@ -73,8 +73,10 @@ Observed decision keys include:
 - tele calibration;
 - **ultratele calibration**.
 
-The last item is donor contamination for OnePlus 13 unless an explicit target mapping is
-proven. It aligns with the module's separate `utele / Camera4 / Tele2 / 6x` assets.
+These names require a stock routing map before interpretation. A public stock project-23821
+vendor extraction itself uses `dodgetele2` for many real telephoto modes and contains
+`utele / UltraTele` terminology. Therefore neither `Tele2` nor `UltraTele` is sufficient
+evidence of an extra physical lens.
 
 ### High-pixel / super-photo
 
@@ -121,4 +123,4 @@ P0 feature families
 performance + thermal policy as a separate layer
 ```
 
-Do not import `Camera4 / utele / Tele2 / 6x` into the target lens map.
+Do not infer an extra physical lens from `Camera4 / utele / Tele2 / 6x` labels. Preserve stock-compatible `dodgetele2` routing and resolve the logical-to-physical map before changing or pruning these assets.

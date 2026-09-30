@@ -55,7 +55,7 @@ def _bucket(filename: str) -> str:
         if name in STABLE_DIFFUSION_CORE:
             return "stable_diffusion_sr_core"
         if TELE2_RE.search(name):
-            return "tele2_6x_specific"
+            return "tele2_or_6x_named"
         if any(x in name for x in ("60x", "80x", "90x", "40x", "20x", "10x", "highmagsol", "gan_enhancer")):
             return "high_zoom_sr"
         if "tele1" in name or name.startswith("tele") or "_tele_" in name:
@@ -76,7 +76,7 @@ def _bucket(filename: str) -> str:
         return "segmentation"
     if filename.startswith("odm/etc/camera/AIAE_Models/"):
         if ULTRATELE_RE.search(name):
-            return "ultratele_video_model"
+            return "ultratele_named_video_model"
         return "aiae_video"
     if filename.startswith("odm/etc/camera/"):
         return "camera_misc"
@@ -210,13 +210,11 @@ def analyze_zip(path: str) -> dict[str, Any]:
                     }
                     break
 
-        candidate_prune = {
+        candidate_externalize = {
             "stable_diffusion_sr_core",
-            "tele2_6x_specific",
-            "ultratele_video_model",
         }
-        prune_uncompressed = sum(buckets[x]["uncompressed"] for x in candidate_prune)
-        prune_compressed = sum(buckets[x]["compressed"] for x in candidate_prune)
+        externalize_uncompressed = sum(buckets[x]["uncompressed"] for x in candidate_externalize)
+        externalize_compressed = sum(buckets[x]["compressed"] for x in candidate_externalize)
 
         largest = sorted(infos, key=lambda x: x.file_size, reverse=True)[:20]
 
@@ -242,11 +240,15 @@ def analyze_zip(path: str) -> dict[str, Any]:
             "text_signal_files": {k: sorted(v) for k, v in sorted(text_hits.items())},
             "intended_main_module_dependency": dependency_line,
             "runtime_reference_closure": _runtime_reference_closure(zf, infos),
-            "candidate_prune": {
-                "buckets": sorted(candidate_prune),
-                "uncompressed_bytes": prune_uncompressed,
-                "compressed_bytes": prune_compressed,
-                "estimated_remaining_compressed_payload_bytes": total_compressed - prune_compressed,
-                "warning": "Filename-based candidate only; verify runtime/model dependency closure before deleting assets.",
+            "candidate_externalize": {
+                "buckets": sorted(candidate_externalize),
+                "uncompressed_bytes": externalize_uncompressed,
+                "compressed_bytes": externalize_compressed,
+                "estimated_remaining_compressed_payload_bytes": total_compressed - externalize_compressed,
+                "warning": (
+                    "Externalization candidate only, not a deletion recommendation. "
+                    "OnePlus 13 stock already ships the same Stable-Diffusion-style model family, "
+                    "but donor and stock models can differ and may be ABI/tuning-coupled."
+                ),
             },
         }
