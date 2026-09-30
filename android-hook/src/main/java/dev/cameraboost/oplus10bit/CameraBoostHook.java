@@ -23,6 +23,7 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
         log("loaded " + TARGET_PACKAGE + "; " + FeaturePolicy.deviceIdentity());
         log("variant: 10bitHEIC=" + BuildConfig.ENABLE_10BIT_HEIC
                 + ", 10bitLivePhoto=" + BuildConfig.ENABLE_10BIT_LIVE_PHOTO);
+        log("10-bit still policy: " + FeaturePolicy.tenBitMutationStatus());
 
         if (!FeaturePolicy.isTargetDevice()) {
             log("device guard rejected this device; hook will stay observation-only");
@@ -64,9 +65,8 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
             return;
         }
 
-        boolean canMutate = FeaturePolicy.isTargetDevice();
-        boolean enable10Bit = canMutate && BuildConfig.ENABLE_10BIT_HEIC;
-        boolean enableLive = canMutate && BuildConfig.ENABLE_10BIT_LIVE_PHOTO;
+        boolean enable10Bit = FeaturePolicy.canEnable10BitStill();
+        boolean enableLive = FeaturePolicy.canEnable10BitLivePhoto();
 
         OplusConfigPatcher.PatchResult patched =
                 OplusConfigPatcher.inspectAndPatch(original, enable10Bit, enableLive);

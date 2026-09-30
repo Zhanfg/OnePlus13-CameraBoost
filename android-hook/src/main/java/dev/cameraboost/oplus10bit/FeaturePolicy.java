@@ -30,6 +30,32 @@ final class FeaturePolicy {
         return "DODGE".equals(device) || product.contains("DODGE");
     }
 
+    static boolean canEnable10BitStill() {
+        return StaticEvidencePolicy.allowMutation(
+                BuildConfig.ENABLE_10BIT_HEIC,
+                isTargetDevice(),
+                BuildConfig.STATIC_OPLUS_GATE_VERIFIED,
+                BuildConfig.STATIC_HAL_TEN_BIT_PATH_VERIFIED,
+                BuildConfig.STATIC_HEIF_ENCODER_10BIT_VERIFIED,
+                BuildConfig.STATIC_COLOR_METADATA_VERIFIED
+        );
+    }
+
+    static boolean canEnable10BitLivePhoto() {
+        return BuildConfig.ENABLE_10BIT_LIVE_PHOTO && canEnable10BitStill();
+    }
+
+    static String tenBitMutationStatus() {
+        return StaticEvidencePolicy.explain(
+                BuildConfig.ENABLE_10BIT_HEIC,
+                isTargetDevice(),
+                BuildConfig.STATIC_OPLUS_GATE_VERIFIED,
+                BuildConfig.STATIC_HAL_TEN_BIT_PATH_VERIFIED,
+                BuildConfig.STATIC_HEIF_ENCODER_10BIT_VERIFIED,
+                BuildConfig.STATIC_COLOR_METADATA_VERIFIED
+        );
+    }
+
     static String deviceIdentity() {
         return "MODEL=" + Build.MODEL
                 + ", DEVICE=" + Build.DEVICE

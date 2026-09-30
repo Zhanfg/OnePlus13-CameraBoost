@@ -107,7 +107,7 @@ final class VendorTagGateHook {
     }
 
     private static boolean canEnable10BitStill() {
-        return BuildConfig.ENABLE_10BIT_HEIC && FeaturePolicy.isTargetDevice();
+        return FeaturePolicy.canEnable10BitStill();
     }
 
     private static String firstStringArg(Object[] args) {

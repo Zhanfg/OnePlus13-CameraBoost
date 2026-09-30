@@ -41,6 +41,10 @@ jobs:
         with:
           gradle-version: '9.6.0'
 
+      - name: Run unit tests
+        shell: bash
+        run: gradle :android-hook:testDebugUnitTest --stacktrace
+
       - name: Build APKs
         shell: bash
         run: gradle :android-hook:assembleProbe :android-hook:assembleEnable10bit --stacktrace
