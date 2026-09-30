@@ -85,6 +85,19 @@ def cmd_ota_index(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_ota_plan(args: argparse.Namespace) -> int:
+    from .ota_materialize import plan_materialization
+
+    index = json.loads(Path(args.index).read_text(encoding="utf-8"))
+    payload = plan_materialization(index)
+    text = json.dumps(payload, ensure_ascii=False, indent=2)
+    if args.out:
+        Path(args.out).write_text(text + "\n", encoding="utf-8")
+    else:
+        print(text)
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="cameraboost")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -125,6 +138,14 @@ def build_parser() -> argparse.ArgumentParser:
     oi.add_argument("--max-text-bytes", type=int, default=4 * 1024 * 1024)
     oi.add_argument("--max-hash-bytes", type=int, default=8 * 1024 * 1024)
     oi.set_defaults(func=cmd_ota_index)
+
+    op = sub.add_parser(
+        "ota-plan",
+        help="Plan read-only materialization of containers found in an official OTA index",
+    )
+    op.add_argument("index")
+    op.add_argument("--out")
+    op.set_defaults(func=cmd_ota_plan)
 
     return p
 

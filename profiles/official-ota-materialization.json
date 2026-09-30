@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "purpose": "Plan safe materialization of official Android OTA containers for camera-stack research.",
+  "auto_execute": false,
+  "target_partitions": [
+    "vendor",
+    "odm",
+    "system_ext",
+    "product",
+    "system"
+  ],
+  "rules": [
+    "never download external tools automatically",
+    "never flash or modify a connected device",
+    "never mount writable",
+    "never commit proprietary partition images or extracted vendor blobs",
+    "prefer derived path/hash/signal indexes as repository artifacts"
+  ],
+  "tool_roles": {
+    "payload_extractor": {
+      "preferred_examples": [
+        "payload-dumper-go",
+        "payload_dumper.py"
+      ],
+      "role": "materialize partition images from payload.bin",
+      "evidence_role": "tooling only; never treated as source evidence"
+    },
+    "dynamic_partition_unpacker": {
+      "preferred_examples": [
+        "lpunpack (AOSP)"
+      ],
+      "role": "split super.img into logical partition images"
+    },
+    "sparse_converter": {
+      "preferred_examples": [
+        "simg2img (AOSP)"
+      ],
+      "role": "convert Android sparse images to raw images when necessary"
+    },
+    "erofs_extractor": {
+      "preferred_examples": [
+        "fsck.erofs --extract",
+        "extract.erofs"
+      ],
+      "role": "extract EROFS filesystem images read-only"
+    },
+    "ext4_extractor": {
+      "preferred_examples": [
+        "debugfs rdump",
+        "read-only loop mount"
+      ],
+      "role": "extract ext4 filesystem images read-only"
+    }
+  }
+}
