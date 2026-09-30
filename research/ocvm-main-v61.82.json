@@ -302,5 +302,29 @@
     "processing_layer": "Treat FX8U blobs/models as versioned optional deltas against the stock OnePlus 13 processing baseline.",
     "resource_layer": "Replace global max-clock/max-bandwidth properties with mode-aware boosts bounded by thermal and memory pressure.",
     "compatibility_layer": "Pin firmware/config fingerprints and fail closed when the target ABI/config family is unknown."
+  },
+  "stock_baseline_stability": {
+    "baseline_repository": "TheMuppets/proprietary_vendor_oneplus_dodge",
+    "compared_imports": [
+      {
+        "release": "OOS 11.F.89",
+        "commit": "b02c8cecc0dd50f6bef7b11536e409d93ce8c8e9",
+        "date": "2026-05-30"
+      },
+      {
+        "release": "OOS 11.F.93",
+        "commit": "5cdea50164c2c9435e8612da132396877acd8730",
+        "date": "2026-09-01"
+      }
+    ],
+    "identical_git_blobs": {
+      "dodgemain": "91d437921f45a2d6856adac1d06a5c483cdd6f3a",
+      "dodgetele": "c884e5af5ef948545918b3c579408c63ba7adde8",
+      "dodgetele2": "e1ea0192cf7c168fbabaa9bb89012f456a397db8",
+      "dodgeultrawide": "2a8f9f625f6477763353058929f77d470855a12a",
+      "dodgefront": "76485b0ce592c325ee85b8402202d33bcd54a10a",
+      "CameraHWConfiguration": "dcb181c23791675b1c7e85d4076703ad0a39656d"
+    },
+    "conclusion": "The five sensor configs and CameraHWConfiguration used for the OCVM v61.82 delta are byte-identical in the public stock extraction from OOS 11.F.89 through 11.F.93. The observed OCVM differences are therefore not artifacts of those later OTA revisions."
   }
 }

@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "target": "OnePlus 13 / project 23821 / SM8750",
+  "goal": "real 10-bit still photography with a stored 10-bit HEIF/HEIC output path",
+  "status": "not-static-closed",
+  "mutation_ready": false,
+  "policy": "Do not force com.oplus.10bits.heic.encode.support until every required static layer is verified. RAW10, P010, UltraHDR/JPEG_R and an HEIC encoder are individually insufficient.",
+  "layers": [
+    {
+      "id": "platform-ceiling",
+      "status": "confirmed-official",
+      "source_class": "official",
+      "evidence": [
+        "Snapdragon 8 Elite public product material advertises up to 10-bit photo/video capture, 10-bit HEIF/HEIC photo capture and Google Ultra HDR."
+      ],
+      "conclusion": "No SoC-level 8-bit-only ceiling."
+    },
+    {
+      "id": "oplus-build-feature-lineage",
+      "status": "confirmed-official-historical",
+      "source_class": "official",
+      "evidence": [
+        "Historical OnePlusOSS/oppo-source build feature files expose OPLUS_FEATURE_10BIT_HEIF.",
+        "The same feature family includes HEIF converter/optimization and Qualcomm ROI encode integration."
+      ],
+      "conclusion": "OPlus has an official system-level 10-bit HEIF feature lineage; this does not prove the current project-23821 runtime gate is enabled."
+    },
+    {
+      "id": "target-raw10-capture",
+      "status": "confirmed-target-supplemental",
+      "source_class": "public-stock-extraction",
+      "source": "TheMuppets/proprietary_vendor_oneplus_dodge@5cdea50164c2c9435e8612da132396877acd8730 (OOS 11.F.93 extraction)",
+      "evidence": [
+        "camera_unit_config declares capture_raw10_dol in SAT photo, portrait, motion and macro use cases.",
+        "camera_unit_config declares capture_raw10_fullsize in SAT photo use cases.",
+        "Professional/HQRAW paths separately expose RAW16/RAW and multi-frame RAW surfaces."
+      ],
+      "conclusion": "OnePlus 13 shipping camera configuration contains substantial RAW10 acquisition paths. This is not a stored 10-bit HEIF proof."
+    },
+    {
+      "id": "p010-buffer-format",
+      "status": "confirmed-target-common-supplemental",
+      "source_class": "public-stock-extraction",
+      "source": "TheMuppets/proprietary_vendor_oneplus_sm8750-common",
+      "evidence": [
+        "display/formats.json defines YCBCR_P010 with 10-bit Y, Cb and Cr components.",
+        "display/video_alignments.json defines a YCBCR_P010 variant with modifier HW_IMAGE_ENCODER."
+      ],
+      "conclusion": "The shipping SM8750 vendor stack has a concrete 10-bit P010 buffer layout accepted by the hardware image-encoder allocation path."
+    },
+    {
+      "id": "heic-encoder-present",
+      "status": "confirmed-target-common-supplemental",
+      "source_class": "public-stock-extraction",
+      "source": "TheMuppets/proprietary_vendor_oneplus_sm8750-common",
+      "evidence": [
+        "media_codecs_sun.xml declares c2.qti.heic.encoder for image/vnd.android.heic.",
+        "Alias OMX.qcom.video.encoder.heic is declared.",
+        "Declared dimensions are 512x512 through 16384x16384 with CQ quality control.",
+        "The HEIC codec declaration entered the public common extraction by OOS 11.F.74 and has not had a later file-history update in the repository."
+      ],
+      "conclusion": "A shipping Qualcomm HEIC encoder component exists. Its XML block does not state a 10-bit input/output profile."
+    },
+    {
+      "id": "aps-ultrahdr-processing",
+      "status": "confirmed-target-supplemental",
+      "source_class": "public-stock-and-uploaded-module",
+      "evidence": [
+        "OnePlus 13 stock vendor manifest includes libapsultrahdr.",
+        "OCVM main module replaces libapsultrahdr.so.",
+        "Uploaded FX8U processing addon references UltraHDR/JPEG_R processing and P010 paths."
+      ],
+      "conclusion": "UltraHDR/gain-map and high-precision processing surfaces exist, but JPEG_R/UltraHDR is not equivalent to plain 10-bit HEIF."
+    },
+    {
+      "id": "basictone-10bit-processing",
+      "status": "confirmed-target-supplemental",
+      "source_class": "public-stock-extraction",
+      "evidence": [
+        "Stock BasicTone configuration contains Str10bit and Dvig10bit parameters in normal/Master/Dolby tuning."
+      ],
+      "conclusion": "A 10-bit-aware tone/dither processing branch exists upstream of storage."
+    },
+    {
+      "id": "target-hal-public-tenbit-contract",
+      "status": "unresolved",
+      "source_class": "required",
+      "needs": [
+        "CameraCharacteristics REQUEST_AVAILABLE_CAPABILITIES_DYNAMIC_RANGE_TEN_BIT for relevant still camera path",
+        "dynamic-range profile map / recommended ten-bit profile",
+        "P010 or PRIVATE stream support tied to the target camera path rather than only allocator capability"
+      ],
+      "conclusion": "Static vendor files show P010 infrastructure but do not yet prove the complete Android public 10-bit still HAL contract for project 23821."
+    },
+    {
+      "id": "heic-encoder-10bit-negotiation",
+      "status": "unresolved-critical",
+      "source_class": "required",
+      "needs": [
+        "explicit Codec2/OMX input color format or profile accepting P010/Main10 for c2.qti.heic.encoder",
+        "or target userspace evidence that OPlus still encoding feeds P010/10-bit samples to this component"
+      ],
+      "conclusion": "This is the current narrowest encoder-layer gap. Encoder existence is proven; 10-bit HEIC negotiation is not."
+    },
+    {
+      "id": "color-metadata",
+      "status": "unresolved-critical",
+      "source_class": "required",
+      "needs": [
+        "stored-file CICP/ICC primaries",
+        "transfer characteristic and matrix metadata",
+        "HDR metadata path when applicable"
+      ],
+      "conclusion": "A 10-bit sample container without correct color metadata is not a complete color-still implementation."
+    },
+    {
+      "id": "oplus-camera-aps-runtime-gate",
+      "status": "unresolved-critical",
+      "source_class": "required",
+      "candidate_gate": "com.oplus.10bits.heic.encode.support",
+      "evidence_note": "The exact runtime VendorTag is seen in historical/community OPlus camera/vendor material, but no project-23821 official public userspace source has yet verified ownership/value/semantics.",
+      "conclusion": "Keep the Android hook observation-only."
+    },
+    {
+      "id": "stored-file-validation",
+      "status": "deferred-by-project-phase",
+      "source_class": "device-validation-later",
+      "needs": [
+        "bit depth/chroma inspection of actual saved HEIF",
+        "codec/container metadata",
+        "color metadata",
+        "round-trip decode/edit behavior"
+      ],
+      "conclusion": "Intentionally deferred because the current phase is static/public-file research, not device testing."
+    }
+  ],
+  "non_equivalences": [
+    "RAW10 != 10-bit HEIF",
+    "P010 allocator support != target Camera HAL ten-bit still exposure",
+    "HEIC encoder presence != 10-bit HEIC negotiation",
+    "JPEG_R / UltraHDR != plain 10-bit HEIF",
+    "FP32 internal processing != 10-bit stored samples",
+    "ProXDR/display HDR metadata != stored 10-bit HEIF"
+  ],
+  "next_static_targets": [
+    "SM8750 Codec2/OMX vendor implementation or capability descriptors that bind P010/Main10 to c2.qti.heic.encoder",
+    "project-23821 camera HAL metadata / stream configuration for dynamic-range ten-bit output",
+    "project-23821 OPlus Camera/APS config ownership and value of the 10-bit HEIC runtime gate",
+    "still-image CICP/ICC/color metadata handling in OPlus/Qualcomm encode path"
+  ]
+}
