@@ -101,3 +101,30 @@ Keep these separate during all later implementation work:
 - 10-bit HEIF != JPEG_R / Ultra HDR;
 - ProXDR != proof of 10-bit stored samples;
 - P010 support != proof that OPlus' HEIF encoder is configured for 10-bit.
+
+
+## CLI: find the next missing layer
+
+After scanning one or more plaintext official artifacts:
+
+```bash
+python tools/extract_official_camera_features.py \
+  official/oplus_native_features.mk \
+  official/camera_metadata.txt \
+  official/media_codecs.xml \
+  -o official-camera-scan.json
+
+cameraboost color-path official-camera-scan.json
+```
+
+The result is deliberately conservative. For example, finding `HEIC`, P010, Rec.2020
+and the OPlus 10-bit HEIF build symbol still reports `heif-encoder` as the next layer
+until there is explicit official evidence that the selected still encoder path is configured
+for 10-bit output.
+
+The CLI also restores the previously intended compatibility-profile command:
+
+```bash
+cameraboost compat profiles/oneplus13-compatibility.json --summary
+cameraboost compat profiles/oneplus13-compatibility.json --priority P0
+```
