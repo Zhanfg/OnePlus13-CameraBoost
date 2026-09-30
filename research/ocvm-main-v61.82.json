@@ -1,0 +1,306 @@
+{
+  "schema_version": 1,
+  "upstream": {
+    "repository": "ObyeBoss/OP13-OCVM",
+    "commit": "b160412105564844dfab50a30635580962830e50",
+    "version": "61.82",
+    "module_id": "xy1_um8s_op13_ocvm",
+    "target": "OnePlus 13 / OOS16",
+    "license_observation": "No LICENSE file was observed in the repository tree at the pinned commit; treat upstream code/blobs/configs as reference-only unless separate permission/license is established."
+  },
+  "relationship_to_uploaded_addon": {
+    "addon_id": "um8s_op13_ocvm_proc_addon",
+    "intended_main_module_name_in_addon_installer": "um8s_op13_ocvm",
+    "actual_main_module_id": "xy1_um8s_op13_ocvm",
+    "observation": "The addon installer contains a commented dependency check for the older main-module name. The main module and processing addon are architecturally complementary."
+  },
+  "sensor_config_diff_counts": {
+    "dodgemain": {
+      "modified_entries": 153,
+      "stock_entries": 138,
+      "added": 15,
+      "removed": 0,
+      "changed": 22
+    },
+    "dodgetele": {
+      "modified_entries": 127,
+      "stock_entries": 110,
+      "added": 17,
+      "removed": 0,
+      "changed": 26
+    },
+    "dodgetele2": {
+      "modified_entries": 130,
+      "stock_entries": 117,
+      "added": 13,
+      "removed": 0,
+      "changed": 23
+    },
+    "dodgeultrawide": {
+      "modified_entries": 124,
+      "stock_entries": 112,
+      "added": 12,
+      "removed": 0,
+      "changed": 6
+    },
+    "dodgefront": {
+      "modified_entries": 83,
+      "stock_entries": 78,
+      "added": 5,
+      "removed": 0,
+      "changed": 22
+    }
+  },
+  "camera_hw_config_diff": {
+    "modified_sections": 280,
+    "stock_sections": 256,
+    "added_sections": 35,
+    "removed_sections": 11,
+    "changed_sections": 158,
+    "notable_added": [
+      "NeedExposeAllRawSize",
+      "ProMode",
+      "NightMode",
+      "LimitAllocStreamBuffer",
+      "AdjustThreadPriority",
+      "EnablePZSLPreview",
+      "DisableSensorRemosaic",
+      "EnableSonySWRemosaicSupport",
+      "OemEnableRTBSkipSlave",
+      "ResetCamperf"
+    ],
+    "notable_changed": [
+      "CameraIdConfig",
+      "EnableIZoomModeList",
+      "RawSnapshot",
+      "IzoomSnapshot",
+      "InsensorZoom",
+      "ZoomRange",
+      "OemRaw2RawCropMatching",
+      "OemSupportedVSR",
+      "EnableExtraHALbuffers",
+      "DecidePerfLimitFPS_Oplus",
+      "OIS",
+      "EISOverrideNumOfLinkedCameras"
+    ]
+  },
+  "high_value_capability_changes": [
+    {
+      "area": "RAW exposure",
+      "evidence": [
+        "NeedExposeAllRawSize is added for all five logical sensor names.",
+        "RawSnapshot expands the APS feature-type list substantially.",
+        "ProMode and NightMode are added with raw callback type 0 (MIPI RAW)."
+      ],
+      "cameraboost_policy": "candidate for guarded capability exposure; validate Camera2/HAL stream contracts before UI advertisement"
+    },
+    {
+      "area": "HQRAW/TurboRAW",
+      "evidence": [
+        "HQRAW_NIGHT_LUX_DELAY_SWITCH and HQRAW_DRCGAIN_TRRIGGER are added to multiple rear sensors.",
+        "IS_SUPPORT_TURBORAW_FRAMELESS is added across all sensor configs.",
+        "Target APS library separately exposes 23821 hqRawParameters/turbohdrParameters."
+      ],
+      "cameraboost_policy": "high-priority P0 capability map; preserve stock fallback and thermal guardrails"
+    },
+    {
+      "area": "in-sensor zoom / SAT",
+      "evidence": [
+        "Night IZoom routing changes from 4SatR to 3SatR.",
+        "Preview IZoom range is widened from 6x-start to 2x-start.",
+        "Video IZoom gains extra operation modes and camera IDs.",
+        "Video zoom cap moves from 18x to 20x."
+      ],
+      "cameraboost_policy": "use a target slot/routing map; do not infer physical cameras from tele2/utele labels"
+    },
+    {
+      "area": "front TurboHDR",
+      "evidence": [
+        "Front TURBO_HDR_RAW_WIDTH changes 3280 -> 6560.",
+        "Front TURBO_HDR_RAW_HEIGHT changes 2464 -> 4928.",
+        "Front MFNR_SUPPORT changes 1 -> 0."
+      ],
+      "cameraboost_policy": "treat as an experimental branch, not a default; memory/bandwidth and quality regression tests required"
+    },
+    {
+      "area": "VSR / high zoom",
+      "evidence": [
+        "OemSupportedVSR is broadened from selected camera IDs to cameraid=-1.",
+        "Stock OnePlus 13 already contains GAN/highmagsol/Stable-Diffusion-style HybridRAW assets."
+      ],
+      "cameraboost_policy": "separate feature enabling from donor model replacement"
+    }
+  ],
+  "aggressive_quality_changes": [
+    {
+      "area": "HDR/coupleHDR denoise and sharpening",
+      "evidence": "For main-camera HDR/coupleHDR tables, many luminance-denoise, color-denoise and sharpness levels are set to zero versus non-zero stock values.",
+      "risk": "Can restore microdetail but may expose sensor noise, zippering, chroma noise, ringing from other stages, or merge artifacts."
+    },
+    {
+      "area": "AI night zoom profile",
+      "evidence": "Main-camera AI-night zoom parameters set sharpening and denoise to 0 for most 1x-5x points, retaining only a small amount at the terminal 99x bucket.",
+      "risk": "Aesthetic tuning, not a universal correctness fix."
+    },
+    {
+      "area": "Master tele sharpening",
+      "evidence": "dodgetele adds MASTER_MODE_SHARPENING_SIGMA=0 and MASTER_MODE_SHARPENING_KERNEL_SIZE=0.",
+      "risk": "Should be exposed as a detail profile, not hard-coded for every user."
+    }
+  ],
+  "performance_and_thermal_risks": [
+    "system.prop overrides real-time and non-real-time max image buffer counts to 0xffffffff.",
+    "persist props request 0xffffffff CSID/IFE clock and camera NoC/external bandwidth values.",
+    "overrideOPPCLOCK is set to 15 and IFEnumFramesHighBW to 12.",
+    "DecidePerfLimitFPS_Oplus raises capture keep FPS 20 -> 60 and thermal thresholds to 50/47 while targeting 60 FPS.",
+    "Extra HAL buffers are expanded and 0x80C1 is added to the capture mode list.",
+    "These are unsuitable as unconditional CameraBoost defaults; use a mode-aware resource governor instead."
+  ],
+  "selected_sensor_threshold_changes": {
+    "dodgemain": {
+      "REAR_LOWLIGHT_MFNR_ISO": [
+        "64000",
+        "6400"
+      ],
+      "HQRAW_NIGHT_LUX_DELAY_SWITCH": [
+        null,
+        "380, 390"
+      ],
+      "HQRAW_DRCGAIN_TRRIGGER": [
+        null,
+        "3.2"
+      ],
+      "PORTRAIT_TURBO_NIGHT_ENABLE": [
+        "1, 370, 390",
+        "1, 400, 420"
+      ]
+    },
+    "dodgetele": {
+      "REAR_LOWLIGHT_MFNR_ISO": [
+        "100000",
+        "3200"
+      ],
+      "HQRAW_NIGHT_LUX_DELAY_SWITCH": [
+        null,
+        "345, 355"
+      ],
+      "HQRAW_DRCGAIN_TRRIGGER": [
+        null,
+        "2.0"
+      ],
+      "HYBRID_RAW_BASE_RATIO": [
+        "2.7,5.4",
+        "3.0,6.0"
+      ],
+      "MASTER_MODE_SHARPENING_SIGMA": [
+        null,
+        "0"
+      ]
+    },
+    "dodgetele2": {
+      "REAR_LOWLIGHT_MFNR_ISO": [
+        "100000",
+        "3200"
+      ],
+      "HQRAW_NIGHT_LUX_DELAY_SWITCH": [
+        null,
+        "350, 360"
+      ],
+      "HQRAW_DRCGAIN_TRRIGGER": [
+        null,
+        "4.5"
+      ],
+      "HYBRID_RAW_BASE_RATIO": [
+        "2.7,5.4",
+        "6.0,12.0"
+      ],
+      "IZOOM_BINNING_TRIGGER_REGION": [
+        "300, 330",
+        "360, 390"
+      ]
+    },
+    "dodgefront": {
+      "MFNR_SUPPORT": [
+        "1",
+        "0"
+      ],
+      "ASD_REAR_LOWLIGHT_MFNR_ISO": [
+        "51200",
+        "5600"
+      ],
+      "TURBO_HDR_RAW_WIDTH": [
+        "3280",
+        "6560"
+      ],
+      "TURBO_HDR_RAW_HEIGHT": [
+        "2464",
+        "4928"
+      ]
+    }
+  },
+  "main_binary_overrides": [
+    {
+      "path": "/odm/lib64/libAlgoInterface.so",
+      "lfs_sha256": "c96f2358e05c984df51549f3d0a9b9af740ea2f1165758c4cb9e9610761eeb38",
+      "size": 59281168
+    },
+    {
+      "path": "/odm/lib64/libAlgoProcess.so",
+      "lfs_sha256": "9dc48b50f2cfaead729ace72986b4a4be3671f59c392097b3636b3f58596ea34",
+      "size": 6539560
+    },
+    {
+      "path": "/odm/lib64/libBasicTonePhoto.so",
+      "lfs_sha256": "e260080479a9b607e2109f4d869bbf81ff46d4d8881e904f63a09aed628e7c3a",
+      "size": 524656
+    },
+    {
+      "path": "/odm/lib64/libapsjpeg.so",
+      "lfs_sha256": "9c342e679998ea58f41cb2290442d3b05b7f9d19edbfa6338c46cc65b61f9603",
+      "size": 365064
+    },
+    {
+      "path": "/odm/lib64/libapsultrahdr.so",
+      "lfs_sha256": "26cf4d3a2552efd9862ac21a034ac188ab1d1c287cd6227229f60b0e75a1ee42",
+      "size": 450672
+    },
+    {
+      "path": "/odm/lib64/libarcsoft_turbo_fusion_raw_super_night.so",
+      "lfs_sha256": "661ffdcdf79b97386397b12717c0d9488c4214be7ffe20707a829d665f40d853",
+      "size": 106779776
+    },
+    {
+      "path": "/odm/lib64/libarcsoft_turbo_hdr_raw.so",
+      "lfs_sha256": "42e19d9efaaf8b804f372d2e33ce56e3f4f8b760396ab66dce99743d61157360",
+      "size": 133909896
+    },
+    {
+      "path": "/odm/lib64/libhybridraw_tuningparams.so",
+      "lfs_sha256": "e8055a57f3233d4567bca1ea90f9d9a68adf91ae11e226e7d36aea02787ed05c",
+      "size": 250832
+    },
+    {
+      "path": "/vendor/lib64/hw/camera.qcom.so",
+      "lfs_sha256": "64366f672348c9db2364d3bb9e9ccd50f82ea60590a8c24691979a65970a3454",
+      "size": 10293936
+    },
+    {
+      "path": "/vendor/lib64/hw/com.qti.chi.override.so",
+      "lfs_sha256": "4dfe697681540df24e19979131b3ca338116e29279d8c96c3f031384dec0e888",
+      "size": 7310280
+    }
+  ],
+  "upstream_reported_known_bugs": [
+    "ultrawide-to-main camera switching in photo modes can hang the camera",
+    "portrait preview can be laggy",
+    "processing addon can show merge bleed when sun hits the camera at an angle",
+    "processing addon reports zoom above 10x may fail to save the final image"
+  ],
+  "cameraboost_architecture_decision": {
+    "capability_layer": "Import only evidence-backed feature gates, stream/RAW exposure and target-specific decision mapping.",
+    "quality_layer": "Represent denoise/sharpen/tone changes as selectable profiles with conservative defaults, never a single hard-coded zero-everything policy.",
+    "processing_layer": "Treat FX8U blobs/models as versioned optional deltas against the stock OnePlus 13 processing baseline.",
+    "resource_layer": "Replace global max-clock/max-bandwidth properties with mode-aware boosts bounded by thermal and memory pressure.",
+    "compatibility_layer": "Pin firmware/config fingerprints and fail closed when the target ABI/config family is unknown."
+  }
+}
