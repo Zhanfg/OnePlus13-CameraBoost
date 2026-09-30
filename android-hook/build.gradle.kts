@@ -10,8 +10,15 @@ android {
         applicationId = "dev.cameraboost.oplus10bit"
         minSdk = 30
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 2
+        versionName = "0.1.1"
+
+        // Static evidence gates. These remain false until the corresponding
+        // OnePlus 13 path is proven from official/target artifacts.
+        buildConfigField("boolean", "STATIC_OPLUS_GATE_VERIFIED", "false")
+        buildConfigField("boolean", "STATIC_HAL_TEN_BIT_PATH_VERIFIED", "false")
+        buildConfigField("boolean", "STATIC_HEIF_ENCODER_10BIT_VERIFIED", "false")
+        buildConfigField("boolean", "STATIC_COLOR_METADATA_VERIFIED", "false")
     }
 
     buildFeatures {
@@ -61,4 +68,5 @@ android {
 
 dependencies {
     compileOnly("de.robv.android.xposed:api:82")
+    testImplementation("junit:junit:4.13.2")
 }
