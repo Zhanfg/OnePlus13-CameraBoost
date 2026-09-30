@@ -116,5 +116,116 @@
     "Separate Core Processing, AI-SR and donor-only asset packs.",
     "Map the observed P010/UltraHDR/JPEG_R paths into the existing P0 color-still workstream.",
     "Do not redistribute donor blobs in the public repository."
-  ]
+  ],
+  "runtime_reference_closure": {
+    "interpretation": "The shipped orchestration/decision libraries contain runtime path references to additional algorithms/configs/models that are not packaged in this addon. These are lookup surfaces, not proof that every file is mandatory in every mode.",
+    "confirmed_referenced_not_packaged": [
+      {
+        "path": "/odm/lib64/libVDUpScale.so",
+        "referenced_by": [
+          "libAlgoInterface.so"
+        ],
+        "role": "upscale plugin candidate"
+      },
+      {
+        "path": "/odm/lib64/libapsultrahdr.so",
+        "referenced_by": [
+          "libAlgoProcess.so"
+        ],
+        "role": "UltraHDR/JPEG_R plugin candidate"
+      },
+      {
+        "path": "/odm/lib64/libSuperRaw.so",
+        "referenced_by": [
+          "libAlgoInterface.so"
+        ],
+        "role": "Super RAW plugin candidate"
+      },
+      {
+        "path": "/odm/lib64/libSuperSensor.so",
+        "referenced_by": [
+          "libAlgoInterface.so"
+        ],
+        "role": "super-sensor plugin candidate"
+      },
+      {
+        "path": "/odm/lib64/libarcsoft_quad_super_resolution_raw.so",
+        "referenced_by": [
+          "libAlgoInterface.so"
+        ],
+        "role": "RAW super-resolution plugin candidate"
+      },
+      {
+        "path": "/odm/lib64/libarcsoft_turbo_hdr_grf.so",
+        "referenced_by": [
+          "libAlgoProcess.so"
+        ],
+        "role": "TurboHDR plugin candidate"
+      },
+      {
+        "path": "/odm/lib64/libarcsoft_turbo_raw.so",
+        "referenced_by": [
+          "libAlgoInterface.so"
+        ],
+        "role": "TurboRAW plugin candidate"
+      },
+      {
+        "path": "/odm/lib64/libOplusSecurity.so",
+        "referenced_by": [
+          "libAlgoProcess.so"
+        ],
+        "role": "OPlus security/decryption helper candidate"
+      },
+      {
+        "path": "/odm/etc/camera/simpleunet_4_3.dlc",
+        "referenced_by": [
+          "libAlgoInterface.so"
+        ],
+        "role": "camera ML model candidate"
+      },
+      {
+        "path": "/odm/etc/camera/config/oplus_camera_algo_traversal_config.json",
+        "referenced_by": [
+          "libAlgoInterface.so"
+        ],
+        "role": "algorithm traversal config"
+      },
+      {
+        "path": "/odm/etc/camera/config/oplus_camera_preview_decision_config.json",
+        "referenced_by": [
+          "libAlgoInterface.so"
+        ],
+        "role": "preview decision config"
+      },
+      {
+        "path": "/odm/etc/camera/dehaze_tuning.txt",
+        "referenced_by": [
+          "libAlgoInterface.so"
+        ],
+        "role": "dehaze tuning"
+      },
+      {
+        "path": "highmagsol_20x.bin",
+        "referenced_by": [
+          "libhybridraw_tuningparams.so"
+        ],
+        "role": "high-magnification SR model"
+      },
+      {
+        "path": "highmagsol_40x.bin",
+        "referenced_by": [
+          "libhybridraw_tuningparams.so"
+        ],
+        "role": "high-magnification SR model"
+      },
+      {
+        "path": "highmagsol_80x.bin",
+        "referenced_by": [
+          "libhybridraw_tuningparams.so"
+        ],
+        "role": "high-magnification SR model"
+      }
+    ],
+    "architecture_conclusion": "The addon is best understood as a target-adapted APS orchestration/processing overlay plus selected donor libraries/models. It still expects a broader stock/main-module algorithm universe at runtime; therefore slimming and standalone repackaging require both ELF and runtime-path dependency closure."
+  }
 }

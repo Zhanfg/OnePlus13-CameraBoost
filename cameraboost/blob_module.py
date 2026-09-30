@@ -1,11 +1,10 @@
 from __future__ import annotations
 
 import hashlib
-import io
-import json
+import os
 import re
 import zipfile
-from collections import Counter, defaultdict
+from collections import defaultdict
 from pathlib import PurePosixPath
 from typing import Any
 
@@ -19,6 +18,20 @@ STABLE_DIFFUSION_CORE = {
 
 TELE2_RE = re.compile(r"(?:tele2|(?:^|_)6x(?:_|$))", re.IGNORECASE)
 ULTRATELE_RE = re.compile(r"ultra.?tele", re.IGNORECASE)
+ASCII_STRING_RE = re.compile(rb"[ -~]{6,}")
+ABS_RUNTIME_REF_RE = re.compile(
+    r"^/(?:odm|vendor|system(?:_ext)?|product)/.+",
+    re.IGNORECASE,
+)
+REL_MODEL_REF_RE = re.compile(
+    r"^(?:highmagsol_\d+x|gan_enhancer_\d+x(?:_sd)?)\.bin$",
+    re.IGNORECASE,
+)
+RUNTIME_FILE_SUFFIXES = {
+    ".so", ".json", ".bin", ".bix", ".dlc", ".txt", ".xml", ".ini",
+    ".cfg", ".conf", ".model", ".data", ".license", ".png", ".bmp",
+    ".vcfg", ".tflite", ".onnx",
+}
 
 TEXT_SUFFIXES = {".json", ".ini", ".sh", ".prop", ".txt", ".xml", ".cfg", ".conf"}
 
@@ -72,6 +85,86 @@ def _bucket(filename: str) -> str:
     if filename.startswith("common/"):
         return "installer_common"
     return "other"
+
+
+def _runtime_reference_candidates(data: bytes) -> set[str]:
+    refs: set[str] = set()
+
+    for match in ASCII_STRING_RE.finditer(data):
+        text = match.group(0).decode("ascii", "ignore").strip()
+        if not text or len(text) > 512:
+            continue
+
+        # Search-path strings often contain semicolon-delimited alternatives.
+        for candidate in text.split(";"):
+            candidate = candidate.strip().rstrip("),:;")
+            if not candidate or "%" in candidate:
+                continue
+
+            if REL_MODEL_REF_RE.match(candidate):
+                refs.add(candidate)
+                continue
+
+            if not ABS_RUNTIME_REF_RE.match(candidate):
+                continue
+
+            suffix = PurePosixPath(candidate).suffix.lower()
+            basename = PurePosixPath(candidate).name
+            if suffix in RUNTIME_FILE_SUFFIXES:
+                refs.add(candidate)
+            elif "/config/" in candidate.lower() and basename:
+                refs.add(candidate)
+
+    return refs
+
+
+def _runtime_reference_closure(zf: zipfile.ZipFile, infos: list[zipfile.ZipInfo]) -> dict[str, Any]:
+    packaged = {info.filename for info in infos}
+    by_ref: dict[str, set[str]] = defaultdict(set)
+
+    for info in infos:
+        if not info.filename.endswith(".so"):
+            continue
+        # The addon contains reasonably sized camera libraries. Avoid scanning
+        # unexpectedly giant binary payloads in a generic module.
+        if info.file_size > 128 * 1024 * 1024:
+            continue
+
+        data = zf.read(info)
+        for ref in _runtime_reference_candidates(data):
+            by_ref[ref].add(PurePosixPath(info.filename).name)
+
+    rows: list[dict[str, Any]] = []
+    for ref, libraries in sorted(by_ref.items()):
+        if ref.startswith("/"):
+            packaged_path = ref.lstrip("/")
+            present = packaged_path in packaged
+        else:
+            # Relative model references are resolved by basename search because
+            # tuning libraries may omit the directory.
+            matches = [name for name in packaged if PurePosixPath(name).name == ref]
+            present = bool(matches)
+            packaged_path = matches[0] if matches else None
+
+        rows.append({
+            "reference": ref,
+            "packaged": present,
+            "packaged_path": packaged_path,
+            "referenced_by": sorted(libraries),
+        })
+
+    missing = [row for row in rows if not row["packaged"]]
+    return {
+        "scanned_shared_libraries": sum(1 for i in infos if i.filename.endswith(".so")),
+        "references": rows,
+        "referenced_not_packaged": missing,
+        "referenced_not_packaged_count": len(missing),
+        "warning": (
+            "A binary string reference is evidence of a runtime/plugin/config lookup surface, "
+            "not proof that the referenced file is mandatory for every camera mode. "
+            "Resolve feature-selection paths before treating a missing reference as a hard dependency."
+        ),
+    }
 
 
 def analyze_zip(path: str) -> dict[str, Any]:
@@ -132,7 +225,7 @@ def analyze_zip(path: str) -> dict[str, Any]:
             "archive": {
                 "sha256": sha.hexdigest(),
                 "entries": len(infos),
-                "archive_bytes": __import__("os").path.getsize(path),
+                "archive_bytes": os.path.getsize(path),
                 "compressed_payload_bytes": total_compressed,
                 "uncompressed_bytes": total_uncompressed,
             },
@@ -148,6 +241,7 @@ def analyze_zip(path: str) -> dict[str, Any]:
             ],
             "text_signal_files": {k: sorted(v) for k, v in sorted(text_hits.items())},
             "intended_main_module_dependency": dependency_line,
+            "runtime_reference_closure": _runtime_reference_closure(zf, infos),
             "candidate_prune": {
                 "buckets": sorted(candidate_prune),
                 "uncompressed_bytes": prune_uncompressed,
