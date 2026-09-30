@@ -60,3 +60,9 @@ def test_cli_registers_ota_plan():
     parser = build_parser()
     args = parser.parse_args(["ota-plan", "ota-index.json"])
     assert args.cmd == "ota-plan"
+
+
+def test_cli_registers_blob_audit():
+    parser = build_parser()
+    args = parser.parse_args(["blob-audit", "camera-module.zip"])
+    assert args.cmd == "blob-audit"

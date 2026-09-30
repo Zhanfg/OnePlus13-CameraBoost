@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "source_artifact": {
+    "name": "FX8U Camera Processing For OP13_v3.97.zip",
+    "sha256": "6e6a733544261537af6c6ad2f2e2a1a32f41417129ff719c8b7ef93d39e11068",
+    "archive_bytes": 1134299354,
+    "entries": 379,
+    "uncompressed_bytes": 1767221509,
+    "module_id": "um8s_op13_ocvm_proc_addon",
+    "module_name": "FX8U Camera Processing For OP13",
+    "version": "3.97",
+    "author": "UltraM8",
+    "description": "Find x8 ultra camera processing blobs port for OnePlus13."
+  },
+  "source_handling": "Derived observations only. The proprietary ZIP, libraries, models and full configs are not committed.",
+  "architecture": {
+    "overlay_partition": "/odm",
+    "partover": true,
+    "shipped_shared_libraries": 28,
+    "external_vendor_qti_oplus_dependencies": 24,
+    "intended_main_module": "um8s_op13_ocvm",
+    "main_module_dependency_check_enforced": false,
+    "note": "common/install.sh contains an intended dependency abort on um8s_op13_ocvm, but the line is commented out in v3.97."
+  },
+  "target_adaptation_evidence": [
+    "video_ltm.json and video_ltm_ctrl.json are keyed by project 23821.",
+    "libAlgoInterface.so exports ApsPreviewDecision23821 and capture-decision classes for rear/front normal and bokeh modes.",
+    "ApsPreviewDecision23821 exposes HQ RAW, TurboHDR, HDR, night, sensor-mode and quick-shot decision functions.",
+    "oppseg.json declares product 8750, QCOM and QNN 2.25.17.241017.",
+    "selfbokehParam.json declares product 8750, ODNN_QNN and APS_API_VERSION 6.0."
+  ],
+  "feature_surface_observed": [
+    "HybridRAW / TurboHDR",
+    "HQ RAW decision path",
+    "UltraHDR/JPEG_R source-codec path",
+    "P010 and UBWCTP10 data paths",
+    "HEIC stream intents",
+    "BasicTone with separate 10-bit/8-bit vignette and dither parameters",
+    "Video AI NR including Dolby-specific configuration",
+    "Video LTM",
+    "HDR transform",
+    "portrait/bokeh segmentation and depth",
+    "super-resolution/upscale including P010 paths",
+    "high-zoom AI super-resolution"
+  ],
+  "package_size_breakdown_mib": {
+    "hybridraw_models": 1370.92,
+    "stable_diffusion_sr_core": 735.05,
+    "basictone": 52.35,
+    "aigc": 52.32,
+    "segmentation": 37.83,
+    "selfbokeh_model": 28.71,
+    "aiae_video_models": 21.34,
+    "tele2_6x_specific_hybridraw": 53.89
+  },
+  "stable_diffusion_sr": {
+    "model_files": [
+      "unet.bix",
+      "vae_encoder.bix",
+      "vae_encoder_vertical.bix",
+      "vae_decoder.bix",
+      "vae_decoder_vertical.bix"
+    ],
+    "uncompressed_mib": 735.05,
+    "compressed_mib": 475.69,
+    "binary_evidence": [
+      "libOPAlgoCamHybridRaw.so contains source paths under stage2_postproc/stableDiffusionSR.",
+      "Observed components include Unet, VaeEncoder, VaeDecoder, Sampler and PostSRNet.",
+      "libhybridraw_tuningparams.so references the five model files."
+    ],
+    "conclusion": "This is a distinct high-super-resolution branch and is not evidence of a requirement for baseline 10-bit/HDR capture."
+  },
+  "donor_only_or_mismatched_assets": {
+    "evidence": [
+      "vainr_cfg.json and dolby_vainr_cfg.json define main/uwide/tele/front/utele with camera IDs 0..4.",
+      "video_ltm.json and video_ltm_ctrl.json include Camera0..Camera4.",
+      "HybridRAW includes PhotoTele2/Tele2 6x classes and model paths.",
+      "AIAE_Models contains AIAEVideoModelUltraTele.bin.",
+      "basictone includes VigTab_UTele."
+    ],
+    "oneplus13_default_policy": "Disable or exclude tele2/6x/UltraTele assets until an explicit mapping exists. OnePlus 13 official specs expose one 3x telephoto, not a second 6x telephoto.",
+    "keep_spectral_assets_pending_mapping": true,
+    "spectral_note": "Do not remove spectral/color-sensor assets solely because they came from the donor; OnePlus 13 official specs list spectral sensors."
+  },
+  "size_reduction_candidate": {
+    "remove_or_externalize": [
+      "stable_diffusion_sr_core",
+      "tele2_6x_specific",
+      "UltraTele video model"
+    ],
+    "candidate_uncompressed_mib": 794.28,
+    "candidate_compressed_mib": 514.03,
+    "estimated_remaining_compressed_payload_mib": 567.65,
+    "warning": "Estimate assumes the same per-file ZIP compression. Runtime dependency closure must be proven before building a slim package."
+  },
+  "critical_external_dependencies": [
+    "libapsjpeg.so",
+    "libapsexif.so",
+    "libexif-jpeg-aps.so",
+    "libmpbase.so",
+    "libsharebuffer.so",
+    "libtrace.so",
+    "vendor.qti.hardware.camera.offlinecamera-V2-ndk.so",
+    "libcamxcommonutils.so",
+    "libcom.qti.chinodeutils.so",
+    "libextensionlayer.so",
+    "libhwconfigurationutil.so",
+    "libcdsprpc.so",
+    "libOpenCL.so",
+    "libosenseaidlhalclient.so",
+    "vendor.oplus.hardware.osense.client-V1-ndk.so"
+  ],
+  "next_steps": [
+    "Obtain or inventory the matching main module um8s_op13_ocvm to close the dynamic dependency graph.",
+    "Build a target-lens map that rejects camera_id 4 / tele2 / utele on OnePlus 13.",
+    "Separate Core Processing, AI-SR and donor-only asset packs.",
+    "Map the observed P010/UltraHDR/JPEG_R paths into the existing P0 color-still workstream.",
+    "Do not redistribute donor blobs in the public repository."
+  ]
+}

@@ -1,0 +1,187 @@
+# FX8U Camera Processing For OP13 v3.97 — derived static analysis
+
+Source artifact SHA-256:
+
+`6e6a733544261537af6c6ad2f2e2a1a32f41417129ff719c8b7ef93d39e11068`
+
+This document contains **derived observations only**. The proprietary module ZIP, shared
+libraries, ML models and full camera configuration files are not stored in this repository.
+
+## What the module actually is
+
+The module declares itself as:
+
+- id: `um8s_op13_ocvm_proc_addon`
+- name: `FX8U Camera Processing For OP13`
+- version: `3.97`
+- author: `UltraM8`
+- description: `Find x8 ultra camera processing blobs port for OnePlus13.`
+
+Its payload overlays `/odm` and is overwhelmingly camera-processing libraries, configs
+and ML models. It is not primarily a Camera APK replacement.
+
+## Strong OnePlus 13 target adaptation evidence
+
+The package is not a blind donor dump.
+
+- video LTM configuration is keyed by project `23821`;
+- `libAlgoInterface.so` contains `ApsPreviewDecision23821` and target capture-decision
+  classes for rear/front normal and bokeh modes;
+- the target preview decision surface includes HQ RAW, TurboHDR, HDR, night,
+  sensor-mode and quick-shot decision methods;
+- segmentation configuration declares product `8750`, vendor `QCOM` and QNN;
+- bokeh configuration also declares product `8750` with QNN/APS API 6.0.
+
+This means the package mixes **OnePlus-13-specific APS decisions/runtime adaptation** with
+**Find X8 Ultra donor algorithms/models**.
+
+The library also contains decision code for other project IDs, so the safest description
+is a multi-project APS library with explicit 23821 support rather than a library compiled
+only for OnePlus 13.
+
+## 10-bit / HDR / HEIC relevance
+
+The uploaded binaries expose concrete pipeline signals:
+
+- `P010` and `UBWCTP10` buffers in video LTM / AI-NR nodes;
+- `ChiStreamIntentHeic` / HEIC buffers;
+- UltraHDR / JPEG_R source-codec functions in `libAlgoInterface.so`;
+- P010-specific upscale entry points;
+- BasicTone parameters with separate 10-bit and 8-bit vignette/dither strengths;
+- Dolby-specific video AI-NR configuration.
+
+These observations are highly relevant to CameraBoost's existing 10-bit color workstream,
+but they are not by themselves proof that stock OnePlus 13 enables 10-bit HEIF still
+encoding.
+
+## HybridRAW is the center of gravity
+
+The archive expands to about **1.65 GiB**. The `hybridraw_models` directory alone is
+about **1.34 GiB**.
+
+HybridRAW includes:
+
+- multi-frame main / ultrawide / telephoto paths;
+- motion-mask and AI fusion;
+- dehaze and scene/sky/person segmentation;
+- AITM tone mapping;
+- JDD enhancement;
+- high-zoom super-resolution;
+- Stable-Diffusion-style super-resolution.
+
+### Stable-Diffusion SR is real, not inferred
+
+`libOPAlgoCamHybridRaw.so` contains source-path strings under:
+
+`stage2_postproc/stableDiffusionSR`
+
+including components named:
+
+- `Unet`
+- `VaeEncoder`
+- `VaeDecoder`
+- `Sampler`
+- `PostSRNet`
+
+The tuning library references:
+
+- `unet.bix`
+- `vae_encoder.bix`
+- `vae_encoder_vertical.bix`
+- `vae_decoder.bix`
+- `vae_decoder_vertical.bix`
+
+Those five assets consume about **735 MiB uncompressed / 476 MiB compressed**.
+
+Therefore they should be treated as an optional high-super-resolution capability pack,
+not automatically as a baseline dependency for 10-bit/HDR photography.
+
+## X8 Ultra donor contamination that must not be auto-enabled
+
+The package still retains a five-camera donor model:
+
+- `main`
+- `front`
+- `uwide`
+- `tele`
+- `utele` (camera ID 4)
+
+It also contains explicit `Tele2` / 6x HybridRAW classes and models, plus an
+`AIAEVideoModelUltraTele.bin` asset.
+
+OPPO's official Find X8 Ultra specification exposes both 3x and 6x telephoto cameras,
+whereas OnePlus 13 officially exposes a single 3x LYT-600 telephoto. Therefore the
+`tele2 / 6x / utele / Camera4` branch must default to **blocked** on OnePlus 13.
+
+Do **not** broadly delete every color/spectral asset: OnePlus 13 official specifications
+also list spectral sensors. Exact calibration compatibility still needs mapping.
+
+## Size architecture
+
+A practical packaging direction is:
+
+### Core Processing
+
+Keep the target APS decision layer and the normal main/ultrawide/3x/front processing
+families:
+
+- AlgoInterface / AlgoProcess;
+- HybridRAW core;
+- HDR transform / TurboHDR surface;
+- BasicTone;
+- Video AI-NR / VideoLTM;
+- segmentation/bokeh dependencies;
+- main / ultrawide / tele1 / front model families.
+
+### Optional AI-SR pack
+
+Move the Stable-Diffusion SR family and high-magnification generative enhancement into a
+separate optional pack after the runtime dependency graph is confirmed.
+
+### X8 Ultra-only pack
+
+Do not load by default:
+
+- Tele2 / 6x-specific HybridRAW models;
+- Camera4 / utele-only configuration;
+- UltraTele video model.
+
+Just externalizing the five Stable-Diffusion SR core files plus obvious Tele2/UltraTele
+assets removes roughly **514 MiB of compressed payload**, leaving an estimated **568 MiB**
+before further dependency-aware slimming.
+
+## It is not standalone
+
+The addon ships 28 shared libraries but has numerous external QTI/OPlus/APS dependencies,
+including:
+
+- `libapsjpeg.so`
+- `libapsexif.so`
+- `libexif-jpeg-aps.so`
+- `libmpbase.so`
+- `libsharebuffer.so`
+- `libtrace.so`
+- QTI offline-camera AIDL
+- CamX node utilities
+- OPlus osense client libraries
+- OpenCL / CDSP RPC
+
+The installer source contains an intended check for a main module named
+`um8s_op13_ocvm`, but that line is commented out in v3.97. Thus the package *states* an
+architectural dependency while not actually enforcing it during installation.
+
+Before deriving a standalone CameraBoost package, the matching main module or the stock
+OnePlus 13 userspace must be inventoried to close this dynamic dependency graph.
+
+## Next engineering step
+
+Do not copy this module wholesale.
+
+The next implementation should:
+
+1. ingest/analyze the matching `um8s_op13_ocvm` main module if available;
+2. construct a OnePlus 13 lens map and block camera ID 4 / Tele2 / utele;
+3. split Core / AI-SR / donor-only assets;
+4. map the observed P010 / UltraHDR / JPEG_R / HEIC surfaces into CameraBoost's existing
+   color-still capability graph;
+5. keep all proprietary blobs outside the public repository.

@@ -98,6 +98,18 @@ def cmd_ota_plan(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_blob_audit(args: argparse.Namespace) -> int:
+    from .blob_module import analyze_zip
+
+    payload = analyze_zip(str(args.zip))
+    text = json.dumps(payload, ensure_ascii=False, indent=2)
+    if args.out:
+        Path(args.out).write_text(text + "\n", encoding="utf-8")
+    else:
+        print(text)
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="cameraboost")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -146,6 +158,14 @@ def build_parser() -> argparse.ArgumentParser:
     op.add_argument("index")
     op.add_argument("--out")
     op.set_defaults(func=cmd_ota_plan)
+
+    ba = sub.add_parser(
+        "blob-audit",
+        help="Create a derived audit of an OPlus camera blob module ZIP without redistributing payloads",
+    )
+    ba.add_argument("zip", type=Path)
+    ba.add_argument("--out")
+    ba.set_defaults(func=cmd_blob_audit)
 
     return p
 
