@@ -66,3 +66,16 @@ def test_cli_registers_blob_audit():
     parser = build_parser()
     args = parser.parse_args(["blob-audit", "camera-module.zip"])
     assert args.cmd == "blob-audit"
+
+
+def test_cli_registers_config_diff():
+    parser = build_parser()
+    args = parser.parse_args([
+        "config-diff",
+        "ocvm.config",
+        "stock.config",
+        "--summary",
+    ])
+    assert args.cmd == "config-diff"
+    assert args.kind == "auto"
+    assert args.summary is True

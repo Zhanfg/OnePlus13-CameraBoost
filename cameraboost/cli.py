@@ -110,6 +110,23 @@ def cmd_blob_audit(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_config_diff(args: argparse.Namespace) -> int:
+    from .oplus_config import auto_diff, summarize_diff
+
+    left = Path(args.left).read_text(encoding="utf-8", errors="replace")
+    right = Path(args.right).read_text(encoding="utf-8", errors="replace")
+    payload = auto_diff(left, right, kind=args.kind)
+    if args.summary:
+        payload = summarize_diff(payload)
+
+    text = json.dumps(payload, ensure_ascii=False, indent=2)
+    if args.out:
+        Path(args.out).write_text(text + "\n", encoding="utf-8")
+    else:
+        print(text)
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(prog="cameraboost")
     sub = p.add_subparsers(dest="cmd", required=True)
@@ -166,6 +183,17 @@ def build_parser() -> argparse.ArgumentParser:
     ba.add_argument("zip", type=Path)
     ba.add_argument("--out")
     ba.set_defaults(func=cmd_blob_audit)
+
+    cd = sub.add_parser(
+        "config-diff",
+        help="Diff OPlus Key/VendorTag pseudo-JSON or section-based camera configs",
+    )
+    cd.add_argument("left", help="Modified/target config")
+    cd.add_argument("right", help="Baseline/reference config")
+    cd.add_argument("--kind", choices=("auto", "keyed", "sections"), default="auto")
+    cd.add_argument("--summary", action="store_true")
+    cd.add_argument("--out")
+    cd.set_defaults(func=cmd_config_diff)
 
     return p
 
