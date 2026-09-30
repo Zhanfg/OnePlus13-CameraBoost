@@ -54,3 +54,9 @@ def test_cli_registers_ota_index():
     parser = build_parser()
     args = parser.parse_args(["ota-index", "official.zip"])
     assert args.cmd == "ota-index"
+
+
+def test_cli_registers_ota_plan():
+    parser = build_parser()
+    args = parser.parse_args(["ota-plan", "ota-index.json"])
+    assert args.cmd == "ota-plan"
