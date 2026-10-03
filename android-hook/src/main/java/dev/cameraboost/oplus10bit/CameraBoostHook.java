@@ -21,14 +21,24 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
         }
 
         log("loaded " + TARGET_PACKAGE + "; " + FeaturePolicy.deviceIdentity());
-        log("variant: 10bitHEIC=" + BuildConfig.ENABLE_10BIT_HEIC
+        log("variant: colorOS17Compat=" + BuildConfig.ENABLE_COLOROS17_COMPAT
+                + ", 10bitHEIC=" + BuildConfig.ENABLE_10BIT_HEIC
                 + ", 10bitLivePhoto=" + BuildConfig.ENABLE_10BIT_LIVE_PHOTO);
 
         if (!FeaturePolicy.isTargetDevice()) {
             log("device guard rejected this device; hook will stay observation-only");
         }
 
-        VendorTagGateHook.install(lpparam.classLoader);
+        OplusCapabilityResolver resolver =
+                OplusCapabilityResolver.probe(lpparam.classLoader);
+        log("runtime capabilities: " + resolver.describe());
+
+        VendorTagGateHook.install(lpparam.classLoader, resolver);
+
+        if (BuildConfig.ENABLE_COLOROS17_COMPAT && FeaturePolicy.isTargetDevice()) {
+            ColorOs17CompatHook.install(lpparam.classLoader, resolver);
+        }
+
         installConfigDocumentHook(lpparam.classLoader);
     }
 
@@ -101,6 +111,6 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
     }
 
     private static void log(String message) {
-        XposedBridge.log("CameraBoost10Bit: " + message);
+        XposedBridge.log("CameraBoostCompat17: " + message);
     }
 }
