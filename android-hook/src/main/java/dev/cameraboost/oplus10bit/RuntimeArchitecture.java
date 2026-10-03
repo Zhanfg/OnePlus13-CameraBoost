@@ -61,6 +61,12 @@ final class RuntimeArchitecture {
                 "com.oplus.camera.feature.livephoto.io.LivePhotoSavedParams"
         ) || classExists(
                 loader,
+                "com.oplus.camera.feature.video.livephoto.data.VideoSavedParams"
+        ) || classExists(
+                loader,
+                "com.oplus.camera.feature.livephoto.event.HandleEventMessage"
+        ) || classExists(
+                loader,
                 "com.oplus.ocs.camera.CameraPictureCallback$CameraPictureImage"
         );
 
