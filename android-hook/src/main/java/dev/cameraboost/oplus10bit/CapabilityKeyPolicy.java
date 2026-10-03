@@ -116,7 +116,6 @@ final class CapabilityKeyPolicy {
             "com.ocs.camera.ipu.soft.light.photo.mode.support",
             "com.ocs.camera.ipu.soft.light.night.mode.support",
             "com.ocs.camera.ipu.soft.light.professional.mode.support",
-            "com.ocs.camera.ipu.meishe.filter.support",
             "com.ocs.camera.ipu.meishe.filter.support"
     ));
 
@@ -272,6 +271,7 @@ final class CapabilityKeyPolicy {
         if (key.contains("livephoto") || key.contains("live_photo")) {
             return runtime.livePhotoPipeline && (
                     EXPLICIT_TRUE.contains(key)
+                            || MODERN_FEATURE_IDS.contains(key)
                             || key.endsWith(".support")
                             || key.endsWith(".enable")
                             || key.endsWith(".default.open")
