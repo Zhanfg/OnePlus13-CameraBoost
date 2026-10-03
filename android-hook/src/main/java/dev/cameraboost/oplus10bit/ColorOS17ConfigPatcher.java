@@ -28,6 +28,13 @@ final class ColorOS17ConfigPatcher {
 
     private ColorOS17ConfigPatcher() {}
 
+    private static boolean isBooleanLikeType(String type) {
+        return "Byte".equalsIgnoreCase(type)
+                || "Int32".equalsIgnoreCase(type)
+                || "Int".equalsIgnoreCase(type)
+                || "Boolean".equalsIgnoreCase(type);
+    }
+
     static Result patch(String original, OplusCapabilityResolver resolver) {
         if (original == null || original.trim().isEmpty()) {
             return new Result(false, false, 0, 0, original, "empty config");
@@ -63,7 +70,21 @@ final class ColorOS17ConfigPatcher {
                 OplusFeatureGateRegistry.markHostAdvertised(key);
 
                 OplusFeatureGateRegistry.GateSpec spec = OplusFeatureGateRegistry.get(key);
-                if (spec == null || !OplusFeatureGateRegistry.shouldForce(key, resolver)) {
+                if (spec == null) {
+                    if (BuildConfig.ENABLE_EXPERIMENTAL_ALL
+                            && resolver.shouldForceBoolean(key)
+                            && isBooleanLikeType(row.optString("Type", ""))) {
+                        String before = row.optString("Value", "");
+                        if (!"1".equals(before)) {
+                            row.put("Value", "1");
+                            if (row.has("DefaultValue")) row.put("DefaultValue", "1");
+                            changed = true;
+                            enabledExisting++;
+                        }
+                    }
+                    continue;
+                }
+                if (!OplusFeatureGateRegistry.shouldForce(key, resolver)) {
                     continue;
                 }
 
@@ -95,6 +116,23 @@ final class ColorOS17ConfigPatcher {
                 existing.add(spec.key);
                 synthesized++;
                 changed = true;
+            }
+
+            if (BuildConfig.ENABLE_EXPERIMENTAL_ALL) {
+                for (String key : resolver.experimentalSynthesizableGates()) {
+                    if (existing.contains(key) || OplusFeatureGateRegistry.knows(key)) {
+                        continue;
+                    }
+                    JSONObject row = new JSONObject();
+                    row.put("VendorTag", key);
+                    row.put("Type", "Byte");
+                    row.put("Count", "1");
+                    row.put("Value", "1");
+                    rows.put(row);
+                    existing.add(key);
+                    synthesized++;
+                    changed = true;
+                }
             }
 
             String output;
