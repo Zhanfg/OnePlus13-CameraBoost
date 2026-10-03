@@ -47,7 +47,7 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
             OplusFeatureRegistry registry = OplusFeatureRegistry.scan(apkPath);
             OplusCapabilityResolver resolver =
                     OplusCapabilityResolver.probe(lpparam.classLoader, registry);
-            ColorOs17CompatHook.install(lpparam.classLoader, resolver);
+            ColorOs17CompatHook.install(apkPath, lpparam.classLoader, resolver);
             log("ColorOS 17 compatibility layer initialized: " + resolver.describe());
             return;
         }
