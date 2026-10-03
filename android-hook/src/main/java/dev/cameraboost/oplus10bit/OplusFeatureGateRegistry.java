@@ -238,15 +238,22 @@ final class OplusFeatureGateRegistry {
         if (HOST_ADVERTISED.contains(key)) {
             return secondaryAnchorsSatisfied(spec, resolver);
         }
-        if (!spec.synthesize || !resolver.hasAnchor(key)) {
+
+        boolean maySynthesize = spec.synthesize || BuildConfig.ENABLE_EXPERIMENTAL_ALL;
+        if (!maySynthesize || !resolver.hasAnchor(key)) {
             return false;
         }
+
+        // The all-unlock variant is deliberately aggressive, but still refuses to
+        // invent a gate that is absent from the current Camera APK or whose secondary
+        // implementation anchors are missing.
         return secondaryAnchorsSatisfied(spec, resolver);
     }
 
     static boolean shouldSynthesize(GateSpec spec, OplusCapabilityResolver resolver) {
-        return spec != null
-                && spec.synthesize
+        boolean maySynthesize = spec != null
+                && (spec.synthesize || BuildConfig.ENABLE_EXPERIMENTAL_ALL);
+        return maySynthesize
                 && !HOST_ADVERTISED.contains(spec.key)
                 && resolver.hasAnchor(spec.key)
                 && secondaryAnchorsSatisfied(spec, resolver)
