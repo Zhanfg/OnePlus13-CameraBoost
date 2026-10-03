@@ -10,8 +10,8 @@ android {
         applicationId = "dev.cameraboost.oplus10bit"
         minSdk = 30
         targetSdk = 36
-        versionCode = 2
-        versionName = "0.2.0"
+        versionCode = 3
+        versionName = "0.3.0"
     }
 
     buildFeatures {
@@ -23,6 +23,7 @@ android {
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "false")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
             buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "false")
+            buildConfigField("boolean", "ENABLE_EXPERIMENTAL_ALL", "false")
         }
 
         create("probe") {
@@ -32,6 +33,7 @@ android {
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "false")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
             buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "false")
+            buildConfigField("boolean", "ENABLE_EXPERIMENTAL_ALL", "false")
             signingConfig = signingConfigs.getByName("debug")
         }
 
@@ -42,6 +44,7 @@ android {
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "true")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
             buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "false")
+            buildConfigField("boolean", "ENABLE_EXPERIMENTAL_ALL", "false")
             signingConfig = signingConfigs.getByName("debug")
         }
 
@@ -52,6 +55,18 @@ android {
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "true")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "true")
             buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "true")
+            buildConfigField("boolean", "ENABLE_EXPERIMENTAL_ALL", "false")
+            signingConfig = signingConfigs.getByName("debug")
+        }
+
+        create("coloros17All") {
+            initWith(getByName("coloros17"))
+            applicationIdSuffix = ".all"
+            versionNameSuffix = "-all"
+            buildConfigField("boolean", "ENABLE_10BIT_HEIC", "true")
+            buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "true")
+            buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "true")
+            buildConfigField("boolean", "ENABLE_EXPERIMENTAL_ALL", "true")
             signingConfig = signingConfigs.getByName("debug")
         }
 
@@ -59,6 +74,7 @@ android {
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "false")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
             buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "false")
+            buildConfigField("boolean", "ENABLE_EXPERIMENTAL_ALL", "false")
             isMinifyEnabled = false
         }
     }
