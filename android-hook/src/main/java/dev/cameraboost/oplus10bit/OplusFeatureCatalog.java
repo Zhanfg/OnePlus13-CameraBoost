@@ -147,6 +147,9 @@ final class OplusFeatureCatalog {
         if (key == null || key.isEmpty()) {
             return null;
         }
+        if (!FeaturePolicy.isTargetDevice()) {
+            return null;
+        }
 
         if (BuildConfig.ENABLE_ALL_SOFTWARE_CAPABILITIES) {
             OverrideValue value = ALL_OVERRIDES.get(key);
