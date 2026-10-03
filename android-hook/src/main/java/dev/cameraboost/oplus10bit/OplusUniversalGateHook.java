@@ -61,13 +61,15 @@ final class OplusUniversalGateHook {
                 XposedBridge.hookMethod(method, new XC_MethodHook() {
                     @Override
                     protected void beforeHookedMethod(MethodHookParam param) {
-                        String key = findRegisteredKey(param.args);
-                        if (key == null || !OplusFeatureGateRegistry.shouldForce(key, resolver)) {
+                        String key = findRegisteredKey(param.args, resolver);
+                        if (key == null || !resolver.shouldForceBoolean(key)) {
                             return;
                         }
                         OplusFeatureGateRegistry.GateSpec spec = OplusFeatureGateRegistry.get(key);
-                        Object forced = OplusFeatureGateRegistry.forcedValueForReturnType(
-                                spec, method.getReturnType());
+                        Object forced = spec != null
+                                ? OplusFeatureGateRegistry.forcedValueForReturnType(
+                                        spec, method.getReturnType())
+                                : forcedDynamicBooleanValue(method.getReturnType());
                         if (forced != null) {
                             param.setResult(forced);
                             if (LOGGED_KEYS.add(key)) {
@@ -108,18 +110,30 @@ final class OplusUniversalGateHook {
                 || type == String.class;
     }
 
-    private static String findRegisteredKey(Object[] args) {
+    private static String findRegisteredKey(
+            Object[] args, OplusCapabilityResolver resolver) {
         if (args == null) {
             return null;
         }
         for (Object arg : args) {
             if (arg instanceof String) {
                 String value = (String) arg;
-                if (OplusFeatureGateRegistry.knows(value)) {
+                if (OplusFeatureGateRegistry.knows(value)
+                        || resolver.shouldForceBoolean(value)) {
                     return value;
                 }
             }
         }
+        return null;
+    }
+
+    private static Object forcedDynamicBooleanValue(Class<?> returnType) {
+        if (returnType == boolean.class || returnType == Boolean.class) return true;
+        if (returnType == int.class || returnType == Integer.class) return 1;
+        if (returnType == long.class || returnType == Long.class) return 1L;
+        if (returnType == float.class || returnType == Float.class) return 1.0f;
+        if (returnType == double.class || returnType == Double.class) return 1.0d;
+        if (returnType == String.class) return "1";
         return null;
     }
 }
