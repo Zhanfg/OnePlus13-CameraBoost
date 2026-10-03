@@ -22,6 +22,7 @@ android {
         getByName("debug") {
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "false")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
+            buildConfigField("boolean", "ENABLE_FULL_UNLOCK", "false")
         }
 
         create("probe") {
@@ -30,6 +31,7 @@ android {
             versionNameSuffix = "-probe"
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "false")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
+            buildConfigField("boolean", "ENABLE_FULL_UNLOCK", "false")
             signingConfig = signingConfigs.getByName("debug")
         }
 
@@ -39,12 +41,24 @@ android {
             versionNameSuffix = "-enable10bit"
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "true")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
+            buildConfigField("boolean", "ENABLE_FULL_UNLOCK", "false")
+            signingConfig = signingConfigs.getByName("debug")
+        }
+
+        create("fullunlock") {
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".fullunlock"
+            versionNameSuffix = "-coloros17-fullunlock"
+            buildConfigField("boolean", "ENABLE_10BIT_HEIC", "true")
+            buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "true")
+            buildConfigField("boolean", "ENABLE_FULL_UNLOCK", "true")
             signingConfig = signingConfigs.getByName("debug")
         }
 
         getByName("release") {
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "false")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
+            buildConfigField("boolean", "ENABLE_FULL_UNLOCK", "false")
             isMinifyEnabled = false
         }
     }
