@@ -118,23 +118,6 @@ final class ColorOS17ConfigPatcher {
                 changed = true;
             }
 
-            if (BuildConfig.ENABLE_EXPERIMENTAL_ALL) {
-                for (String key : resolver.experimentalSynthesizableGates()) {
-                    if (existing.contains(key) || OplusFeatureGateRegistry.knows(key)) {
-                        continue;
-                    }
-                    JSONObject row = new JSONObject();
-                    row.put("VendorTag", key);
-                    row.put("Type", "Byte");
-                    row.put("Count", "1");
-                    row.put("Value", "1");
-                    rows.put(row);
-                    existing.add(key);
-                    synthesized++;
-                    changed = true;
-                }
-            }
-
             String output;
             if (rootIsArray) {
                 output = rows.toString();
