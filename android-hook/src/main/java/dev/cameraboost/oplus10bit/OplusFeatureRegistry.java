@@ -1,6 +1,5 @@
 package dev.cameraboost.oplus10bit;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -125,10 +124,14 @@ final class OplusFeatureRegistry {
 
     private final Set<String> matchedAnchors;
     private final Map<String, Feature> present = new LinkedHashMap<>();
+    private final Map<String, Feature> byAnchor = new LinkedHashMap<>();
 
     private OplusFeatureRegistry(Set<String> matchedAnchors) {
         this.matchedAnchors = matchedAnchors;
         for (Feature feature : FEATURES) {
+            for (String anchor : feature.anchors) {
+                byAnchor.put(anchor, feature);
+            }
             if (hasAnyAnchor(feature)) {
                 present.put(feature.id, feature);
             }
@@ -152,6 +155,16 @@ final class OplusFeatureRegistry {
 
     Feature feature(String featureId) {
         return present.get(featureId);
+    }
+
+    Feature featureForAnchor(String anchor) {
+        Feature feature = byAnchor.get(anchor);
+        if (feature == null || !present.containsKey(feature.id)) return null;
+        return feature;
+    }
+
+    boolean matched(String anchor) {
+        return matchedAnchors.contains(anchor);
     }
 
     Set<String> presentFeatureIds() {
