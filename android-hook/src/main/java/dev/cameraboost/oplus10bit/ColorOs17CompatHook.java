@@ -138,30 +138,38 @@ final class ColorOs17CompatHook {
             return;
         }
 
-        try {
-            Class<?> cls = XposedHelpers.findClass("ka.q0", classLoader);
-            int hooked = 0;
-            for (Method method : cls.getDeclaredMethods()) {
-                if (!("I".equals(method.getName()) || "J".equals(method.getName()))) {
-                    continue;
-                }
-                if (method.getParameterTypes().length != 0 || method.getReturnType() != boolean.class) {
-                    continue;
-                }
-                method.setAccessible(true);
-                XposedBridge.hookMethod(method, new XC_MethodHook() {
-                    @Override
-                    protected void beforeHookedMethod(MethodHookParam param) {
-                        param.setResult(true);
+        String[] classes = {
+                "com.oplus.ocs.camera.OplusAICompositionHelper",
+                "com.oplus.camera.aicomposition.OplusAIComposition"
+        };
+
+        int hooked = 0;
+        for (String className : classes) {
+            try {
+                Class<?> cls = XposedHelpers.findClass(className, classLoader);
+                for (Method method : cls.getDeclaredMethods()) {
+                    if (!"isSupportAIComposition".equals(method.getName())) {
+                        continue;
                     }
-                });
-                hooked++;
+                    if (method.getReturnType() != boolean.class
+                            && method.getReturnType() != Boolean.class) {
+                        continue;
+                    }
+                    method.setAccessible(true);
+                    XposedBridge.hookMethod(method, new XC_MethodHook() {
+                        @Override
+                        protected void beforeHookedMethod(MethodHookParam param) {
+                            param.setResult(true);
+                        }
+                    });
+                    hooked++;
+                }
+            } catch (Throwable ignored) {
+                // Class legitimately differs across camera generations.
             }
-            log("installed Camera 7.x AI Composition fallback gates: " + hooked);
-        } catch (Throwable t) {
-            log("Camera 7.x AI Composition fallback unavailable: "
-                    + t.getClass().getSimpleName());
         }
+
+        log("installed modern AI Composition support gates: " + hooked);
     }
 
     private static void installFilterGroupCompat(
