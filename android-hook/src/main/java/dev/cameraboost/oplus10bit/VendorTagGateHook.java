@@ -43,6 +43,19 @@ final class VendorTagGateHook {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
                     String key = firstStringArg(param.args);
+
+                    if (BuildConfig.ENABLE_FULL_UNLOCK && FeaturePolicy.isTargetDevice()) {
+                        CapabilityValuePolicy.OverrideSpec value =
+                                CapabilityValuePolicy.find(key, runtime);
+                        if (value != null) {
+                            param.setResult(value.value);
+                            logOnce("force-value:" + key,
+                                    "forced scalar feature value " + key + " -> "
+                                            + value.value + " via " + className);
+                            return;
+                        }
+                    }
+
                     if (shouldForce(key, runtime)) {
                         param.setResult("1");
                         logOnce("force-string:" + key,
@@ -125,7 +138,8 @@ final class VendorTagGateHook {
                 || OplusConfigPatcher.TAG_HEIF_LIVE_PHOTO.equals(key)
                 || OplusConfigPatcher.TAG_10BIT_LIVE_PHOTO.equals(key)
                 || OplusConfigPatcher.TAG_VIDEO_10BIT.equals(key)
-                || CapabilityKeyPolicy.shouldForceBoolean(key, runtime);
+                || CapabilityKeyPolicy.shouldForceBoolean(key, runtime)
+                || CapabilityValuePolicy.find(key, runtime) != null;
     }
 
     private static String firstStringArg(Object[] args) {
