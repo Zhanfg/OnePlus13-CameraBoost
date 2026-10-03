@@ -42,7 +42,7 @@ final class OplusCapabilityResolver {
             "com.morphoinc.anchortracking.sdk.MorphoInitParams";
 
     private static final String CLASS_LIVE_PHOTO_DATA =
-            "com.oplus.camera.feature.video.livephoto.data.VideoSavedParams";
+            "com.oplus.camera.feature.livephoto.io.LivePhotoSavedParams";
     private static final String CLASS_LIVE_PHOTO_EVENT =
             "com.oplus.camera.feature.livephoto.event.HandleEventMessage";
 
@@ -184,6 +184,13 @@ final class OplusCapabilityResolver {
             return true;
         }
 
+        if (BuildConfig.ENABLE_EXPERIMENTAL_ALL
+                && registry != null
+                && registry.dynamicGateKeys().contains(key)
+                && OplusDexGateDiscovery.isPositiveBooleanGate(key)) {
+            return true;
+        }
+
         if (registry != null) {
             OplusFeatureRegistry.Feature feature = registry.featureForAnchor(key);
             if (feature != null) {
@@ -236,6 +243,19 @@ final class OplusCapabilityResolver {
         }
 
         return false;
+    }
+
+    Set<String> experimentalSynthesizableGates() {
+        if (!BuildConfig.ENABLE_EXPERIMENTAL_ALL || registry == null) {
+            return Collections.emptySet();
+        }
+        LinkedHashSet<String> out = new LinkedHashSet<>();
+        for (String key : registry.dynamicGateKeys()) {
+            if (OplusDexGateDiscovery.isSafeToSynthesizeAsByte(key)) {
+                out.add(key);
+            }
+        }
+        return Collections.unmodifiableSet(out);
     }
 
     String assetStatus(String featureId) {
