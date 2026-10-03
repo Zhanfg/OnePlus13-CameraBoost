@@ -32,11 +32,16 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
         RuntimeArchitecture runtime = RuntimeArchitecture.detect(lpparam.classLoader);
         log(runtime.summary());
 
+        // Observe/override all known OPlus feature-gate paths.
         VendorTagGateHook.install(lpparam.classLoader, runtime);
+        CameraConfigCompatHook.install(lpparam.classLoader, runtime);
         installConfigDocumentHook(lpparam.classLoader, runtime);
 
         if (BuildConfig.ENABLE_FULL_UNLOCK && FeaturePolicy.isTargetDevice()) {
+            // Older camera builds still expose ConfigFeatureImpl; ColorOS 17 does not.
             FeatureValueLegalHook.install(lpparam.classLoader, runtime);
+
+            // Resolve both app-level and OCS/IPU filter managers.
             FilterGroupCompatHook.install(lpparam.classLoader, runtime);
         }
     }
