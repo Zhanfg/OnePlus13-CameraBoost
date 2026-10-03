@@ -36,12 +36,14 @@ final class ColorOs17CompatHook {
 
     private ColorOs17CompatHook() {}
 
-    static void install(ClassLoader classLoader, OplusCapabilityResolver resolver) {
+    static void install(String apkPath, ClassLoader classLoader, OplusCapabilityResolver resolver) {
         installFeatureValueLegalHook(classLoader, resolver);
         installConfigDocumentCompat(classLoader, resolver);
         OplusCameraUnitCompatHook.install(classLoader, resolver);
         OplusUniversalGateHook.install(classLoader, resolver);
         OseeCameraCompatHook.install(classLoader);
+        SupportFunctionCompatHook.install(apkPath, classLoader, resolver);
+        MasterAiCompatHook.install(classLoader, resolver);
         installSupportFunctionHook(classLoader, resolver);
         installModernAiCompositionFallback(classLoader, resolver);
         installFilterGroupCompat(classLoader, resolver);
