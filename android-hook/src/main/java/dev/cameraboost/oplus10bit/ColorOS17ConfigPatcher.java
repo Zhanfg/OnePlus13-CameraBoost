@@ -28,7 +28,7 @@ final class ColorOS17ConfigPatcher {
 
     private ColorOS17ConfigPatcher() {}
 
-    static Result patch(String original, RuntimeCapabilityResolver resolver) {
+    static Result patch(String original, OplusCapabilityResolver resolver) {
         if (original == null || original.trim().isEmpty()) {
             return new Result(false, false, 0, 0, original, "empty config");
         }
