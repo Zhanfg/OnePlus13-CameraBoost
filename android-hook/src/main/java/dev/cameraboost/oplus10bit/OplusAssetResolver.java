@@ -35,18 +35,28 @@ final class OplusAssetResolver {
     };
 
     boolean assetsReady(String featureId) {
+        return rootFor(featureId) != null
+                || "custom_hasselblad_watermark".equals(featureId);
+    }
+
+    String rootFor(String featureId) {
         if ("gr_filters".equals(featureId)) {
-            return allFilesInSameRoot(GR_LUTS);
+            return rootContainingAll(GR_LUTS);
         }
         if ("positive_filters".equals(featureId)) {
-            return allFilesInSameRoot(POSITIVE_LUTS);
+            return rootContainingAll(POSITIVE_LUTS);
         }
-        // Custom watermark assets are primarily app resources; the DEX/resource anchor
-        // is the stronger signal and no external blob requirement is known here.
-        if ("custom_hasselblad_watermark".equals(featureId)) {
-            return true;
+        return null;
+    }
+
+    String firstReadableLutRoot() {
+        for (String root : LUT_ROOTS) {
+            File dir = new File(root);
+            if (dir.isDirectory() && dir.canRead()) {
+                return root;
+            }
         }
-        return true;
+        return null;
     }
 
     String describe(String featureId) {
@@ -59,7 +69,7 @@ final class OplusAssetResolver {
         return "no-external-asset-check";
     }
 
-    private boolean allFilesInSameRoot(String[] names) {
+    private String rootContainingAll(String[] names) {
         for (String root : LUT_ROOTS) {
             boolean all = true;
             for (String name : names) {
@@ -68,9 +78,9 @@ final class OplusAssetResolver {
                     break;
                 }
             }
-            if (all) return true;
+            if (all) return root;
         }
-        return false;
+        return null;
     }
 
     private String describeFiles(String[] names) {
