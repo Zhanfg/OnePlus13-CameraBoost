@@ -48,6 +48,7 @@ jobs:
             :android-hook:assembleProbe \
             :android-hook:assembleEnable10bit \
             :android-hook:assembleColoros17 \
+            :android-hook:assembleColoros17All \
             --stacktrace
 
       - name: Stage APKs
@@ -58,6 +59,7 @@ jobs:
           cp android-hook/build/outputs/apk/probe/android-hook-probe.apk out/CameraBoost-10bit-probe.apk
           cp android-hook/build/outputs/apk/enable10bit/android-hook-enable10bit.apk out/CameraBoost-10bit-enable.apk
           cp android-hook/build/outputs/apk/coloros17/android-hook-coloros17.apk out/CameraBoost-ColorOS17-compat.apk
+          cp android-hook/build/outputs/apk/coloros17All/android-hook-coloros17All.apk out/CameraBoost-ColorOS17-all.apk
           sha256sum out/*.apk | tee out/SHA256SUMS.txt
 
       - uses: actions/upload-artifact@v4
