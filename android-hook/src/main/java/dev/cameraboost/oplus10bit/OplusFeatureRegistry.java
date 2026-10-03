@@ -140,11 +140,13 @@ final class OplusFeatureRegistry {
     ));
 
     private final Set<String> matchedAnchors;
+    private final Set<String> dynamicGates;
     private final Map<String, Feature> present = new LinkedHashMap<>();
     private final Map<String, Feature> byAnchor = new LinkedHashMap<>();
 
-    private OplusFeatureRegistry(Set<String> matchedAnchors) {
+    private OplusFeatureRegistry(Set<String> matchedAnchors, Set<String> dynamicGates) {
         this.matchedAnchors = matchedAnchors;
+        this.dynamicGates = dynamicGates;
         for (Feature feature : FEATURES) {
             for (String anchor : feature.anchors) {
                 byAnchor.put(anchor, feature);
@@ -157,7 +159,8 @@ final class OplusFeatureRegistry {
 
     static OplusFeatureRegistry scan(String cameraApkPath) {
         Set<String> found = new DexAnchorIndex(allAnchors()).scanApk(cameraApkPath);
-        return new OplusFeatureRegistry(found);
+        Set<String> dynamic = OplusDexGateDiscovery.scanApk(cameraApkPath);
+        return new OplusFeatureRegistry(found, dynamic);
     }
 
     static Collection<String> allAnchors() {
@@ -184,7 +187,11 @@ final class OplusFeatureRegistry {
     }
 
     boolean matched(String anchor) {
-        return matchedAnchors.contains(anchor);
+        return matchedAnchors.contains(anchor) || dynamicGates.contains(anchor);
+    }
+
+    Set<String> dynamicGateKeys() {
+        return Collections.unmodifiableSet(dynamicGates);
     }
 
     Set<String> presentFeatureIds() {
@@ -192,7 +199,9 @@ final class OplusFeatureRegistry {
     }
 
     Set<String> matchedAnchors() {
-        return Collections.unmodifiableSet(matchedAnchors);
+        LinkedHashSet<String> out = new LinkedHashSet<>(matchedAnchors);
+        out.addAll(dynamicGates);
+        return Collections.unmodifiableSet(out);
     }
 
     String summarize() {
@@ -202,6 +211,10 @@ final class OplusFeatureRegistry {
             if (!first) out.append(", ");
             first = false;
             out.append(entry.getKey()).append('[').append(entry.getValue().layer).append(']');
+        }
+        if (!dynamicGates.isEmpty()) {
+            if (!first) out.append(", ");
+            out.append("dynamicGates=").append(dynamicGates.size());
         }
         return out.toString();
     }
