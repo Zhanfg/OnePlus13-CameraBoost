@@ -23,7 +23,10 @@ final class VendorTagGateHook {
     private static final Set<String> LOGGED = ConcurrentHashMap.newKeySet();
 
     static {
-        WATCHED_TAGS.addAll(OplusFeatureCatalog.allOverrides().keySet());
+        WATCHED_TAGS.add(OplusConfigPatcher.TAG_10BIT_HEIC);
+        WATCHED_TAGS.add(OplusConfigPatcher.TAG_HEIF_LIVE_PHOTO);
+        WATCHED_TAGS.add(OplusConfigPatcher.TAG_10BIT_LIVE_PHOTO);
+        WATCHED_TAGS.add(OplusConfigPatcher.TAG_VIDEO_10BIT);
     }
 
     private VendorTagGateHook() {}
@@ -35,7 +38,6 @@ final class VendorTagGateHook {
         for (String className : BOOLEAN_CONFIG_CLASSES) {
             installBooleanGetter(classLoader, className);
         }
-        installFeatureValueLegalityHook(classLoader);
     }
 
     private static void installStringGetter(ClassLoader classLoader, String className) {
@@ -45,9 +47,12 @@ final class VendorTagGateHook {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
                     String key = firstStringArg(param.args);
-                    String forced = forcedStringValue(key);
-                    if (forced != null) {
-                        param.setResult(forced);
+                    if (!OplusConfigPatcher.TAG_10BIT_HEIC.equals(key)) {
+                        return;
+                    }
+
+                    if (canEnable10BitStill()) {
+                        param.setResult("1");
                     }
                 }
 
@@ -75,7 +80,11 @@ final class VendorTagGateHook {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
                     String key = firstStringArg(param.args);
-                    if (forcedBooleanValue(key)) {
+                    if (!OplusConfigPatcher.TAG_10BIT_HEIC.equals(key)) {
+                        return;
+                    }
+
+                    if (canEnable10BitStill()) {
                         param.setResult(true);
                     }
                 }
@@ -97,81 +106,8 @@ final class VendorTagGateHook {
         }
     }
 
-    private static void installFeatureValueLegalityHook(ClassLoader classLoader) {
-        try {
-            Class<?> cls = XposedHelpers.findClass(
-                    "com.oplus.ocs.camera.configure.ConfigFeatureImpl",
-                    classLoader
-            );
-            XposedBridge.hookAllMethods(cls, "isFeatureValueLegal", new XC_MethodHook() {
-                @Override
-                protected void beforeHookedMethod(MethodHookParam param) {
-                    if (param.args == null || param.args.length < 2) {
-                        return;
-                    }
-                    String key = param.args[0] instanceof String ? (String) param.args[0] : "";
-                    Object value = param.args[1];
-
-                    // OPCameraPro's existing 120 FPS compatibility path, now shared by
-                    // both OnePlus and OPPO camera bases.
-                    if (BuildConfig.ENABLE_ALL_SOFTWARE_CAPABILITIES
-                            && "com.oplus.configure.video.fps".equals(key)
-                            && "video_120fps".equals(String.valueOf(value))) {
-                        param.setResult(true);
-                    }
-                }
-            });
-            log("installed ConfigFeatureImpl#isFeatureValueLegal compatibility hook");
-        } catch (Throwable t) {
-            log("ConfigFeatureImpl legality hook unavailable: " + t.getClass().getSimpleName());
-        }
-    }
-
-    private static String forcedStringValue(String key) {
-        if (key == null || key.isEmpty()) {
-            return null;
-        }
-
-        if (OplusConfigPatcher.TAG_10BIT_HEIC.equals(key)
-                && BuildConfig.ENABLE_10BIT_HEIC
-                && FeaturePolicy.isTargetDevice()) {
-            return "1";
-        }
-        if ((OplusConfigPatcher.TAG_HEIF_LIVE_PHOTO.equals(key)
-                || OplusConfigPatcher.TAG_10BIT_LIVE_PHOTO.equals(key))
-                && BuildConfig.ENABLE_10BIT_LIVE_PHOTO
-                && FeaturePolicy.isTargetDevice()
-                && ColorOS17CompatResolver.get().supportsLivePhotoStack()) {
-            return "1";
-        }
-
-        OplusFeatureCatalog.OverrideValue override =
-                OplusFeatureCatalog.overrideFor(key, ColorOS17CompatResolver.get());
-        return override == null ? null : override.value;
-    }
-
-    private static boolean forcedBooleanValue(String key) {
-        if (key == null || key.isEmpty()) {
-            return false;
-        }
-
-        if (OplusConfigPatcher.TAG_10BIT_HEIC.equals(key)
-                && BuildConfig.ENABLE_10BIT_HEIC
-                && FeaturePolicy.isTargetDevice()) {
-            return true;
-        }
-        if ((OplusConfigPatcher.TAG_HEIF_LIVE_PHOTO.equals(key)
-                || OplusConfigPatcher.TAG_10BIT_LIVE_PHOTO.equals(key))
-                && BuildConfig.ENABLE_10BIT_LIVE_PHOTO
-                && FeaturePolicy.isTargetDevice()
-                && ColorOS17CompatResolver.get().supportsLivePhotoStack()) {
-            return true;
-        }
-
-        return OplusFeatureCatalog.shouldForceBoolean(
-                key,
-                ColorOS17CompatResolver.get()
-        );
+    private static boolean canEnable10BitStill() {
+        return BuildConfig.ENABLE_10BIT_HEIC && FeaturePolicy.isTargetDevice();
     }
 
     private static String firstStringArg(Object[] args) {
@@ -192,6 +128,6 @@ final class VendorTagGateHook {
     }
 
     private static void log(String message) {
-        XposedBridge.log("CameraBoost: " + message);
+        XposedBridge.log("CameraBoost10Bit: " + message);
     }
 }
