@@ -11,11 +11,23 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public final class CameraBoostHook implements IXposedHookLoadPackage {
     private static final String TARGET_PACKAGE = "com.oplus.camera";
+    private static final String GALLERY_PACKAGE = "com.coloros.gallery3d";
+    private static final String SCANNER_PACKAGE = "com.coloros.ocrscanner";
     private static final String UPDATE_HELPER =
             "com.oplus.ocs.camera.consumer.apsAdapter.update.UpdateHelper";
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
+        if (GALLERY_PACKAGE.equals(lpparam.packageName)) {
+            GalleryCompatHook.install(lpparam.classLoader);
+            return;
+        }
+
+        if (SCANNER_PACKAGE.equals(lpparam.packageName)) {
+            ScannerCompatHook.install(lpparam.classLoader);
+            return;
+        }
+
         if (!TARGET_PACKAGE.equals(lpparam.packageName)) {
             return;
         }
