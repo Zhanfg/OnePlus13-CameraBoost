@@ -66,7 +66,7 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
 
         boolean looksLikeCameraConfig =
                 configName.toLowerCase(Locale.ROOT).contains("oplus_camera_config")
-                        || original.contains(""VendorTag"");
+                        || original.contains("VendorTag");
 
         if (!looksLikeCameraConfig) {
             return;
