@@ -30,37 +30,12 @@ final class OplusConfigPatcher {
 
             boolean changed = false;
             if (enable10BitHeic) {
-                changed |= upsert(
-                        parsed.array,
-                        TAG_10BIT_HEIC,
-                        new OplusFeatureCatalog.OverrideValue("Byte", "1", "1")
-                );
+                changed |= upsertByteFlag(parsed.array, TAG_10BIT_HEIC, "1");
             }
 
-            if (enable10BitLivePhoto
-                    && ColorOS17CompatResolver.get().supportsLivePhotoStack()) {
-                changed |= upsert(
-                        parsed.array,
-                        TAG_HEIF_LIVE_PHOTO,
-                        new OplusFeatureCatalog.OverrideValue("Byte", "1", "1")
-                );
-                changed |= upsert(
-                        parsed.array,
-                        TAG_10BIT_LIVE_PHOTO,
-                        new OplusFeatureCatalog.OverrideValue("Byte", "1", "1")
-                );
-            }
-
-            // Apply the same capability policy to the config document that is used by
-            // the runtime getter hooks. This avoids UI/APS disagreement.
-            ColorOS17CompatResolver resolver = ColorOS17CompatResolver.get();
-            for (Map.Entry<String, OplusFeatureCatalog.OverrideValue> entry
-                    : OplusFeatureCatalog.allOverrides().entrySet()) {
-                OplusFeatureCatalog.OverrideValue override =
-                        OplusFeatureCatalog.overrideFor(entry.getKey(), resolver);
-                if (override != null) {
-                    changed |= upsert(parsed.array, entry.getKey(), override);
-                }
+            if (enable10BitLivePhoto) {
+                changed |= upsertByteFlag(parsed.array, TAG_HEIF_LIVE_PHOTO, "1");
+                changed |= upsertByteFlag(parsed.array, TAG_10BIT_LIVE_PHOTO, "1");
             }
 
             Map<String, String> after = inspect(parsed.array);
@@ -73,10 +48,7 @@ final class OplusConfigPatcher {
                     null
             );
         } catch (Throwable t) {
-            return PatchResult.failure(
-                    original,
-                    t.getClass().getSimpleName() + ": " + t.getMessage()
-            );
+            return PatchResult.failure(original, t.getClass().getSimpleName() + ": " + t.getMessage());
         }
     }
 
@@ -86,13 +58,6 @@ final class OplusConfigPatcher {
         result.put(TAG_HEIF_LIVE_PHOTO, null);
         result.put(TAG_10BIT_LIVE_PHOTO, null);
         result.put(TAG_VIDEO_10BIT, null);
-        result.put("com.oplus.ai.capture.guide.support", null);
-        result.put("com.oplus.ai.composition.enable", null);
-        result.put("com.oplus.feature.aicomposition.realscene.support", null);
-        result.put("com.oplus.feature.aicomposition.inspiration.support", null);
-        result.put("com.oplus.camera.livephoto.support", null);
-        result.put("com.oplus.feature.master.mode.version", null);
-        result.put("com.oplus.xpan.mode.version", null);
 
         for (int i = 0; i < array.length(); i++) {
             JSONObject obj = array.optJSONObject(i);
@@ -108,11 +73,8 @@ final class OplusConfigPatcher {
         return result;
     }
 
-    private static boolean upsert(
-            JSONArray array,
-            String vendorTag,
-            OplusFeatureCatalog.OverrideValue override
-    ) throws JSONException {
+    private static boolean upsertByteFlag(JSONArray array, String vendorTag, String value)
+            throws JSONException {
         for (int i = 0; i < array.length(); i++) {
             JSONObject obj = array.optJSONObject(i);
             if (obj == null) {
@@ -124,21 +86,21 @@ final class OplusConfigPatcher {
                 String oldType = obj.optString("Type", "");
                 String oldCount = obj.optString("Count", "");
 
-                obj.put("Type", override.type);
-                obj.put("Count", override.count);
-                obj.put("Value", override.value);
+                obj.put("Type", "Byte");
+                obj.put("Count", "1");
+                obj.put("Value", value);
 
-                return !override.value.equals(oldValue)
-                        || !override.type.equals(oldType)
-                        || !override.count.equals(oldCount);
+                return !value.equals(oldValue)
+                        || !"Byte".equals(oldType)
+                        || !"1".equals(oldCount);
             }
         }
 
         JSONObject added = new JSONObject();
         added.put("VendorTag", vendorTag);
-        added.put("Type", override.type);
-        added.put("Count", override.count);
-        added.put("Value", override.value);
+        added.put("Type", "Byte");
+        added.put("Count", "1");
+        added.put("Value", value);
         array.put(added);
         return true;
     }
