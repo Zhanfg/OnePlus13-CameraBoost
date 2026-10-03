@@ -199,7 +199,7 @@ final class OplusFeatureGateRegistry {
         }
     }
 
-    static boolean shouldForce(String key, RuntimeCapabilityResolver resolver) {
+    static boolean shouldForce(String key, OplusCapabilityResolver resolver) {
         GateSpec spec = get(key);
         if (spec == null || !FeaturePolicy.isTargetDevice()) {
             return false;
@@ -213,7 +213,7 @@ final class OplusFeatureGateRegistry {
         return secondaryAnchorsSatisfied(spec, resolver);
     }
 
-    static boolean shouldSynthesize(GateSpec spec, RuntimeCapabilityResolver resolver) {
+    static boolean shouldSynthesize(GateSpec spec, OplusCapabilityResolver resolver) {
         return spec != null
                 && spec.synthesize
                 && !HOST_ADVERTISED.contains(spec.key)
@@ -272,7 +272,7 @@ final class OplusFeatureGateRegistry {
     }
 
     private static boolean secondaryAnchorsSatisfied(
-            GateSpec spec, RuntimeCapabilityResolver resolver) {
+            GateSpec spec, OplusCapabilityResolver resolver) {
         for (String anchor : spec.secondaryAnchors) {
             if (!resolver.hasAnchor(anchor)) {
                 return false;
