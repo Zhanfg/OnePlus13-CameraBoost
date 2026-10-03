@@ -189,6 +189,16 @@ final class CapabilityKeyPolicy {
                 || key.contains(".support.");
     }
 
+    static Set<String> explicitTrueKeys(RuntimeArchitecture runtime) {
+        Set<String> result = new HashSet<>();
+        for (String key : EXPLICIT_TRUE) {
+            if (shouldForceBoolean(key, runtime)) {
+                result.add(key);
+            }
+        }
+        return result;
+    }
+
     static boolean shouldForceValueLegal(String rawKey, Object rawValue) {
         String key = normalize(rawKey);
         String value = rawValue == null
