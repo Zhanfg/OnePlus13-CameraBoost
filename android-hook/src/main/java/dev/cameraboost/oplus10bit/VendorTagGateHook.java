@@ -11,7 +11,8 @@ import de.robv.android.xposed.XposedHelpers;
 final class VendorTagGateHook {
     private static final String[] STRING_CONFIG_CLASSES = {
             "com.oplus.ocs.camera.appinterface.adapter.CameraAdapterUtils",
-            "com.oplus.ocs.camera.consumer.apsAdapter.adapter.ApsUtils"
+            "com.oplus.ocs.camera.consumer.apsAdapter.adapter.ApsUtils",
+            "com.oplus.ocs.camera.appinterface.adapter.CameraUnitUtils"
     };
 
     private static final String[] BOOLEAN_CONFIG_CLASSES = {
