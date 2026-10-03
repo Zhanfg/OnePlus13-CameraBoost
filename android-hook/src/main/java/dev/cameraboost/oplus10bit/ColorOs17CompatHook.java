@@ -39,6 +39,7 @@ final class ColorOs17CompatHook {
     static void install(ClassLoader classLoader, OplusCapabilityResolver resolver) {
         installFeatureValueLegalHook(classLoader, resolver);
         installConfigDocumentCompat(classLoader, resolver);
+        OplusCameraUnitCompatHook.install(classLoader, resolver);
         OplusUniversalGateHook.install(classLoader, resolver);
         installSupportFunctionHook(classLoader, resolver);
         installModernAiCompositionFallback(classLoader, resolver);
