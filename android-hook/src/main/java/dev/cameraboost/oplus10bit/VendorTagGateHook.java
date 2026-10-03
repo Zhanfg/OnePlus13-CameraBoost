@@ -43,7 +43,11 @@ final class VendorTagGateHook {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
                     String key = firstStringArg(param.args);
-                    if (resolver.shouldForceBoolean(key)) {
+                    OplusFeatureGateRegistry.GateSpec spec =
+                            OplusFeatureGateRegistry.get(key);
+                    if (spec != null && OplusFeatureGateRegistry.shouldForce(key, resolver)) {
+                        param.setResult(spec.value);
+                    } else if (resolver.shouldForceBoolean(key)) {
                         param.setResult("1");
                     }
                 }
