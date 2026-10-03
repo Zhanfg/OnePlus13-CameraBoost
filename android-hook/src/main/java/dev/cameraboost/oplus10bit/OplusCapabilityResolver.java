@@ -270,14 +270,6 @@ final class OplusCapabilityResolver {
         return assets.firstReadableLutRoot();
     }
 
-    String assetRoot(String featureId) {
-        return assets.rootFor(featureId);
-    }
-
-    String firstReadableLutRoot() {
-        return assets.firstReadableLutRoot();
-    }
-
     private boolean isAiKey(String key) {
         return TAG_AI_CAPTURE_GUIDE.equals(key)
                 || TAG_AI_COMPOSITION_ENABLE.equals(key)
