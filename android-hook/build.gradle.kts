@@ -10,8 +10,9 @@ android {
         applicationId = "dev.cameraboost.oplus10bit"
         minSdk = 30
         targetSdk = 36
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = 2
+        versionName = "0.2.0"
+        buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "false")
     }
 
     buildFeatures {
@@ -30,6 +31,7 @@ android {
             versionNameSuffix = "-probe"
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "false")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
+            buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "false")
             signingConfig = signingConfigs.getByName("debug")
         }
 
@@ -39,12 +41,24 @@ android {
             versionNameSuffix = "-enable10bit"
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "true")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
+            buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "false")
+            signingConfig = signingConfigs.getByName("debug")
+        }
+
+        create("coloros17") {
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".coloros17"
+            versionNameSuffix = "-coloros17"
+            buildConfigField("boolean", "ENABLE_10BIT_HEIC", "true")
+            buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
+            buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "true")
             signingConfig = signingConfigs.getByName("debug")
         }
 
         getByName("release") {
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "false")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
+            buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "false")
             isMinifyEnabled = false
         }
     }
