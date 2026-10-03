@@ -10,8 +10,8 @@ android {
         applicationId = "dev.cameraboost.oplus10bit"
         minSdk = 30
         targetSdk = 36
-        versionCode = 3
-        versionName = "0.3.0"
+        versionCode = 2
+        versionName = "0.2.0"
     }
 
     buildFeatures {
@@ -23,7 +23,7 @@ android {
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "false")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
             buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "false")
-            buildConfigField("boolean", "ENABLE_EXPERIMENTAL_ALL", "false")
+            buildConfigField("boolean", "ENABLE_ALL_SOFTWARE_CAPABILITIES", "false")
         }
 
         create("probe") {
@@ -33,7 +33,7 @@ android {
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "false")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
             buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "false")
-            buildConfigField("boolean", "ENABLE_EXPERIMENTAL_ALL", "false")
+            buildConfigField("boolean", "ENABLE_ALL_SOFTWARE_CAPABILITIES", "false")
             signingConfig = signingConfigs.getByName("debug")
         }
 
@@ -44,29 +44,29 @@ android {
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "true")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
             buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "false")
-            buildConfigField("boolean", "ENABLE_EXPERIMENTAL_ALL", "false")
+            buildConfigField("boolean", "ENABLE_ALL_SOFTWARE_CAPABILITIES", "false")
             signingConfig = signingConfigs.getByName("debug")
         }
 
         create("coloros17") {
             initWith(getByName("debug"))
             applicationIdSuffix = ".coloros17"
-            versionNameSuffix = "-coloros17"
-            buildConfigField("boolean", "ENABLE_10BIT_HEIC", "true")
-            buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "true")
+            versionNameSuffix = "-coloros17-compat"
+            buildConfigField("boolean", "ENABLE_10BIT_HEIC", "false")
+            buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
             buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "true")
-            buildConfigField("boolean", "ENABLE_EXPERIMENTAL_ALL", "false")
+            buildConfigField("boolean", "ENABLE_ALL_SOFTWARE_CAPABILITIES", "false")
             signingConfig = signingConfigs.getByName("debug")
         }
 
         create("coloros17All") {
-            initWith(getByName("coloros17"))
-            applicationIdSuffix = ".all"
-            versionNameSuffix = "-all"
+            initWith(getByName("debug"))
+            applicationIdSuffix = ".coloros17all"
+            versionNameSuffix = "-coloros17-all"
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "true")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "true")
             buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "true")
-            buildConfigField("boolean", "ENABLE_EXPERIMENTAL_ALL", "true")
+            buildConfigField("boolean", "ENABLE_ALL_SOFTWARE_CAPABILITIES", "true")
             signingConfig = signingConfigs.getByName("debug")
         }
 
@@ -74,7 +74,7 @@ android {
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "false")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
             buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "false")
-            buildConfigField("boolean", "ENABLE_EXPERIMENTAL_ALL", "false")
+            buildConfigField("boolean", "ENABLE_ALL_SOFTWARE_CAPABILITIES", "false")
             isMinifyEnabled = false
         }
     }
@@ -91,4 +91,5 @@ android {
 
 dependencies {
     compileOnly("de.robv.android.xposed:api:82")
+    implementation("org.luckypray:dexkit:2.0.6")
 }
