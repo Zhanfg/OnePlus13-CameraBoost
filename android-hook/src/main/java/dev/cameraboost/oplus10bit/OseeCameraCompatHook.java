@@ -73,19 +73,10 @@ final class OseeCameraCompatHook {
 
     private static boolean isScannerInstalled(Context context) {
         try {
-            context.getPackageManager().getPackageInfo(
-                    SCANNER_PACKAGE,
-                    PackageManager.PackageInfoFlags.of(0)
-            );
+            context.getPackageManager().getPackageInfo(SCANNER_PACKAGE, 0);
             return true;
         } catch (Throwable ignored) {
-            try {
-                // Fallback for pre-33 compatible package manager path.
-                context.getPackageManager().getPackageInfo(SCANNER_PACKAGE, 0);
-                return true;
-            } catch (Throwable ignoredAgain) {
-                return false;
-            }
+            return false;
         }
     }
 }
