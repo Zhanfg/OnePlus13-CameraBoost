@@ -146,6 +146,9 @@ final class OplusFeatureRegistry {
     static Collection<String> allAnchors() {
         LinkedHashSet<String> out = new LinkedHashSet<>();
         for (Feature feature : FEATURES) out.addAll(feature.anchors);
+        // Include the wider OPCameraPro/ColorOS 17 gate universe so the APK is
+        // still scanned only once even when the OnePlus config omits an OPPO gate.
+        out.addAll(OplusFeatureGateRegistry.anchors());
         return out;
     }
 
