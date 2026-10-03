@@ -29,8 +29,17 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
             log("device guard rejected this device; hook will stay observation-only");
         }
 
+        OplusFeatureRegistry registry = null;
+        if (BuildConfig.ENABLE_COLOROS17_COMPAT
+                && FeaturePolicy.isTargetDevice()
+                && lpparam.appInfo != null
+                && lpparam.appInfo.sourceDir != null) {
+            registry = OplusFeatureRegistry.scan(lpparam.appInfo.sourceDir);
+            log("semantic feature registry: " + registry.summarize());
+        }
+
         OplusCapabilityResolver resolver =
-                OplusCapabilityResolver.probe(lpparam.classLoader);
+                OplusCapabilityResolver.probe(lpparam.classLoader, registry);
         log("runtime capabilities: " + resolver.describe());
 
         VendorTagGateHook.install(lpparam.classLoader, resolver);
