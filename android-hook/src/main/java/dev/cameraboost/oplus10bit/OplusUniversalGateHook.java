@@ -26,14 +26,14 @@ final class OplusUniversalGateHook {
 
     private OplusUniversalGateHook() {}
 
-    static void install(ClassLoader classLoader, RuntimeCapabilityResolver resolver) {
+    static void install(ClassLoader classLoader, OplusCapabilityResolver resolver) {
         for (String className : CONFIG_CLASSES) {
             hookConfigClass(classLoader, className, resolver);
         }
     }
 
     private static void hookConfigClass(
-            ClassLoader classLoader, String className, RuntimeCapabilityResolver resolver) {
+            ClassLoader classLoader, String className, OplusCapabilityResolver resolver) {
         Class<?> cls;
         try {
             cls = XposedHelpers.findClassIfExists(className, classLoader);
@@ -46,6 +46,10 @@ final class OplusUniversalGateHook {
 
         int installed = 0;
         for (Method method : cls.getDeclaredMethods()) {
+            if ("getVendorTagConfig".equals(method.getName())
+                    || "getConfigBooleanValue".equals(method.getName())) {
+                continue;
+            }
             if (!hasStringParameter(method) || !isSupportedReturnType(method.getReturnType())) {
                 continue;
             }
