@@ -5,7 +5,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 final class OplusConfigPatcher {
     static final String TAG_10BIT_HEIC = "com.oplus.10bits.heic.encode.support";
@@ -13,12 +15,29 @@ final class OplusConfigPatcher {
     static final String TAG_10BIT_LIVE_PHOTO = "com.oplus.livephoto.support.10bit";
     static final String TAG_VIDEO_10BIT = "com.oplus.feature.video.10bit.support";
 
+    private static final String[] INSPECT_TAGS = {
+            TAG_10BIT_HEIC,
+            TAG_HEIF_LIVE_PHOTO,
+            TAG_10BIT_LIVE_PHOTO,
+            TAG_VIDEO_10BIT,
+            "com.oplus.ai.capture.guide.support",
+            "com.oplus.feature.aicomposition.realscene.support",
+            "com.oplus.feature.aicomposition.inspiration.support",
+            "com.oplus.camera.livephoto.support",
+            "com.oplus.camera.video.livephoto.support",
+            "com.oplus.feature.master.jpg.max.support",
+            "com.oplus.high.resolution.support",
+            "com.oplus.xpan.all.camera.support"
+    };
+
     private OplusConfigPatcher() {}
 
     static PatchResult inspectAndPatch(
             String original,
             boolean enable10BitHeic,
-            boolean enable10BitLivePhoto
+            boolean enable10BitLivePhoto,
+            boolean enableFullUnlock,
+            RuntimeArchitecture runtime
     ) {
         if (original == null || original.trim().isEmpty()) {
             return PatchResult.failure(original, "empty-config");
@@ -27,37 +46,83 @@ final class OplusConfigPatcher {
         try {
             Parsed parsed = Parsed.parse(original);
             Map<String, String> before = inspect(parsed.array);
+            Set<String> changedKeys = new LinkedHashSet<>();
 
-            boolean changed = false;
-            if (enable10BitHeic) {
-                changed |= upsertByteFlag(parsed.array, TAG_10BIT_HEIC, "1");
+            if (enableFullUnlock) {
+                patchExistingSoftwareGates(parsed.array, runtime, changedKeys);
+            }
+
+            if (enable10BitHeic
+                    && upsertByteFlag(parsed.array, TAG_10BIT_HEIC, "1")) {
+                changedKeys.add(TAG_10BIT_HEIC);
             }
 
             if (enable10BitLivePhoto) {
-                changed |= upsertByteFlag(parsed.array, TAG_HEIF_LIVE_PHOTO, "1");
-                changed |= upsertByteFlag(parsed.array, TAG_10BIT_LIVE_PHOTO, "1");
+                if (upsertByteFlag(parsed.array, TAG_HEIF_LIVE_PHOTO, "1")) {
+                    changedKeys.add(TAG_HEIF_LIVE_PHOTO);
+                }
+                if (upsertByteFlag(parsed.array, TAG_10BIT_LIVE_PHOTO, "1")) {
+                    changedKeys.add(TAG_10BIT_LIVE_PHOTO);
+                }
             }
 
             Map<String, String> after = inspect(parsed.array);
             return new PatchResult(
                     true,
-                    changed,
+                    !changedKeys.isEmpty(),
                     parsed.render(),
                     before,
                     after,
+                    changedKeys,
                     null
             );
         } catch (Throwable t) {
-            return PatchResult.failure(original, t.getClass().getSimpleName() + ": " + t.getMessage());
+            return PatchResult.failure(
+                    original,
+                    t.getClass().getSimpleName() + ": " + t.getMessage()
+            );
+        }
+    }
+
+    private static void patchExistingSoftwareGates(
+            JSONArray array,
+            RuntimeArchitecture runtime,
+            Set<String> changedKeys
+    ) throws JSONException {
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject obj = array.optJSONObject(i);
+            if (obj == null) {
+                continue;
+            }
+
+            String key = obj.optString("VendorTag", "");
+            if (!CapabilityKeyPolicy.shouldForceBoolean(key, runtime)) {
+                continue;
+            }
+
+            String type = obj.optString("Type", "");
+            String count = obj.optString("Count", "");
+            String oldValue = obj.optString("Value", "");
+
+            // Do not rewrite numeric thresholds/ranges merely because their names
+            // contain words such as "support". Only scalar boolean-like records
+            // are changed in the serialized config path.
+            if (!CapabilityKeyPolicy.isBooleanLikeConfigEntry(type, count, oldValue)) {
+                continue;
+            }
+
+            if (!"1".equals(oldValue)) {
+                obj.put("Value", "1");
+                changedKeys.add(key);
+            }
         }
     }
 
     private static Map<String, String> inspect(JSONArray array) {
         Map<String, String> result = new LinkedHashMap<>();
-        result.put(TAG_10BIT_HEIC, null);
-        result.put(TAG_HEIF_LIVE_PHOTO, null);
-        result.put(TAG_10BIT_LIVE_PHOTO, null);
-        result.put(TAG_VIDEO_10BIT, null);
+        for (String tag : INSPECT_TAGS) {
+            result.put(tag, null);
+        }
 
         for (int i = 0; i < array.length(); i++) {
             JSONObject obj = array.optJSONObject(i);
@@ -111,6 +176,7 @@ final class OplusConfigPatcher {
         final String output;
         final Map<String, String> before;
         final Map<String, String> after;
+        final Set<String> changedKeys;
         final String error;
 
         PatchResult(
@@ -119,6 +185,7 @@ final class OplusConfigPatcher {
                 String output,
                 Map<String, String> before,
                 Map<String, String> after,
+                Set<String> changedKeys,
                 String error
         ) {
             this.parsed = parsed;
@@ -126,6 +193,7 @@ final class OplusConfigPatcher {
             this.output = output;
             this.before = before;
             this.after = after;
+            this.changedKeys = changedKeys;
             this.error = error;
         }
 
@@ -136,6 +204,7 @@ final class OplusConfigPatcher {
                     original,
                     new LinkedHashMap<>(),
                     new LinkedHashMap<>(),
+                    new LinkedHashSet<>(),
                     error
             );
         }
