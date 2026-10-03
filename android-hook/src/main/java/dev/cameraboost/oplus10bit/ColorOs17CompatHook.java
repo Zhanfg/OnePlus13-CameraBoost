@@ -1,6 +1,7 @@
 package dev.cameraboost.oplus10bit;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import de.robv.android.xposed.XC_MethodHook;
@@ -17,6 +18,14 @@ final class ColorOs17CompatHook {
     private static final String CONFIG_FEATURE_IMPL =
             "com.oplus.ocs.camera.configure.ConfigFeatureImpl";
 
+    private static final String[] SUPPORT_FUNCTION_CLASSES = {
+            // Stable camera module base.
+            "com.oplus.camera.module.a",
+            // Camera 7.013.30 overrides observed from the supplied APK.
+            "rm.g",
+            "rm.m"
+    };
+
     private static final String[] FILTER_GROUP_CLASSES = {
             "com.oplus.camera.filter.FilterGroupManager",
             "com.oplus.ocs.camera.ipusdk.processunit.filter.list.FilterGroupManager"
@@ -26,6 +35,8 @@ final class ColorOs17CompatHook {
 
     static void install(ClassLoader classLoader, OplusCapabilityResolver resolver) {
         installFeatureValueLegalHook(classLoader, resolver);
+        installSupportFunctionHook(classLoader, resolver);
+        installModernAiCompositionFallback(classLoader, resolver);
         installFilterGroupCompat(classLoader, resolver);
         log("resolver: " + resolver.describe());
     }
@@ -49,6 +60,70 @@ final class ColorOs17CompatHook {
             log("installed ConfigFeatureImpl#isFeatureValueLegal compatibility hook");
         } catch (Throwable t) {
             log("ConfigFeatureImpl path unavailable: " + t.getClass().getSimpleName());
+        }
+    }
+
+    private static void installSupportFunctionHook(
+            ClassLoader classLoader,
+            OplusCapabilityResolver resolver
+    ) {
+        for (String className : SUPPORT_FUNCTION_CLASSES) {
+            try {
+                Class<?> cls = XposedHelpers.findClass(className, classLoader);
+                XposedBridge.hookAllMethods(cls, "getSupportFunction", new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) {
+                        String key = firstStringArg(param.args);
+                        if (resolver.shouldForceBoolean(key)) {
+                            param.setResult(true);
+                        }
+                    }
+                });
+                log("installed getSupportFunction compatibility on " + className);
+            } catch (Throwable t) {
+                log("getSupportFunction path unavailable on " + className + ": "
+                        + t.getClass().getSimpleName());
+            }
+        }
+    }
+
+    /**
+     * Camera 7.x moved AI Capture Guide from the legacy Morpho anchor-tracking stack
+     * to OPlus AI Composition. The stable capability strings are resolved elsewhere;
+     * this fallback only touches the two observed no-arg boolean gates when the modern
+     * AI implementation and models are present.
+     */
+    private static void installModernAiCompositionFallback(
+            ClassLoader classLoader,
+            OplusCapabilityResolver resolver
+    ) {
+        if (!resolver.hasModernAiComposition()) {
+            return;
+        }
+
+        try {
+            Class<?> cls = XposedHelpers.findClass("ka.q0", classLoader);
+            int hooked = 0;
+            for (Method method : cls.getDeclaredMethods()) {
+                if (!("I".equals(method.getName()) || "J".equals(method.getName()))) {
+                    continue;
+                }
+                if (method.getParameterTypes().length != 0 || method.getReturnType() != boolean.class) {
+                    continue;
+                }
+                method.setAccessible(true);
+                XposedBridge.hookMethod(method, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) {
+                        param.setResult(true);
+                    }
+                });
+                hooked++;
+            }
+            log("installed Camera 7.x AI Composition fallback gates: " + hooked);
+        } catch (Throwable t) {
+            log("Camera 7.x AI Composition fallback unavailable: "
+                    + t.getClass().getSimpleName());
         }
     }
 
@@ -82,9 +157,13 @@ final class ColorOs17CompatHook {
             };
 
             for (String method : Arrays.asList(
+                    // Legacy names.
                     "init",
                     "initProFilterGroup",
-                    "initHasselbladXpanFilterGroup"
+                    "initHasselbladXpanFilterGroup",
+                    // Camera 7.x IPU-driven initialization.
+                    "initFromIpu",
+                    "initFilterGroupFromIpu"
             )) {
                 try {
                     XposedBridge.hookAllMethods(cls, method, refresh);
