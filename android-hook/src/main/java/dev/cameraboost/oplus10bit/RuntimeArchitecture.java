@@ -4,26 +4,37 @@ import de.robv.android.xposed.XposedHelpers;
 
 final class RuntimeArchitecture {
     final boolean modernAiComposition;
+    final boolean modernAiCompositionHelper;
     final boolean legacyAiCaptureGuide;
     final boolean livePhotoPipeline;
+    final boolean ipuFilterGroupManager;
+    final boolean appFilterGroupManager;
     final boolean filterGroupManager;
     final boolean protobufFeatureTable;
     final boolean configFeatureImpl;
+    final boolean modernCameraConfig;
 
     private RuntimeArchitecture(
             boolean modernAiComposition,
+            boolean modernAiCompositionHelper,
             boolean legacyAiCaptureGuide,
             boolean livePhotoPipeline,
-            boolean filterGroupManager,
+            boolean ipuFilterGroupManager,
+            boolean appFilterGroupManager,
             boolean protobufFeatureTable,
-            boolean configFeatureImpl
+            boolean configFeatureImpl,
+            boolean modernCameraConfig
     ) {
         this.modernAiComposition = modernAiComposition;
+        this.modernAiCompositionHelper = modernAiCompositionHelper;
         this.legacyAiCaptureGuide = legacyAiCaptureGuide;
         this.livePhotoPipeline = livePhotoPipeline;
-        this.filterGroupManager = filterGroupManager;
+        this.ipuFilterGroupManager = ipuFilterGroupManager;
+        this.appFilterGroupManager = appFilterGroupManager;
+        this.filterGroupManager = ipuFilterGroupManager || appFilterGroupManager;
         this.protobufFeatureTable = protobufFeatureTable;
         this.configFeatureImpl = configFeatureImpl;
+        this.modernCameraConfig = modernCameraConfig;
     }
 
     static RuntimeArchitecture detect(ClassLoader loader) {
@@ -33,6 +44,11 @@ final class RuntimeArchitecture {
         ) && classExists(
                 loader,
                 "com.oplus.camera.feature.aicomposition.state.CompositionStateMachine"
+        );
+
+        boolean modernAiHelper = classExists(
+                loader,
+                "com.oplus.ocs.camera.OplusAICompositionHelper"
         );
 
         boolean legacyAi = classExists(
@@ -48,9 +64,14 @@ final class RuntimeArchitecture {
                 "com.oplus.ocs.camera.CameraPictureCallback$CameraPictureImage"
         );
 
-        boolean filters = classExists(
+        boolean ipuFilters = classExists(
                 loader,
                 "com.oplus.ocs.camera.ipusdk.processunit.filter.list.FilterGroupManager"
+        );
+
+        boolean appFilters = classExists(
+                loader,
+                "com.oplus.camera.filter.FilterGroupManager"
         );
 
         boolean protobuf = classExists(
@@ -63,23 +84,34 @@ final class RuntimeArchitecture {
                 "com.oplus.ocs.camera.configure.ConfigFeatureImpl"
         );
 
+        boolean cameraConfig = classExists(
+                loader,
+                "com.oplus.camera.configure.CameraConfig"
+        );
+
         return new RuntimeArchitecture(
                 modernAi,
+                modernAiHelper,
                 legacyAi,
                 livePhoto,
-                filters,
+                ipuFilters,
+                appFilters,
                 protobuf,
-                configFeature
+                configFeature,
+                cameraConfig
         );
     }
 
     String summary() {
         return "runtime{modernAI=" + modernAiComposition
+                + ", modernAIHelper=" + modernAiCompositionHelper
                 + ", legacyAI=" + legacyAiCaptureGuide
                 + ", livePhoto=" + livePhotoPipeline
-                + ", filterGroup=" + filterGroupManager
+                + ", ipuFilterGroup=" + ipuFilterGroupManager
+                + ", appFilterGroup=" + appFilterGroupManager
                 + ", protobuf=" + protobufFeatureTable
-                + ", configFeature=" + configFeatureImpl
+                + ", legacyConfigFeature=" + configFeatureImpl
+                + ", cameraConfig=" + modernCameraConfig
                 + "}";
     }
 
