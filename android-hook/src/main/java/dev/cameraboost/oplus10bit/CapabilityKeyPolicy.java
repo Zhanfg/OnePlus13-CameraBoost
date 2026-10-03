@@ -20,6 +20,7 @@ final class CapabilityKeyPolicy {
             "com.oplus.camera.livephoto.support",
             "com.oplus.camera.video.livephoto.support",
             "com.oplus.camera.livephoto.mastermode.support",
+            "com.oplus.camera.livephoto.enable",
             "com.oplus.camera.livephoto.enable.eis",
             "com.oplus.camera.livephoto.enable.frc",
             "com.oplus.camera.livephoto.reuse.video.codec.support",
@@ -31,6 +32,7 @@ final class CapabilityKeyPolicy {
             "com.oplus.ai.composition.status.on",
             "com.oplus.feature.aicomposition.realscene.support",
             "com.oplus.feature.aicomposition.inspiration.support",
+            "com.oplus.ai.perfect.shot.guide.support",
             "com.oplus.ai.hd.switch.support",
             "com.oplus.tele.sdsr.support",
             "com.oplus.ai.scene.preset.support",
@@ -114,7 +116,30 @@ final class CapabilityKeyPolicy {
             "com.ocs.camera.ipu.soft.light.photo.mode.support",
             "com.ocs.camera.ipu.soft.light.night.mode.support",
             "com.ocs.camera.ipu.soft.light.professional.mode.support",
-            "com.ocs.camera.ipu.meishe.filter.support"
+            "com.ocs.camera.ipu.meishe.filter.support",
+
+            // Stable user-facing feature IDs observed in the ColorOS 17 camera.
+            // These represent product-tier exposure, not internal state-machine flags.
+            "com.oplus.camera.feature.ai_composition",
+            "com.oplus.camera.feature.autocomposition",
+            "com.oplus.camera.feature.video_live_photo",
+            "com.oplus.camera.feature.master_effect",
+            "com.oplus.camera.feature.master_video_params",
+            "com.oplus.camera.feature.raw",
+            "com.oplus.camera.feature.xpan",
+            "com.oplus.camera.feature.filter",
+            "com.oplus.camera.feature.motion_capture",
+            "com.oplus.camera.feature.macro",
+            "com.oplus.camera.feature.logvideo",
+            "com.oplus.camera.feature.hdr_all_route",
+            "com.oplus.camera.feature.high_resolution.enable_by_ai_scene",
+            "com.oplus.camera.feature.ai_enhancement_video",
+            "com.oplus.camera.feature.portrait.blur",
+            "com.oplus.camera.feature.video.blur",
+            "com.oplus.camera.feature.multi_video",
+            "com.oplus.camera.feature.video_night",
+            "com.oplus.camera.feature.quick_video",
+            "com.oplus.camera.feature.fast_video"
     ));
 
     private static final Set<String> DO_NOT_FORCE = new HashSet<>(Arrays.asList(
@@ -143,7 +168,72 @@ final class CapabilityKeyPolicy {
             ".conflict.",
             ".block.",
             "close.reason",
-            ".limit."
+            ".limit.",
+            "kill.apps",
+            "capture_defer",
+            "fallback"
+    };
+
+    // Physical capabilities that cannot be created by a software product-tier unlock
+    // on OnePlus 13. Do not fabricate hardware that is absent from the target.
+    private static final String[] HARDWARE_BLOCK_TOKENS = {
+            "200m",
+            "200mp",
+            "microscope",
+            "150.degree",
+            "150degree"
+    };
+
+    // Generic support/enable keys are only promoted when they describe a user-facing
+    // camera capability. This keeps thermal/memory/scheduler/calibration policy intact.
+    private static final String[] USER_VISIBLE_TOKENS = {
+            "ai.",
+            "composition",
+            "livephoto",
+            "master",
+            "raw",
+            "heif",
+            "hdr",
+            "filter",
+            "watermark",
+            "video",
+            "portrait",
+            "macro",
+            "tele",
+            "zoom",
+            "xpan",
+            "motion",
+            "burst",
+            "text",
+            "scanner",
+            "beauty",
+            "night",
+            "underwater",
+            "tilt",
+            "street",
+            "vibe",
+            "lumo",
+            "hasselblad",
+            "dolby",
+            "10bit",
+            "4k",
+            "8k",
+            "120fps",
+            "slow",
+            "focus",
+            "high.resolution",
+            "high.pixel",
+            "ultra.high",
+            "sticker",
+            "style",
+            "effect",
+            "soft.light",
+            "quick.launch",
+            "global.ev",
+            "fisheye",
+            "retro",
+            "color",
+            "logvideo"
     };
 
     private CapabilityKeyPolicy() {}
@@ -154,16 +244,22 @@ final class CapabilityKeyPolicy {
             return false;
         }
 
-        if (DO_NOT_FORCE.contains(key) || containsAny(key, SAFETY_OR_NEGATIVE_TOKENS)) {
+        if (DO_NOT_FORCE.contains(key)
+                || containsAny(key, SAFETY_OR_NEGATIVE_TOKENS)
+                || containsAny(key, HARDWARE_BLOCK_TOKENS)) {
             return false;
         }
 
         if (key.contains("aicomposition") || key.contains("ai.composition")) {
-            return runtime.modernAiComposition;
+            return runtime.modernAiComposition || runtime.modernAiCompositionHelper;
         }
 
         if (key.contains("ai.capture.guide")) {
-            return runtime.modernAiComposition || runtime.legacyAiCaptureGuide;
+            // ColorOS 17 replaced the Morpho dependency with native AI Composition.
+            // Either architecture is a valid implementation of the feature family.
+            return runtime.modernAiComposition
+                    || runtime.modernAiCompositionHelper
+                    || runtime.legacyAiCaptureGuide;
         }
 
         if (key.contains("livephoto")) {
@@ -179,14 +275,16 @@ final class CapabilityKeyPolicy {
             return true;
         }
 
-        // Aggressive cross-brand rule for ordinary OPlus/OCS software gates.
-        // Numeric thresholds, ranges, calibration and safety policy remain untouched.
-        return key.endsWith(".support")
+        // Cross-brand rule for ordinary user-facing OPlus/OCS software gates.
+        // Numeric thresholds, scheduler policy, calibration and safety gates stay untouched.
+        boolean genericGate = key.endsWith(".support")
                 || key.endsWith(".enable")
                 || key.endsWith(".default.open")
                 || key.endsWith(".status.on")
                 || key.startsWith("com.oplus.support.")
                 || key.contains(".support.");
+
+        return genericGate && containsAny(key, USER_VISIBLE_TOKENS);
     }
 
     static Set<String> explicitTrueKeys(RuntimeArchitecture runtime) {
