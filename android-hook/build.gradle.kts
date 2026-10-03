@@ -12,7 +12,6 @@ android {
         targetSdk = 36
         versionCode = 2
         versionName = "0.2.0"
-        buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "false")
     }
 
     buildFeatures {
@@ -23,6 +22,7 @@ android {
         getByName("debug") {
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "false")
             buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
+            buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "false")
         }
 
         create("probe") {
@@ -50,7 +50,7 @@ android {
             applicationIdSuffix = ".coloros17"
             versionNameSuffix = "-coloros17"
             buildConfigField("boolean", "ENABLE_10BIT_HEIC", "true")
-            buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "false")
+            buildConfigField("boolean", "ENABLE_10BIT_LIVE_PHOTO", "true")
             buildConfigField("boolean", "ENABLE_COLOROS17_COMPAT", "true")
             signingConfig = signingConfigs.getByName("debug")
         }
