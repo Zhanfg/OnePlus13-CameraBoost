@@ -53,6 +53,7 @@ final class OplusConfigPatcher {
 
             if (enableFullUnlock) {
                 patchExistingSoftwareGates(parsed.array, runtime, changedKeys);
+                injectReviewedCapabilityUnion(parsed.array, runtime, changedKeys);
                 applyScalarOverrides(parsed.array, runtime, changedKeys);
             }
 
@@ -117,6 +118,18 @@ final class OplusConfigPatcher {
 
             if (!"1".equals(oldValue)) {
                 obj.put("Value", "1");
+                changedKeys.add(key);
+            }
+        }
+    }
+
+    private static void injectReviewedCapabilityUnion(
+            JSONArray array,
+            RuntimeArchitecture runtime,
+            Set<String> changedKeys
+    ) throws JSONException {
+        for (String key : CapabilityKeyPolicy.explicitTrueKeys(runtime)) {
+            if (upsertByteFlag(array, key, "1")) {
                 changedKeys.add(key);
             }
         }
