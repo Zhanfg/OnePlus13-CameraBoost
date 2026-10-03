@@ -17,7 +17,10 @@ import java.util.zip.ZipInputStream;
  * not need class names and therefore survives normal R8/ProGuard class renaming.
  */
 final class OplusDexGateDiscovery {
-    private static final byte[] PREFIX = "com.oplus.".getBytes(StandardCharsets.US_ASCII);
+    private static final byte[][] PREFIXES = {
+            "com.oplus.".getBytes(StandardCharsets.US_ASCII),
+            "com.ocs.".getBytes(StandardCharsets.US_ASCII)
+    };
     private static final int MAX_STRING = 240;
 
     private OplusDexGateDiscovery() {}
@@ -35,50 +38,26 @@ final class OplusDexGateDiscovery {
             ZipEntry entry;
             byte[] buffer = new byte[128 * 1024];
 
-            int prefixState = 0;
-            StringBuilder capture = null;
-
             while ((entry = zis.getNextEntry()) != null) {
                 String name = entry.getName();
                 if (name == null || !name.startsWith("classes") || !name.endsWith(".dex")) {
                     continue;
                 }
 
-                prefixState = 0;
-                capture = null;
                 int read;
+                StringBuilder ascii = new StringBuilder();
                 while ((read = zis.read(buffer)) > 0) {
                     for (int i = 0; i < read; i++) {
                         int b = buffer[i] & 0xff;
-
-                        if (capture != null) {
-                            if (isGateChar(b) && capture.length() < MAX_STRING) {
-                                capture.append((char) b);
-                                continue;
-                            }
-
-                            addIfPositive(found, capture.toString());
-                            capture = null;
-                            prefixState = b == (PREFIX[0] & 0xff) ? 1 : 0;
-                            continue;
-                        }
-
-                        int expected = PREFIX[prefixState] & 0xff;
-                        if (b == expected) {
-                            prefixState++;
-                            if (prefixState == PREFIX.length) {
-                                capture = new StringBuilder("com.oplus.");
-                                prefixState = 0;
-                            }
+                        if (isGateChar(b) && ascii.length() < MAX_STRING) {
+                            ascii.append((char) b);
                         } else {
-                            prefixState = b == (PREFIX[0] & 0xff) ? 1 : 0;
+                            addIfPositive(found, ascii.toString());
+                            ascii.setLength(0);
                         }
                     }
                 }
-
-                if (capture != null) {
-                    addIfPositive(found, capture.toString());
-                }
+                addIfPositive(found, ascii.toString());
             }
         } catch (Throwable t) {
             CameraBoostLog.log("dynamic OPlus gate scan failed: "
@@ -93,7 +72,7 @@ final class OplusDexGateDiscovery {
     static boolean isPositiveBooleanGate(String key) {
         if (key == null) return false;
         String k = key.toLowerCase(Locale.ROOT);
-        if (!k.startsWith("com.oplus.")) return false;
+        if (!hasSupportedPrefix(k)) return false;
 
         String[] negative = {
                 ".not.support", ".unsupported", ".disable", ".disabled",
@@ -114,7 +93,16 @@ final class OplusDexGateDiscovery {
         if (!isPositiveBooleanGate(key)) return false;
         String k = key.toLowerCase(Locale.ROOT);
         // Feature-table names are not VendorTag rows and must not be invented in APS JSON.
-        return !k.startsWith("com.oplus.camera.feature.");
+        return !k.startsWith("com.oplus.camera.feature.")
+                && !k.startsWith("com.ocs.camera.feature.");
+    }
+
+    private static boolean hasSupportedPrefix(String key) {
+        for (byte[] raw : PREFIXES) {
+            String prefix = new String(raw, StandardCharsets.US_ASCII);
+            if (key.startsWith(prefix)) return true;
+        }
+        return false;
     }
 
     private static void addIfPositive(Set<String> out, String candidate) {
