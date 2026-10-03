@@ -30,6 +30,9 @@ final class CapabilityValuePolicy {
                 new OverrideSpec("Int32", "1", "3"));
         values.put("com.oplus.facebeauty.version",
                 new OverrideSpec("Int32", "1", "7"));
+        // ColorOS 17 namespace for the same face-beauty capability version.
+        values.put("com.oplus.camera.face.beauty.version",
+                new OverrideSpec("Int32", "1", "7"));
 
         // ColorOS Live Photo defaults. These are conservative values already used
         // by the legacy implementation and are only applied in the full-unlock build.
