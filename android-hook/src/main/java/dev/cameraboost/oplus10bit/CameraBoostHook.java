@@ -22,6 +22,7 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
 
         log("loaded " + TARGET_PACKAGE + "; " + FeaturePolicy.deviceIdentity());
         log("variant: colorOS17Compat=" + BuildConfig.ENABLE_COLOROS17_COMPAT
+                + ", experimentalAll=" + BuildConfig.ENABLE_EXPERIMENTAL_ALL
                 + ", 10bitHEIC=" + BuildConfig.ENABLE_10BIT_HEIC
                 + ", 10bitLivePhoto=" + BuildConfig.ENABLE_10BIT_LIVE_PHOTO);
 
