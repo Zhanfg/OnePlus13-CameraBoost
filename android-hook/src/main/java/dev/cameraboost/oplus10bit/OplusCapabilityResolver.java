@@ -90,6 +90,9 @@ final class OplusCapabilityResolver {
         tags.add(OplusConfigPatcher.TAG_10BIT_HEIC);
         tags.add(OplusConfigPatcher.TAG_VIDEO_10BIT);
         if (registry != null) tags.addAll(registry.matchedAnchors());
+        for (OplusFeatureGateRegistry.GateSpec spec : OplusFeatureGateRegistry.specs()) {
+            tags.add(spec.key);
+        }
         this.watchedTags = Collections.unmodifiableSet(tags);
     }
 
@@ -124,6 +127,10 @@ final class OplusCapabilityResolver {
 
     Set<String> watchedTags() {
         return watchedTags;
+    }
+
+    boolean hasAnchor(String anchor) {
+        return registry != null && registry.matched(anchor);
     }
 
     boolean hasModernAiComposition() {
@@ -171,6 +178,10 @@ final class OplusCapabilityResolver {
 
         if (OplusConfigPatcher.TAG_10BIT_HEIC.equals(key)) {
             return BuildConfig.ENABLE_10BIT_HEIC;
+        }
+
+        if (OplusFeatureGateRegistry.shouldForce(key, this)) {
+            return true;
         }
 
         if (registry != null) {
