@@ -24,29 +24,34 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
         log("variant: 10bitHEIC=" + BuildConfig.ENABLE_10BIT_HEIC
                 + ", 10bitLivePhoto=" + BuildConfig.ENABLE_10BIT_LIVE_PHOTO
                 + ", colorOS17Compat=" + BuildConfig.ENABLE_COLOROS17_COMPAT
-                + ", allSoftwareCapabilities=" + BuildConfig.ENABLE_ALL_SOFTWARE_CAPABILITIES);
+                + ", experimentalAll=" + BuildConfig.ENABLE_EXPERIMENTAL_ALL);
 
         if (!FeaturePolicy.isTargetDevice()) {
             log("device guard rejected this device; hook will stay observation-only");
         }
 
-        ColorOS17CompatResolver.init(
-                lpparam.classLoader,
-                lpparam.appInfo == null ? "" : lpparam.appInfo.sourceDir
-        );
+        if (BuildConfig.ENABLE_COLOROS17_COMPAT) {
+            String apkPath = lpparam.appInfo == null ? null : lpparam.appInfo.sourceDir;
+            OplusFeatureRegistry registry = OplusFeatureRegistry.scan(apkPath);
+            OplusCapabilityResolver resolver =
+                    OplusCapabilityResolver.probe(lpparam.classLoader, registry);
+            ColorOs17CompatHook.install(lpparam.classLoader, resolver);
+            log("ColorOS 17 compatibility layer initialized: " + resolver.describe());
+            return;
+        }
 
+        // Legacy/standalone 10-bit variants keep the original narrow hook path.
         VendorTagGateHook.install(lpparam.classLoader);
-        installConfigDocumentHook(lpparam.classLoader);
-        ColorOS17RuntimeHooks.install(lpparam.classLoader);
+        installLegacyConfigDocumentHook(lpparam.classLoader);
     }
 
-    private static void installConfigDocumentHook(ClassLoader classLoader) {
+    private static void installLegacyConfigDocumentHook(ClassLoader classLoader) {
         try {
             Class<?> helper = XposedHelpers.findClass(UPDATE_HELPER, classLoader);
             XposedBridge.hookAllMethods(helper, "getValidConfigData", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
-                    handleConfigResult(param);
+                    handleLegacyConfigResult(param);
                 }
             });
             log("hooked " + UPDATE_HELPER + "#getValidConfigData");
@@ -55,7 +60,7 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
         }
     }
 
-    private static void handleConfigResult(XC_MethodHook.MethodHookParam param) {
+    private static void handleLegacyConfigResult(XC_MethodHook.MethodHookParam param) {
         Object result = param.getResult();
         if (!(result instanceof String)) {
             return;
@@ -66,7 +71,7 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
 
         boolean looksLikeCameraConfig =
                 configName.toLowerCase(Locale.ROOT).contains("oplus_camera_config")
-                        || original.contains("VendorTag");
+                        || original.contains("\"VendorTag\"");
 
         if (!looksLikeCameraConfig) {
             return;
@@ -74,9 +79,7 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
 
         boolean canMutate = FeaturePolicy.isTargetDevice();
         boolean enable10Bit = canMutate && BuildConfig.ENABLE_10BIT_HEIC;
-        boolean enableLive = canMutate
-                && BuildConfig.ENABLE_10BIT_LIVE_PHOTO
-                && ColorOS17CompatResolver.get().supportsLivePhotoStack();
+        boolean enableLive = canMutate && BuildConfig.ENABLE_10BIT_LIVE_PHOTO;
 
         OplusConfigPatcher.PatchResult patched =
                 OplusConfigPatcher.inspectAndPatch(original, enable10Bit, enableLive);
@@ -91,7 +94,7 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
                 + " after=" + patched.after
                 + " changed=" + patched.changed);
 
-        if (canMutate && patched.changed) {
+        if (patched.changed && (enable10Bit || enableLive)) {
             param.setResult(patched.output);
             log("applied guarded OPlus camera feature-gate patch");
         }
