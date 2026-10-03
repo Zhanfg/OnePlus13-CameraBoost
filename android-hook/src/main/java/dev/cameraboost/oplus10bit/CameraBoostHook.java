@@ -35,6 +35,7 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
         // Observe/override all known OPlus feature-gate paths.
         VendorTagGateHook.install(lpparam.classLoader, runtime);
         CameraConfigCompatHook.install(lpparam.classLoader, runtime);
+        CameraUnitCompatHook.install(lpparam.classLoader, runtime);
         installConfigDocumentHook(lpparam.classLoader, runtime);
 
         if (BuildConfig.ENABLE_FULL_UNLOCK && FeaturePolicy.isTargetDevice()) {
