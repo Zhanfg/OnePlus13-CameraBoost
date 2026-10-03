@@ -26,8 +26,11 @@ final class OplusConfigPatcher {
             "com.oplus.camera.livephoto.support",
             "com.oplus.camera.video.livephoto.support",
             "com.oplus.feature.master.jpg.max.support",
+            "com.oplus.feature.master.hq.raw.support",
+            "com.oplus.feature.master.mode.version",
             "com.oplus.high.resolution.support",
-            "com.oplus.xpan.all.camera.support"
+            "com.oplus.xpan.all.camera.support",
+            "com.oplus.xpan.mode.version"
     };
 
     private OplusConfigPatcher() {}
@@ -50,6 +53,7 @@ final class OplusConfigPatcher {
 
             if (enableFullUnlock) {
                 patchExistingSoftwareGates(parsed.array, runtime, changedKeys);
+                applyScalarOverrides(parsed.array, runtime, changedKeys);
             }
 
             if (enable10BitHeic
@@ -116,6 +120,61 @@ final class OplusConfigPatcher {
                 changedKeys.add(key);
             }
         }
+    }
+
+    private static void applyScalarOverrides(
+            JSONArray array,
+            RuntimeArchitecture runtime,
+            Set<String> changedKeys
+    ) throws JSONException {
+        for (Map.Entry<String, CapabilityValuePolicy.OverrideSpec> entry
+                : CapabilityValuePolicy.all().entrySet()) {
+            String key = entry.getKey();
+            CapabilityValuePolicy.OverrideSpec spec =
+                    CapabilityValuePolicy.find(key, runtime);
+            if (spec == null) {
+                continue;
+            }
+
+            if (upsertValue(array, key, spec)) {
+                changedKeys.add(key);
+            }
+        }
+    }
+
+    private static boolean upsertValue(
+            JSONArray array,
+            String vendorTag,
+            CapabilityValuePolicy.OverrideSpec spec
+    ) throws JSONException {
+        for (int i = 0; i < array.length(); i++) {
+            JSONObject obj = array.optJSONObject(i);
+            if (obj == null) {
+                continue;
+            }
+
+            if (vendorTag.equals(obj.optString("VendorTag", ""))) {
+                String oldType = obj.optString("Type", "");
+                String oldCount = obj.optString("Count", "");
+                String oldValue = obj.optString("Value", "");
+
+                obj.put("Type", spec.type);
+                obj.put("Count", spec.count);
+                obj.put("Value", spec.value);
+
+                return !spec.type.equalsIgnoreCase(oldType)
+                        || !spec.count.equals(oldCount)
+                        || !spec.value.equals(oldValue);
+            }
+        }
+
+        JSONObject added = new JSONObject();
+        added.put("VendorTag", vendorTag);
+        added.put("Type", spec.type);
+        added.put("Count", spec.count);
+        added.put("Value", spec.value);
+        array.put(added);
+        return true;
     }
 
     private static Map<String, String> inspect(JSONArray array) {
