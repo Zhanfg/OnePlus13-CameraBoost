@@ -11,7 +11,8 @@ import de.robv.android.xposed.XposedHelpers;
 final class VendorTagGateHook {
     private static final String[] STRING_CONFIG_CLASSES = {
             "com.oplus.ocs.camera.appinterface.adapter.CameraAdapterUtils",
-            "com.oplus.ocs.camera.consumer.apsAdapter.adapter.ApsUtils"
+            "com.oplus.ocs.camera.consumer.apsAdapter.adapter.ApsUtils",
+            "com.oplus.ocs.camera.appinterface.adapter.CameraUnitUtils"
     };
 
     private static final String[] BOOLEAN_CONFIG_CLASSES = {
@@ -19,51 +20,57 @@ final class VendorTagGateHook {
             "com.oppo.camera.aps.config.CameraConfig"
     };
 
-    private static final Set<String> WATCHED_TAGS = ConcurrentHashMap.newKeySet();
     private static final Set<String> LOGGED = ConcurrentHashMap.newKeySet();
-
-    static {
-        WATCHED_TAGS.add(OplusConfigPatcher.TAG_10BIT_HEIC);
-        WATCHED_TAGS.add(OplusConfigPatcher.TAG_HEIF_LIVE_PHOTO);
-        WATCHED_TAGS.add(OplusConfigPatcher.TAG_10BIT_LIVE_PHOTO);
-        WATCHED_TAGS.add(OplusConfigPatcher.TAG_VIDEO_10BIT);
-    }
 
     private VendorTagGateHook() {}
 
-    static void install(ClassLoader classLoader) {
+    static void install(ClassLoader classLoader, RuntimeArchitecture runtime) {
         for (String className : STRING_CONFIG_CLASSES) {
-            installStringGetter(classLoader, className);
+            installStringGetter(classLoader, className, runtime);
         }
         for (String className : BOOLEAN_CONFIG_CLASSES) {
-            installBooleanGetter(classLoader, className);
+            installBooleanGetter(classLoader, className, runtime);
         }
     }
 
-    private static void installStringGetter(ClassLoader classLoader, String className) {
+    private static void installStringGetter(
+            ClassLoader classLoader,
+            String className,
+            RuntimeArchitecture runtime
+    ) {
         try {
             Class<?> cls = XposedHelpers.findClass(className, classLoader);
             XposedBridge.hookAllMethods(cls, "getVendorTagConfig", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
                     String key = firstStringArg(param.args);
-                    if (!OplusConfigPatcher.TAG_10BIT_HEIC.equals(key)) {
-                        return;
+
+                    if (BuildConfig.ENABLE_FULL_UNLOCK && FeaturePolicy.isTargetDevice()) {
+                        CapabilityValuePolicy.OverrideSpec value =
+                                CapabilityValuePolicy.find(key, runtime);
+                        if (value != null) {
+                            param.setResult(value.value);
+                            logOnce("force-value:" + key,
+                                    "forced scalar feature value " + key + " -> "
+                                            + value.value + " via " + className);
+                            return;
+                        }
                     }
 
-                    if (canEnable10BitStill()) {
+                    if (shouldForce(key, runtime)) {
                         param.setResult("1");
+                        logOnce("force-string:" + key,
+                                "forced string feature gate " + key + " -> 1 via " + className);
                     }
                 }
 
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
                     String key = firstStringArg(param.args);
-                    if (!WATCHED_TAGS.contains(key)) {
-                        return;
+                    if (isInteresting(key, runtime)) {
+                        logOnce(className + "#getVendorTagConfig:" + key,
+                                className + "#getVendorTagConfig " + key + " -> " + param.getResult());
                     }
-                    logOnce(className + "#getVendorTagConfig:" + key,
-                            className + "#getVendorTagConfig " + key + " -> " + param.getResult());
                 }
             });
             log("installed string vendor-tag getter hook on " + className);
@@ -73,30 +80,31 @@ final class VendorTagGateHook {
         }
     }
 
-    private static void installBooleanGetter(ClassLoader classLoader, String className) {
+    private static void installBooleanGetter(
+            ClassLoader classLoader,
+            String className,
+            RuntimeArchitecture runtime
+    ) {
         try {
             Class<?> cls = XposedHelpers.findClass(className, classLoader);
             XposedBridge.hookAllMethods(cls, "getConfigBooleanValue", new XC_MethodHook() {
                 @Override
                 protected void beforeHookedMethod(MethodHookParam param) {
                     String key = firstStringArg(param.args);
-                    if (!OplusConfigPatcher.TAG_10BIT_HEIC.equals(key)) {
-                        return;
-                    }
-
-                    if (canEnable10BitStill()) {
+                    if (shouldForce(key, runtime)) {
                         param.setResult(true);
+                        logOnce("force-bool:" + key,
+                                "forced boolean feature gate " + key + " -> true via " + className);
                     }
                 }
 
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
                     String key = firstStringArg(param.args);
-                    if (!WATCHED_TAGS.contains(key)) {
-                        return;
+                    if (isInteresting(key, runtime)) {
+                        logOnce(className + "#getConfigBooleanValue:" + key,
+                                className + "#getConfigBooleanValue " + key + " -> " + param.getResult());
                     }
-                    logOnce(className + "#getConfigBooleanValue:" + key,
-                            className + "#getConfigBooleanValue " + key + " -> " + param.getResult());
                 }
             });
             log("installed boolean camera-config hook on " + className);
@@ -106,8 +114,33 @@ final class VendorTagGateHook {
         }
     }
 
-    private static boolean canEnable10BitStill() {
-        return BuildConfig.ENABLE_10BIT_HEIC && FeaturePolicy.isTargetDevice();
+    private static boolean shouldForce(String key, RuntimeArchitecture runtime) {
+        if (!FeaturePolicy.isTargetDevice()) {
+            return false;
+        }
+
+        if (BuildConfig.ENABLE_FULL_UNLOCK
+                && CapabilityKeyPolicy.shouldForceBoolean(key, runtime)) {
+            return true;
+        }
+
+        if (BuildConfig.ENABLE_10BIT_HEIC
+                && OplusConfigPatcher.TAG_10BIT_HEIC.equals(key)) {
+            return true;
+        }
+
+        return BuildConfig.ENABLE_10BIT_LIVE_PHOTO
+                && (OplusConfigPatcher.TAG_HEIF_LIVE_PHOTO.equals(key)
+                || OplusConfigPatcher.TAG_10BIT_LIVE_PHOTO.equals(key));
+    }
+
+    private static boolean isInteresting(String key, RuntimeArchitecture runtime) {
+        return OplusConfigPatcher.TAG_10BIT_HEIC.equals(key)
+                || OplusConfigPatcher.TAG_HEIF_LIVE_PHOTO.equals(key)
+                || OplusConfigPatcher.TAG_10BIT_LIVE_PHOTO.equals(key)
+                || OplusConfigPatcher.TAG_VIDEO_10BIT.equals(key)
+                || CapabilityKeyPolicy.shouldForceBoolean(key, runtime)
+                || CapabilityValuePolicy.find(key, runtime) != null;
     }
 
     private static String firstStringArg(Object[] args) {
@@ -128,6 +161,6 @@ final class VendorTagGateHook {
     }
 
     private static void log(String message) {
-        XposedBridge.log("CameraBoost10Bit: " + message);
+        XposedBridge.log("CameraBoostFull: " + message);
     }
 }

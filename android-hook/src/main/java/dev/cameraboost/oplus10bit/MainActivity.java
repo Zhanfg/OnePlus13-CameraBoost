@@ -26,11 +26,24 @@ public final class MainActivity extends Activity {
         root.setPadding(pad, pad, pad, pad);
 
         TextView title = new TextView(this);
-        title.setText(BuildConfig.ENABLE_10BIT_HEIC
-                ? "CameraBoost 10-bit HEIC ENABLE variant"
-                : "CameraBoost 10-bit PROBE variant");
+        if (BuildConfig.ENABLE_FULL_UNLOCK) {
+            title.setText("CameraBoost ColorOS 17 FULL UNLOCK");
+        } else if (BuildConfig.ENABLE_10BIT_HEIC) {
+            title.setText("CameraBoost 10-bit HEIC ENABLE variant");
+        } else {
+            title.setText("CameraBoost 10-bit PROBE variant");
+        }
         title.setTextSize(20f);
         root.addView(title, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        ));
+
+        TextView mode = new TextView(this);
+        mode.setText("fullUnlock=" + BuildConfig.ENABLE_FULL_UNLOCK
+                + " · 10bitHEIC=" + BuildConfig.ENABLE_10BIT_HEIC
+                + " · 10bitLivePhoto=" + BuildConfig.ENABLE_10BIT_LIVE_PHOTO);
+        root.addView(mode, new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         ));
