@@ -1,6 +1,5 @@
 package dev.cameraboost.oplus10bit;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Locale;
@@ -58,6 +57,8 @@ final class OplusCapabilityResolver {
     private final boolean modernFilterGroup;
     private final boolean legacyFilterGroup;
 
+    private final OplusFeatureRegistry registry;
+    private final OplusAssetResolver assets;
     private final Set<String> watchedTags;
 
     private OplusCapabilityResolver(
@@ -65,13 +66,16 @@ final class OplusCapabilityResolver {
             boolean legacyAiCaptureGuide,
             boolean livePhotoPipeline,
             boolean modernFilterGroup,
-            boolean legacyFilterGroup
+            boolean legacyFilterGroup,
+            OplusFeatureRegistry registry
     ) {
         this.modernAiComposition = modernAiComposition;
         this.legacyAiCaptureGuide = legacyAiCaptureGuide;
         this.livePhotoPipeline = livePhotoPipeline;
         this.modernFilterGroup = modernFilterGroup;
         this.legacyFilterGroup = legacyFilterGroup;
+        this.registry = registry;
+        this.assets = new OplusAssetResolver();
 
         LinkedHashSet<String> tags = new LinkedHashSet<>();
         tags.add(TAG_AI_CAPTURE_GUIDE);
@@ -85,19 +89,25 @@ final class OplusCapabilityResolver {
         tags.add(FEATURE_HIGH_PIXEL_LIVE_PHOTO);
         tags.add(OplusConfigPatcher.TAG_10BIT_HEIC);
         tags.add(OplusConfigPatcher.TAG_VIDEO_10BIT);
+        if (registry != null) tags.addAll(registry.matchedAnchors());
         this.watchedTags = Collections.unmodifiableSet(tags);
     }
 
-    static OplusCapabilityResolver probe(ClassLoader classLoader) {
+    static OplusCapabilityResolver probe(
+            ClassLoader classLoader,
+            OplusFeatureRegistry registry
+    ) {
         boolean modernAi = classExists(classLoader, CLASS_MODERN_AI)
                 || classExists(classLoader, CLASS_MODERN_AI_HELPER);
         modernAi &= classExists(classLoader, CLASS_MODERN_AI_STATE)
-                || classExists(classLoader, CLASS_MODERN_AI_PREVIEW);
+                || classExists(classLoader, CLASS_MODERN_AI_PREVIEW)
+                || (registry != null && registry.has("ai_composition"));
 
         boolean legacyAi = classExists(classLoader, CLASS_LEGACY_AI);
 
         boolean livePhoto = classExists(classLoader, CLASS_LIVE_PHOTO_DATA)
-                || classExists(classLoader, CLASS_LIVE_PHOTO_EVENT);
+                || classExists(classLoader, CLASS_LIVE_PHOTO_EVENT)
+                || (registry != null && registry.has("live_photo"));
 
         boolean modernFilter = classExists(classLoader, CLASS_FILTER_MODERN);
         boolean legacyFilter = classExists(classLoader, CLASS_FILTER_LEGACY);
@@ -107,7 +117,8 @@ final class OplusCapabilityResolver {
                 legacyAi,
                 livePhoto,
                 modernFilter,
-                legacyFilter
+                legacyFilter,
+                registry
         );
     }
 
@@ -143,27 +154,51 @@ final class OplusCapabilityResolver {
         if (key == null || key.isEmpty()) {
             return false;
         }
+        if (!BuildConfig.ENABLE_COLOROS17_COMPAT || !FeaturePolicy.isTargetDevice()) {
+            return shouldForceExplicitLegacyGate(key);
+        }
 
         if (isAiKey(key)) {
-            return BuildConfig.ENABLE_COLOROS17_COMPAT && FeaturePolicy.isTargetDevice()
-                    && hasAnyAiGuide();
+            return hasAnyAiGuide();
         }
 
         if (isLivePhotoKey(key)) {
-            return BuildConfig.ENABLE_COLOROS17_COMPAT && FeaturePolicy.isTargetDevice()
-                    && hasLivePhotoPipeline();
+            if (TAG_10BIT_LIVE_PHOTO.equals(key)) {
+                return BuildConfig.ENABLE_10BIT_LIVE_PHOTO && hasLivePhotoPipeline();
+            }
+            return hasLivePhotoPipeline();
         }
 
         if (OplusConfigPatcher.TAG_10BIT_HEIC.equals(key)) {
-            return BuildConfig.ENABLE_10BIT_HEIC && FeaturePolicy.isTargetDevice();
+            return BuildConfig.ENABLE_10BIT_HEIC;
         }
 
+        if (registry != null) {
+            OplusFeatureRegistry.Feature feature = registry.featureForAnchor(key);
+            if (feature != null) {
+                if (feature.layer == OplusFeatureRegistry.Layer.SOFTWARE_GATE) {
+                    return true;
+                }
+                if (feature.layer == OplusFeatureRegistry.Layer.ASSET_REQUIRED) {
+                    return assets.assetsReady(feature.id);
+                }
+                // Hardware-sensitive gates are deliberately not blanket-forced here.
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    private boolean shouldForceExplicitLegacyGate(String key) {
+        if (OplusConfigPatcher.TAG_10BIT_HEIC.equals(key)) {
+            return BuildConfig.ENABLE_10BIT_HEIC && FeaturePolicy.isTargetDevice();
+        }
         if (OplusConfigPatcher.TAG_10BIT_LIVE_PHOTO.equals(key)) {
             return BuildConfig.ENABLE_10BIT_LIVE_PHOTO
                     && FeaturePolicy.isTargetDevice()
                     && hasLivePhotoPipeline();
         }
-
         return false;
     }
 
@@ -180,15 +215,20 @@ final class OplusCapabilityResolver {
             return hasLivePhotoPipeline();
         }
 
-        // Value legality is safe to relax for 120fps only when the caller is already
-        // evaluating the OPlus 120fps enum. This does not create a missing HAL stream.
         if ("com.oplus.configure.video.fps".equals(key)
                 && value != null
                 && "video_120fps".equals(String.valueOf(value))) {
-            return true;
+            return registry != null
+                    && (registry.has("video_4k120")
+                    || registry.has("video_1080p120")
+                    || registry.has("master_video_120"));
         }
 
         return false;
+    }
+
+    String assetStatus(String featureId) {
+        return assets.describe(featureId);
     }
 
     private boolean isAiKey(String key) {
@@ -209,11 +249,15 @@ final class OplusCapabilityResolver {
     }
 
     String describe() {
-        return "modernAi=" + modernAiComposition
+        String base = "modernAi=" + modernAiComposition
                 + ", legacyAi=" + legacyAiCaptureGuide
                 + ", livePhoto=" + livePhotoPipeline
                 + ", modernFilter=" + modernFilterGroup
                 + ", legacyFilter=" + legacyFilterGroup;
+        if (registry == null) return base;
+        return base + ", semanticFeatures={" + registry.summarize() + "}"
+                + ", grAssets={" + assets.describe("gr_filters") + "}"
+                + ", positiveAssets={" + assets.describe("positive_filters") + "}";
     }
 
     private static boolean classExists(ClassLoader classLoader, String className) {
