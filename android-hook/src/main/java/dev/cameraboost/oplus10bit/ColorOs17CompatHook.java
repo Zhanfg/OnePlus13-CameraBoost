@@ -17,6 +17,8 @@ import de.robv.android.xposed.XposedHelpers;
 final class ColorOs17CompatHook {
     private static final String CONFIG_FEATURE_IMPL =
             "com.oplus.ocs.camera.configure.ConfigFeatureImpl";
+    private static final String UPDATE_HELPER =
+            "com.oplus.ocs.camera.consumer.apsAdapter.update.UpdateHelper";
 
     private static final String[] SUPPORT_FUNCTION_CLASSES = {
             // Stable camera module base.
@@ -35,6 +37,7 @@ final class ColorOs17CompatHook {
 
     static void install(ClassLoader classLoader, OplusCapabilityResolver resolver) {
         installFeatureValueLegalHook(classLoader, resolver);
+        installConfigDocumentCompat(classLoader, resolver);
         OplusUniversalGateHook.install(classLoader, resolver);
         installSupportFunctionHook(classLoader, resolver);
         installModernAiCompositionFallback(classLoader, resolver);
@@ -61,6 +64,39 @@ final class ColorOs17CompatHook {
             log("installed ConfigFeatureImpl#isFeatureValueLegal compatibility hook");
         } catch (Throwable t) {
             log("ConfigFeatureImpl path unavailable: " + t.getClass().getSimpleName());
+        }
+    }
+
+    private static void installConfigDocumentCompat(
+            ClassLoader classLoader,
+            OplusCapabilityResolver resolver
+    ) {
+        try {
+            Class<?> cls = XposedHelpers.findClass(UPDATE_HELPER, classLoader);
+            XposedBridge.hookAllMethods(cls, "getValidConfigData", new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) {
+                    Object result = param.getResult();
+                    if (!(result instanceof String)) {
+                        return;
+                    }
+                    String original = (String) result;
+                    if (!original.contains("\"VendorTag\"")) {
+                        return;
+                    }
+
+                    ColorOS17ConfigPatcher.Result patched =
+                            ColorOS17ConfigPatcher.patch(original, resolver);
+                    if (patched.parsed && patched.changed) {
+                        param.setResult(patched.output);
+                        log("config compatibility: existing=" + patched.enabledExisting
+                                + ", synthesized=" + patched.synthesized);
+                    }
+                }
+            });
+            log("installed UpdateHelper configuration compatibility hook");
+        } catch (Throwable t) {
+            log("UpdateHelper compatibility unavailable: " + t.getClass().getSimpleName());
         }
     }
 
