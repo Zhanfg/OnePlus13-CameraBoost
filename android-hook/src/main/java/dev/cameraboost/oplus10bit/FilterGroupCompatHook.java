@@ -1,64 +1,136 @@
 package dev.cameraboost.oplus10bit;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 
 final class FilterGroupCompatHook {
-    private static final String MANAGER =
+    private static final String IPU_MANAGER =
             "com.oplus.ocs.camera.ipusdk.processunit.filter.list.FilterGroupManager";
+    private static final String APP_MANAGER =
+            "com.oplus.camera.filter.FilterGroupManager";
+
+    private static final Set<String> LOGGED = ConcurrentHashMap.newKeySet();
 
     private FilterGroupCompatHook() {}
 
     static void install(ClassLoader loader, RuntimeArchitecture runtime) {
+        if (runtime.ipuFilterGroupManager) {
+            installManager(loader, IPU_MANAGER, false);
+        }
+        if (runtime.appFilterGroupManager) {
+            installManager(loader, APP_MANAGER, true);
+        }
         if (!runtime.filterGroupManager) {
             log("FilterGroupManager unavailable; skipping filter compatibility hook");
-            return;
-        }
-
-        try {
-            Class<?> manager = XposedHelpers.findClass(MANAGER, loader);
-            XC_MethodHook syncHook = new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) {
-                    syncGroups(manager);
-                }
-            };
-
-            XposedBridge.hookAllMethods(manager, "init", syncHook);
-            XposedBridge.hookAllMethods(manager, "initProFilterGroup", syncHook);
-
-            // Apply once in case the class has already initialized before the hook is installed.
-            syncGroups(manager);
-            log("installed structure-based FilterGroup compatibility hook");
-        } catch (Throwable t) {
-            log("FilterGroup compatibility unavailable: " + t.getClass().getSimpleName()
-                    + ": " + t.getMessage());
         }
     }
 
-    private static void syncGroups(Class<?> manager) {
+    private static void installManager(
+            ClassLoader loader,
+            String className,
+            boolean modern
+    ) {
+        try {
+            Class<?> manager = XposedHelpers.findClass(className, loader);
+            int hooks = 0;
+
+            for (Method method : manager.getDeclaredMethods()) {
+                if (!method.getName().startsWith("init")) {
+                    continue;
+                }
+                method.setAccessible(true);
+                XposedBridge.hookMethod(method, new XC_MethodHook() {
+                    @Override
+                    protected void afterHookedMethod(MethodHookParam param) {
+                        syncGroups(manager, modern);
+                    }
+                });
+                hooks++;
+            }
+
+            // Apply once in case static initialization happened before module install.
+            syncGroups(manager, modern);
+            log("installed " + (modern ? "ColorOS17 app" : "OCS/IPU")
+                    + " FilterGroup compatibility hook; initHooks=" + hooks);
+        } catch (Throwable t) {
+            log("FilterGroup compatibility unavailable on " + className + ": "
+                    + t.getClass().getSimpleName() + ": " + t.getMessage());
+        }
+    }
+
+    private static void syncGroups(Class<?> manager, boolean modern) {
         try {
             Object normal = getStaticIfPresent(manager, "sFilterGroup");
-            if (normal != null && hasField(manager, "sProFilterGroup")) {
+            if (normal == null || !hasField(manager, "sProFilterGroup")) {
+                return;
+            }
+
+            Object pro = getStaticIfPresent(manager, "sProFilterGroup");
+
+            if (modern) {
+                if (pro == null) {
+                    Object copy = copyGroup(normal);
+                    setStatic(manager, "sProFilterGroup", copy != null ? copy : normal);
+                } else {
+                    mergeModernGroup(pro, normal);
+                }
+            } else {
+                // Legacy OCS FilterGroup does not expose a stable copy API.
+                // Sharing the normal group is the same behavior used by the
+                // earlier OPCameraPro unlock path.
                 setStatic(manager, "sProFilterGroup", normal);
             }
 
-            // These exist in some pre-ColorOS 17 builds. Keep them opportunistic;
-            // never make a missing legacy field fatal.
+            // Present only on older branches; never make their absence fatal.
             setStaticBooleanIfPresent(manager, "sbIsBrandOplusR", false);
             setStaticBooleanIfPresent(manager, "sbIsExport", false);
 
-            logOnce("filter-sync", "synchronized normal/pro filter groups without legacy field assumptions");
+            logOnce(
+                    "filter-sync:" + manager.getName(),
+                    "synchronized normal/pro filter groups on " + manager.getName()
+            );
         } catch (Throwable t) {
-            logOnce("filter-sync-error",
-                    "filter-group synchronization failed open: " + t.getClass().getSimpleName());
+            logOnce(
+                    "filter-sync-error:" + manager.getName(),
+                    "filter-group synchronization failed open on " + manager.getName()
+                            + ": " + t.getClass().getSimpleName()
+            );
         }
     }
 
-    private static Object getStaticIfPresent(Class<?> cls, String name) throws IllegalAccessException {
+    private static Object copyGroup(Object source) {
+        try {
+            Method copy = source.getClass().getDeclaredMethod("copy");
+            copy.setAccessible(true);
+            return copy.invoke(source);
+        } catch (Throwable ignored) {
+            return null;
+        }
+    }
+
+    private static void mergeModernGroup(Object target, Object source) {
+        try {
+            Method copyFrom = target.getClass().getDeclaredMethod(
+                    "copyFrom",
+                    source.getClass(),
+                    boolean.class,
+                    boolean.class
+            );
+            copyFrom.setAccessible(true);
+            copyFrom.invoke(target, source, true, true);
+        } catch (Throwable ignored) {
+            // Keep the host's existing pro group if the copy API changes.
+        }
+    }
+
+    private static Object getStaticIfPresent(Class<?> cls, String name)
+            throws IllegalAccessException {
         try {
             Field f = cls.getDeclaredField(name);
             f.setAccessible(true);
@@ -91,12 +163,9 @@ final class FilterGroupCompatHook {
             f.setAccessible(true);
             f.setBoolean(null, value);
         } catch (NoSuchFieldException ignored) {
-            // Newer camera builds legitimately remove old compatibility fields.
+            // Expected on ColorOS 17 where these legacy fields were removed.
         }
     }
-
-    private static final java.util.Set<String> LOGGED =
-            java.util.concurrent.ConcurrentHashMap.newKeySet();
 
     private static void logOnce(String key, String message) {
         if (LOGGED.add(key)) {
