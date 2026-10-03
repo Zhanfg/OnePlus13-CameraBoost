@@ -50,7 +50,11 @@ final class OplusFeatureGateRegistry {
         // Core still / Master / RAW.
         safe("com.oplus.turboraw.re.support");
         safe("com.oplus.feature.effect.style.support");
-        pipeline("com.oplus.feature.master.hq.raw.support", false, "RAWMAX");
+        value("com.oplus.feature.master.mode.version", "Float", "1", "2.0",
+                Risk.SAFE, true);
+        safe("com.oplus.professional.use.hasselblad.style.support");
+        safe("com.oplus.use.hasselblad.style.support");
+        pipeline("com.oplus.feature.master.hq.raw.support", true, "com.oplus.isRawMax");
         safe("com.oplus.rear.portrait.zoom.support");
         safe("com.oplus.heif.blur.edit.in.gallery.support");
         safe("com.oplus.camera.feature.scale.focus");
@@ -146,9 +150,39 @@ final class OplusFeatureGateRegistry {
         // ColorOS 17 / Camera 7.x user-facing additions observed in 7.013.30.
         safe("com.oplus.feature.color.palette.support");
         safe("com.oplus.palette.capture.enable");
-        pipeline("com.oplus.feature.master.jpg.max.support", false, "JPGMAX");
+        pipeline("com.oplus.feature.master.jpg.max.support", true);
         safe("com.oplus.feature.master.video.camera.mode.support");
+        safe("com.oplus.feature.master.video.1080.support");
+        safe("com.oplus.feature.master.video.24fps.support");
+        safe("com.oplus.feature.master.video.4k.support");
+        safe("com.oplus.feature.master.video.4k.tele.support");
+        safe("com.oplus.feature.master.video.4k.wide.support");
+        safe("com.oplus.feature.master.video.60fps.support");
+        safe("com.oplus.feature.master.video.8k.support");
         safe("com.oplus.feature.master.video.eis.support");
+        safe("com.oplus.feature.master.video.eis.8k.support");
+        safe("com.oplus.feature.master.video.focus.peaking.histogram.oplus.r.support");
+        safe("com.oplus.feature.master.video.hdr.support");
+        safe("com.oplus.feature.master.video.none.sat.tele.eis.support");
+        safe("com.oplus.feature.master.video.none.sat.ultratele.eis.support");
+        safe("com.oplus.feature.master.video.none.sat.ultratele.support");
+        safe("com.oplus.feature.master.video.ratio.support");
+        safe("com.oplus.feature.master.video.salient.object.detection.enabled");
+        safe("com.oplus.master.video.color.tone.support");
+        safe("com.oplus.master.video.lock.wb.support");
+        safe("com.oplus.master.video.three.state.stabilization");
+        safe("com.oplus.master.video.top.menu.support");
+        safe("com.oplus.feature.movie.mode.log.support");
+        safe("com.oplus.feature.photo.10bit.enable");
+        safe("com.oplus.feature.video.10bit.enable");
+        safe("com.oplus.feature.video.10bit.support");
+        safe("com.oplus.feature.video.3hdr.10bit.support");
+        safe("com.oplus.lumo.setting.guide.support");
+        safe("com.oplus.telephotoVideo.sound_stage_pickup.support");
+        safe("com.oplus.three.stage.animation.support");
+        safe("com.oplus.ai.hd.gan.zoom.support");
+        safe("com.oplus.ai.hd.icon.support");
+        safe("com.oplus.feature.aihd.sdsr.enable");
         safe("com.oplus.feature.retro.camera.support");
         safe("com.oplus.feature.retro.camera.livephoto.default.open", "VideoLivePhotoProcessor");
         safe("com.oplus.camera.retro.filter.fisheye.enable");
@@ -208,8 +242,8 @@ final class OplusFeatureGateRegistry {
                 "gr.bw.rgba.bin",
                 "gr.hi.bw.rgba.bin",
                 "DATASPACE_DISPLAY_P3_HLG",
-                "RAWMAX",
-                "JPGMAX",
+                "com.oplus.isRawMax",
+                "com.oplus.feature.master.jpg.max.support",
                 "HEIF",
                 "XPAN",
                 "video_120fps");
