@@ -143,6 +143,36 @@ final class OplusFeatureGateRegistry {
         safe("com.oplus.camera.support.custom.hasselblad.watermark.sellmode.default.open");
         safe("com.oplus.video.guide.support");
 
+        // ColorOS 17 / Camera 7.x user-facing additions observed in 7.013.30.
+        safe("com.oplus.feature.color.palette.support");
+        safe("com.oplus.palette.capture.enable");
+        pipeline("com.oplus.feature.master.jpg.max.support", false, "JPGMAX");
+        safe("com.oplus.feature.master.video.camera.mode.support");
+        safe("com.oplus.feature.master.video.eis.support");
+        safe("com.oplus.feature.retro.camera.support");
+        safe("com.oplus.feature.retro.camera.livephoto.default.open", "VideoLivePhotoProcessor");
+        safe("com.oplus.camera.retro.filter.fisheye.enable");
+        safe("com.oplus.feature.multi.video.ultra.wide.support");
+        safe("com.oplus.camera.multi.video.back.sat.support");
+        safe("com.oplus.camera.multi.video.v2.support");
+        safe("com.oplus.feature.qingtou.hupo.filter.support");
+        safe("com.oplus.feature.filter.preloadfilterresource.enable");
+        safe("com.oplus.camera.video.livephoto.default.value.is.still", "VideoLivePhotoProcessor");
+        pipeline("com.oplus.camera.high.pixel.mode.4k.live.dynamic.preview.support",
+                false, "camera_high_pixel_live_photo");
+        hardware("com.oplus.feature.video.120fps.ultrawide.support", "video_120fps");
+        hardware("com.oplus.feature.video.120fps.ultrawide.eis.support", "video_120fps");
+        hardware("com.oplus.feature.video.8k30fps.ultrawide.eis.support");
+        safe("com.oplus.feature.video.super.eis.none.sat.ultra.wide.support");
+        safe("com.oplus.high.pixel.zoom.nonarc.support");
+        safe("com.oplus.ultra.wide.display.zoom.value.support");
+        safe("com.oplus.camera.volume.zoom.aidl.enable");
+        safe("com.oplus.feature.front.zoom.anim.in.hal");
+        safe("com.oplus.feature.assist.center.indicator.support");
+        safe("com.oplus.feature.monitor.assist.support");
+        safe("com.oplus.feature.rack.screen.mode.support");
+        safe("com.oplus.camera.direct.launcher.support");
+
         // ColorOS 17: modern AI Composition replaces the legacy Morpho gate.
         safe("com.oplus.ai.capture.guide.support", "OplusAIComposition");
         safe("com.oplus.ai.composition.enable", "OplusAIComposition");
@@ -179,6 +209,7 @@ final class OplusFeatureGateRegistry {
                 "gr.hi.bw.rgba.bin",
                 "DATASPACE_DISPLAY_P3_HLG",
                 "RAWMAX",
+                "JPGMAX",
                 "HEIF",
                 "XPAN",
                 "video_120fps");
