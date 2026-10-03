@@ -118,6 +118,27 @@ final class ColorOS17ConfigPatcher {
                 changed = true;
             }
 
+            // Full-unlock variant: synthesize only DEX-observed, positive boolean-like
+            // OPlus/OCS gates that are absent from the current VendorTag document.
+            // Numeric tuning values and camera.feature table entries are deliberately
+            // excluded by OplusDexGateDiscovery.isSafeToSynthesizeAsByte().
+            if (BuildConfig.ENABLE_EXPERIMENTAL_ALL) {
+                for (String key : resolver.experimentalSynthesizableGates()) {
+                    if (existing.contains(key)) {
+                        continue;
+                    }
+                    JSONObject row = new JSONObject();
+                    row.put("VendorTag", key);
+                    row.put("Type", "Byte");
+                    row.put("Count", "1");
+                    row.put("Value", "1");
+                    rows.put(row);
+                    existing.add(key);
+                    synthesized++;
+                    changed = true;
+                }
+            }
+
             String output;
             if (rootIsArray) {
                 output = rows.toString();
