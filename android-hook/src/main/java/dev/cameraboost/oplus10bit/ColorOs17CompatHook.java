@@ -1,5 +1,6 @@
 package dev.cameraboost.oplus10bit;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -42,6 +43,7 @@ final class ColorOs17CompatHook {
         installSupportFunctionHook(classLoader, resolver);
         installModernAiCompositionFallback(classLoader, resolver);
         installFilterGroupCompat(classLoader, resolver);
+        installMeisheLutFallback(classLoader, resolver);
         log("resolver: " + resolver.describe());
     }
 
@@ -170,6 +172,66 @@ final class ColorOs17CompatHook {
         }
 
         log("installed modern AI Composition support gates: " + hooked);
+    }
+
+    private static void installMeisheLutFallback(
+            ClassLoader classLoader,
+            OplusCapabilityResolver resolver
+    ) {
+        String completeGrRoot = resolver.assetRoot("gr_filters");
+        String fallbackRoot = completeGrRoot != null
+                ? completeGrRoot : resolver.firstReadableLutRoot();
+        if (fallbackRoot == null) {
+            log("no readable Meishe LUT root detected");
+            return;
+        }
+
+        try {
+            Class<?> render = XposedHelpers.findClass(
+                    "com.meicam.effect.oppo.MeisheRender",
+                    classLoader
+            );
+            XposedBridge.hookAllMethods(render, "setStaticLUTPath", new XC_MethodHook() {
+                @Override
+                protected void beforeHookedMethod(MethodHookParam param) {
+                    if (param.args == null || param.args.length == 0
+                            || !(param.args[0] instanceof String)) {
+                        return;
+                    }
+
+                    String requested = (String) param.args[0];
+                    if (hasUsableLutDirectory(requested)) {
+                        return;
+                    }
+
+                    param.args[0] = fallbackRoot.endsWith("/")
+                            ? fallbackRoot : fallbackRoot + "/";
+                    log("Meishe LUT path fallback: " + requested + " -> " + param.args[0]);
+                }
+            });
+            log("installed Meishe LUT fallback, root=" + fallbackRoot
+                    + ", GR=" + resolver.assetStatus("gr_filters")
+                    + ", positive=" + resolver.assetStatus("positive_filters"));
+        } catch (Throwable t) {
+            log("Meishe LUT path hook unavailable: " + t.getClass().getSimpleName());
+        }
+    }
+
+    private static boolean hasUsableLutDirectory(String path) {
+        if (path == null || path.isEmpty()) {
+            return false;
+        }
+        try {
+            File dir = new File(path);
+            if (!dir.isDirectory() || !dir.canRead()) {
+                return false;
+            }
+            File[] bins = dir.listFiles((d, name) ->
+                    name != null && (name.endsWith(".bin") || name.endsWith(".cube")));
+            return bins != null && bins.length > 0;
+        } catch (Throwable ignored) {
+            return false;
+        }
     }
 
     private static void installFilterGroupCompat(
