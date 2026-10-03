@@ -117,9 +117,13 @@ final class CapabilityKeyPolicy {
             "com.ocs.camera.ipu.soft.light.night.mode.support",
             "com.ocs.camera.ipu.soft.light.professional.mode.support",
             "com.ocs.camera.ipu.meishe.filter.support",
+            "com.ocs.camera.ipu.meishe.filter.support"
+    ));
 
-            // Stable user-facing feature IDs observed in the ColorOS 17 camera.
-            // These represent product-tier exposure, not internal state-machine flags.
+    // Runtime feature identifiers are not serialized VendorTags. They are handled
+    // only by CameraConfig-compatible runtime getters and must not be injected into
+    // the vendor config document.
+    private static final Set<String> MODERN_FEATURE_IDS = new HashSet<>(Arrays.asList(
             "com.oplus.camera.feature.ai_composition",
             "com.oplus.camera.feature.autocomposition",
             "com.oplus.camera.feature.video_live_photo",
@@ -250,7 +254,10 @@ final class CapabilityKeyPolicy {
             return false;
         }
 
-        if (key.contains("aicomposition") || key.contains("ai.composition")) {
+        if (key.contains("aicomposition")
+                || key.contains("ai.composition")
+                || key.contains("ai_composition")
+                || key.contains("autocomposition")) {
             return runtime.modernAiComposition || runtime.modernAiCompositionHelper;
         }
 
@@ -262,13 +269,17 @@ final class CapabilityKeyPolicy {
                     || runtime.legacyAiCaptureGuide;
         }
 
-        if (key.contains("livephoto")) {
+        if (key.contains("livephoto") || key.contains("live_photo")) {
             return runtime.livePhotoPipeline && (
                     EXPLICIT_TRUE.contains(key)
                             || key.endsWith(".support")
                             || key.endsWith(".enable")
                             || key.endsWith(".default.open")
             );
+        }
+
+        if (MODERN_FEATURE_IDS.contains(key)) {
+            return true;
         }
 
         if (EXPLICIT_TRUE.contains(key)) {
