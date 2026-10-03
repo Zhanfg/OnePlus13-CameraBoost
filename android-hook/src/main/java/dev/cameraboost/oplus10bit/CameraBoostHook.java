@@ -22,23 +22,35 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
 
         log("loaded " + TARGET_PACKAGE + "; " + FeaturePolicy.deviceIdentity());
         log("variant: 10bitHEIC=" + BuildConfig.ENABLE_10BIT_HEIC
-                + ", 10bitLivePhoto=" + BuildConfig.ENABLE_10BIT_LIVE_PHOTO);
+                + ", 10bitLivePhoto=" + BuildConfig.ENABLE_10BIT_LIVE_PHOTO
+                + ", fullUnlock=" + BuildConfig.ENABLE_FULL_UNLOCK);
 
         if (!FeaturePolicy.isTargetDevice()) {
             log("device guard rejected this device; hook will stay observation-only");
         }
 
-        VendorTagGateHook.install(lpparam.classLoader);
-        installConfigDocumentHook(lpparam.classLoader);
+        RuntimeArchitecture runtime = RuntimeArchitecture.detect(lpparam.classLoader);
+        log(runtime.summary());
+
+        VendorTagGateHook.install(lpparam.classLoader, runtime);
+        installConfigDocumentHook(lpparam.classLoader, runtime);
+
+        if (BuildConfig.ENABLE_FULL_UNLOCK && FeaturePolicy.isTargetDevice()) {
+            FeatureValueLegalHook.install(lpparam.classLoader, runtime);
+            FilterGroupCompatHook.install(lpparam.classLoader, runtime);
+        }
     }
 
-    private static void installConfigDocumentHook(ClassLoader classLoader) {
+    private static void installConfigDocumentHook(
+            ClassLoader classLoader,
+            RuntimeArchitecture runtime
+    ) {
         try {
             Class<?> helper = XposedHelpers.findClass(UPDATE_HELPER, classLoader);
             XposedBridge.hookAllMethods(helper, "getValidConfigData", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
-                    handleConfigResult(param);
+                    handleConfigResult(param, runtime);
                 }
             });
             log("hooked " + UPDATE_HELPER + "#getValidConfigData");
@@ -47,7 +59,10 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
         }
     }
 
-    private static void handleConfigResult(XC_MethodHook.MethodHookParam param) {
+    private static void handleConfigResult(
+            XC_MethodHook.MethodHookParam param,
+            RuntimeArchitecture runtime
+    ) {
         Object result = param.getResult();
         if (!(result instanceof String)) {
             return;
@@ -67,9 +82,16 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
         boolean canMutate = FeaturePolicy.isTargetDevice();
         boolean enable10Bit = canMutate && BuildConfig.ENABLE_10BIT_HEIC;
         boolean enableLive = canMutate && BuildConfig.ENABLE_10BIT_LIVE_PHOTO;
+        boolean fullUnlock = canMutate && BuildConfig.ENABLE_FULL_UNLOCK;
 
         OplusConfigPatcher.PatchResult patched =
-                OplusConfigPatcher.inspectAndPatch(original, enable10Bit, enableLive);
+                OplusConfigPatcher.inspectAndPatch(
+                        original,
+                        enable10Bit,
+                        enableLive,
+                        fullUnlock,
+                        runtime
+                );
 
         if (!patched.parsed) {
             log("config parse failed for " + configName + ": " + patched.error);
@@ -79,9 +101,9 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
         log("config=" + configName
                 + " before=" + patched.before
                 + " after=" + patched.after
-                + " changed=" + patched.changed);
+                + " changedKeys=" + patched.changedKeys);
 
-        if (patched.changed && (enable10Bit || enableLive)) {
+        if (patched.changed && (enable10Bit || enableLive || fullUnlock)) {
             param.setResult(patched.output);
             log("applied guarded OPlus camera feature-gate patch");
         }
@@ -101,6 +123,6 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
     }
 
     private static void log(String message) {
-        XposedBridge.log("CameraBoost10Bit: " + message);
+        XposedBridge.log("CameraBoostFull: " + message);
     }
 }
