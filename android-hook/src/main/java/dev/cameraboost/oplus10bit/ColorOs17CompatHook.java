@@ -23,10 +23,14 @@ final class ColorOs17CompatHook {
 
     private static final String[] SUPPORT_FUNCTION_CLASSES = {
             // Stable camera module base.
+            "com.oplus.camera.module.BaseMode",
             "com.oplus.camera.module.a",
-            // Camera 7.013.30 overrides observed from the supplied APK.
+            // High-confidence Camera 7.013.30 mode overrides.
+            "gm.q2",
+            "rm.f",
             "rm.g",
-            "rm.m"
+            "rm.m",
+            "rm.o"
     };
 
     private static final String[] FILTER_GROUP_CLASSES = {
@@ -42,7 +46,7 @@ final class ColorOs17CompatHook {
         OplusCameraUnitCompatHook.install(classLoader, resolver);
         OplusUniversalGateHook.install(classLoader, resolver);
         OseeCameraCompatHook.install(classLoader);
-        SupportFunctionCompatHook.install(classLoader, resolver);
+        // hotfix1: do not eagerly load every mode class during camera cold start.
         MasterAiCompatHook.install(classLoader, resolver);
         installSupportFunctionHook(classLoader, resolver);
         installModernAiCompositionFallback(classLoader, resolver);
