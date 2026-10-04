@@ -20,7 +20,12 @@ import de.robv.android.xposed.XposedHelpers;
  * globally force CameraConfig feature gates.
  */
 final class Direct25MpCompatHook {
-    private static final String COMMON_CAP_MODE = "gm.q2";
+    // gm.q2 owns the reusable CommonCapMode implementation methods, but
+    // Camera 7.013.30 instantiates im.j1 for the actual runtime "common" mode.
+    // Runtime evidence:
+    //   OCAM_j1_BaseMode: modeName: common, this: im.j1@...
+    private static final String COMMON_CAP_BASE = "gm.q2";
+    private static final String COMMON_CAP_RUNTIME = "im.j1";
     private static final String CAMERA_PARAMETER =
             "com.oplus.ocs.camera.CameraParameter";
 
@@ -52,14 +57,20 @@ final class Direct25MpCompatHook {
             return;
         }
 
-        Class<?> common = XposedHelpers.findClassIfExists(COMMON_CAP_MODE, classLoader);
+        Class<?> common = XposedHelpers.findClassIfExists(COMMON_CAP_BASE, classLoader);
+        Class<?> runtimeCommon =
+                XposedHelpers.findClassIfExists(COMMON_CAP_RUNTIME, classLoader);
         Class<?> cameraParameter =
                 XposedHelpers.findClassIfExists(CAMERA_PARAMETER, classLoader);
-        if (common == null || cameraParameter == null) {
-            CameraBoostLog.log("Direct25MP unavailable: common="
-                    + (common != null) + ", CameraParameter=" + (cameraParameter != null));
+        if (common == null || runtimeCommon == null || cameraParameter == null) {
+            CameraBoostLog.log("Direct25MP unavailable: commonBase="
+                    + (common != null) + ", runtimeCommon=" + (runtimeCommon != null)
+                    + ", CameraParameter=" + (cameraParameter != null));
             return;
         }
+
+        CameraBoostLog.log("Direct25MP runtime mapping: "
+                + COMMON_CAP_RUNTIME + " -> base " + COMMON_CAP_BASE);
 
         hookCurrentHighPictureState(common);
         hookSupportFunction(common);
@@ -250,7 +261,7 @@ final class Direct25MpCompatHook {
     }
 
     private static boolean isExactCommonMode(Object obj) {
-        return obj != null && COMMON_CAP_MODE.equals(obj.getClass().getName());
+        return obj != null && COMMON_CAP_RUNTIME.equals(obj.getClass().getName());
     }
 
     private static void logOnce(String key, String message) {
