@@ -29,6 +29,7 @@ final class NativeHighResolutionTraceHook {
     private static final Set<String> KEYS = new HashSet<>(Arrays.asList(
             "com.oplus.super.resolution.picturesize",
             "com.oplus.feature.high.definition.support",
+            "com.oplus.pre.high.resolution.support",
             "com.oplus.turboraw.re.support",
             "com.oplus.high.picturesize.name",
             "com.oplus.high.picturesize",
@@ -59,7 +60,8 @@ final class NativeHighResolutionTraceHook {
         for (Method m : cls.getDeclaredMethods()) {
             String name = m.getName();
             if (!("w".equals(name) || "d".equals(name)
-                    || "o".equals(name) || "x".equals(name))) {
+                    || "o".equals(name) || "x".equals(name)
+                    || "getConfigBooleanValue".equals(name))) {
                 continue;
             }
             Class<?>[] ps = m.getParameterTypes();
