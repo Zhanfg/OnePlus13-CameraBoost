@@ -52,25 +52,12 @@ final class HighResolutionMenuCompatHook {
             return;
         }
 
-        if (cameraConfig != null) {
-            try {
-                Object hd = XposedHelpers.callStaticMethod(
-                        cameraConfig, "getConfigBooleanValue", KEY_HIGH_DEFINITION);
-                Object pre = XposedHelpers.callStaticMethod(
-                        cameraConfig, "getConfigBooleanValue", KEY_PRE_HIGH_RESOLUTION);
-                CameraBoostLog.log("HighResolution native gates: "
-                        + KEY_HIGH_DEFINITION + "=" + hd + ", "
-                        + KEY_PRE_HIGH_RESOLUTION + "=" + pre);
-            } catch (Throwable t) {
-                CameraBoostLog.log("HighResolution native-gate probe failed: "
-                        + t.getClass().getSimpleName());
-            }
-        }
-
         try {
+            final Class<?> configClass = cameraConfig;
             XposedBridge.hookAllMethods(settings, "parseMenuPanel", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
+                    logNativeGates(configClass);
                     restoreMenuEntry(param.thisObject);
                 }
             });
@@ -78,6 +65,23 @@ final class HighResolutionMenuCompatHook {
                     + SETTINGS_CONFIG + "#parseMenuPanel");
         } catch (Throwable t) {
             CameraBoostLog.error("HighResolution menu compat install", t);
+        }
+    }
+
+    private static void logNativeGates(Class<?> cameraConfig) {
+        if (cameraConfig == null) return;
+
+        try {
+            Object hd = XposedHelpers.callStaticMethod(
+                    cameraConfig, "getConfigBooleanValue", KEY_HIGH_DEFINITION);
+            Object pre = XposedHelpers.callStaticMethod(
+                    cameraConfig, "getConfigBooleanValue", KEY_PRE_HIGH_RESOLUTION);
+            CameraBoostLog.log("HighResolution native gates at parseMenuPanel: "
+                    + KEY_HIGH_DEFINITION + "=" + hd + ", "
+                    + KEY_PRE_HIGH_RESOLUTION + "=" + pre);
+        } catch (Throwable t) {
+            CameraBoostLog.log("HighResolution native-gate probe failed: "
+                    + t.getClass().getSimpleName());
         }
     }
 
