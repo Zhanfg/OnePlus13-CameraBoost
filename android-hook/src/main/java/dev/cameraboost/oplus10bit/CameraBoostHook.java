@@ -11,34 +11,63 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 public final class CameraBoostHook implements IXposedHookLoadPackage {
     private static final String TARGET_PACKAGE = "com.oplus.camera";
+    private static final String GALLERY_PACKAGE = "com.coloros.gallery3d";
+    private static final String SCANNER_PACKAGE = "com.coloros.ocrscanner";
     private static final String UPDATE_HELPER =
             "com.oplus.ocs.camera.consumer.apsAdapter.update.UpdateHelper";
 
     @Override
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
+        if (GALLERY_PACKAGE.equals(lpparam.packageName)) {
+            GalleryCompatHook.install(lpparam.classLoader);
+            return;
+        }
+
+        if (SCANNER_PACKAGE.equals(lpparam.packageName)) {
+            ScannerCompatHook.install(lpparam.classLoader);
+            return;
+        }
+
         if (!TARGET_PACKAGE.equals(lpparam.packageName)) {
             return;
         }
 
         log("loaded " + TARGET_PACKAGE + "; " + FeaturePolicy.deviceIdentity());
         log("variant: 10bitHEIC=" + BuildConfig.ENABLE_10BIT_HEIC
-                + ", 10bitLivePhoto=" + BuildConfig.ENABLE_10BIT_LIVE_PHOTO);
+                + ", 10bitLivePhoto=" + BuildConfig.ENABLE_10BIT_LIVE_PHOTO
+                + ", colorOS17Compat=" + BuildConfig.ENABLE_COLOROS17_COMPAT
+                + ", experimentalAll=" + BuildConfig.ENABLE_EXPERIMENTAL_ALL);
 
         if (!FeaturePolicy.isTargetDevice()) {
             log("device guard rejected this device; hook will stay observation-only");
         }
 
+        if (BuildConfig.ENABLE_COLOROS17_COMPAT) {
+            CameraBoostLog.log("stage=CAMERA_LOAD_ENTER");
+
+            // hotfix5 keeps the hotfix4 safety baseline, but restores only the exact
+            // HighPixel/TurboRAW keys verified on Camera 7.013.30.
+            CameraBoostLog.log("stage=CAMERA_SAFE_BASELINE");
+            HighPixelCompatHook.install(lpparam.classLoader);
+            CameraBoostLog.log("camera mutations disabled except exact HighPixel adapter: "
+                    + "config patcher, CameraUnit, universal gates, getSupportFunction, "
+                    + "Master/AI q0, OSEE bridge remain disabled");
+            CameraBoostLog.log("stage=CAMERA_LOAD_EXIT");
+            return;
+        }
+
+        // Legacy/standalone 10-bit variants keep the original narrow hook path.
         VendorTagGateHook.install(lpparam.classLoader);
-        installConfigDocumentHook(lpparam.classLoader);
+        installLegacyConfigDocumentHook(lpparam.classLoader);
     }
 
-    private static void installConfigDocumentHook(ClassLoader classLoader) {
+    private static void installLegacyConfigDocumentHook(ClassLoader classLoader) {
         try {
             Class<?> helper = XposedHelpers.findClass(UPDATE_HELPER, classLoader);
             XposedBridge.hookAllMethods(helper, "getValidConfigData", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) {
-                    handleConfigResult(param);
+                    handleLegacyConfigResult(param);
                 }
             });
             log("hooked " + UPDATE_HELPER + "#getValidConfigData");
@@ -47,7 +76,7 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
         }
     }
 
-    private static void handleConfigResult(XC_MethodHook.MethodHookParam param) {
+    private static void handleLegacyConfigResult(XC_MethodHook.MethodHookParam param) {
         Object result = param.getResult();
         if (!(result instanceof String)) {
             return;
@@ -101,6 +130,6 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
     }
 
     private static void log(String message) {
-        XposedBridge.log("CameraBoost10Bit: " + message);
+        XposedBridge.log("CameraBoost: " + message);
     }
 }
