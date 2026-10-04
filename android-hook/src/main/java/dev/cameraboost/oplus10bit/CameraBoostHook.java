@@ -50,11 +50,10 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
             // the high-resolution state, QBC, capture size, zoom, SAT, or mode state.
             CameraBoostLog.log("stage=CAMERA_SAFE_BASELINE");
             HighResolutionMenuCompatHook.install(lpparam.classLoader);
-            NativeHighResolutionUiCompatHook.install(lpparam.classLoader);
             NativeHighResolutionTraceHook.install(lpparam.classLoader);
             Direct25MpTraceHook.install(lpparam.classLoader);
             CameraBoostLog.log("camera mutation limited to restoring the native High Resolution "
-                    + "menu entry/support key; HighResolution/TurboRAW state remains trace-only");
+                    + "menu-panel entry; all support/state/QBC/zoom decisions remain native");
             CameraBoostLog.log("stage=CAMERA_LOAD_EXIT");
             return;
         }
