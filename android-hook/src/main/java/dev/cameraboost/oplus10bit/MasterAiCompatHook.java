@@ -38,11 +38,9 @@ final class MasterAiCompatHook {
             hookBooleanNoArg(cls, "I", modernAi, "AI Composition inspiration");
             hookBooleanNoArg(cls, "J", modernAi, "AI Composition real-scene");
 
-            boolean masterV2 = premiumUnlock;
-            for (String method : Arrays.asList("Y", "Z", "a0", "b0", "c0")) {
-                hookBooleanNoArg(cls, method, masterV2, "Master mode v2");
-            }
-
+            // IMPORTANT: Y/Z/a0/b0/c0 are distinct predicates derived from the same
+            // com.oplus.feature.master.mode.version number. They are mutually
+            // version-sensitive and must be evaluated by the host unchanged.
             boolean hasselblad = premiumUnlock;
             hookBooleanNoArg(cls, "z", hasselblad, "Hasselblad style");
         } catch (Throwable t) {
