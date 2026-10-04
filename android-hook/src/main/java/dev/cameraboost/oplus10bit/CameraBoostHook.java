@@ -44,19 +44,15 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
 
         if (BuildConfig.ENABLE_COLOROS17_COMPAT) {
             CameraBoostLog.log("stage=CAMERA_LOAD_ENTER");
-            try {
-                CameraBoostLog.log("stage=RESOLVER_PROBE_START");
-                OplusCapabilityResolver resolver =
-                        OplusCapabilityResolver.probe(lpparam.classLoader, null);
-                CameraBoostLog.log("stage=RESOLVER_PROBE_OK " + resolver.describe());
 
-                CameraBoostLog.log("stage=COMPAT_INSTALL_START");
-                ColorOs17CompatHook.install(null, lpparam.classLoader, resolver);
-                CameraBoostLog.log("stage=COMPAT_INSTALL_OK");
-            } catch (Throwable t) {
-                // Never let a compatibility-layer failure take down the camera process.
-                CameraBoostLog.error("camera-load compatibility", t);
-            }
+            // hotfix4 safety baseline:
+            // Do not mutate Camera 7.013.30 capability/config/mode tables globally.
+            // OPCameraPro remains responsible for its own feature hooks; this module
+            // becomes observation-only in com.oplus.camera until each migration is
+            // reintroduced through isolated, mode-specific adapters.
+            CameraBoostLog.log("stage=CAMERA_SAFE_BASELINE");
+            CameraBoostLog.log("camera mutations disabled: config patcher, CameraUnit, "
+                    + "universal gates, getSupportFunction, Master/AI q0, OSEE bridge");
             CameraBoostLog.log("stage=CAMERA_LOAD_EXIT");
             return;
         }
