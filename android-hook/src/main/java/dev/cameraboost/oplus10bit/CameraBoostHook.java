@@ -43,12 +43,21 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
         }
 
         if (BuildConfig.ENABLE_COLOROS17_COMPAT) {
-            String apkPath = lpparam.appInfo == null ? null : lpparam.appInfo.sourceDir;
-            OplusFeatureRegistry registry = OplusFeatureRegistry.scan(apkPath);
-            OplusCapabilityResolver resolver =
-                    OplusCapabilityResolver.probe(lpparam.classLoader, registry);
-            ColorOs17CompatHook.install(apkPath, lpparam.classLoader, resolver);
-            log("ColorOS 17 compatibility layer initialized: " + resolver.describe());
+            CameraBoostLog.log("stage=CAMERA_LOAD_ENTER");
+            try {
+                CameraBoostLog.log("stage=RESOLVER_PROBE_START");
+                OplusCapabilityResolver resolver =
+                        OplusCapabilityResolver.probe(lpparam.classLoader, null);
+                CameraBoostLog.log("stage=RESOLVER_PROBE_OK " + resolver.describe());
+
+                CameraBoostLog.log("stage=COMPAT_INSTALL_START");
+                ColorOs17CompatHook.install(null, lpparam.classLoader, resolver);
+                CameraBoostLog.log("stage=COMPAT_INSTALL_OK");
+            } catch (Throwable t) {
+                // Never let a compatibility-layer failure take down the camera process.
+                CameraBoostLog.error("camera-load compatibility", t);
+            }
+            CameraBoostLog.log("stage=CAMERA_LOAD_EXIT");
             return;
         }
 
