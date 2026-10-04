@@ -54,7 +54,7 @@ final class OplusFeatureGateRegistry {
                 Risk.SAFE, true);
         safe("com.oplus.professional.use.hasselblad.style.support");
         safe("com.oplus.use.hasselblad.style.support");
-        pipeline("com.oplus.feature.master.hq.raw.support", true, "com.oplus.isRawMax");
+        pipeline("com.oplus.feature.master.hq.raw.support", true);
         safe("com.oplus.rear.portrait.zoom.support");
         safe("com.oplus.heif.blur.edit.in.gallery.support");
         safe("com.oplus.camera.feature.scale.focus");
