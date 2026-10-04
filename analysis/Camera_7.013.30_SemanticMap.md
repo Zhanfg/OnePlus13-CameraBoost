@@ -96,3 +96,35 @@ requiring `gm.q2` itself.
 
 This correction explains why hotfix7 installed method hooks successfully but
 none of its runtime direct-25MP branches executed.
+
+
+## High-resolution UI correction from direct Camera 7.013.30 inspection
+
+The Camera 7.013.30 APK contains a complete native High Resolution feature
+which is distinct from both the standalone HighPixel mode and Hasselblad
+Super Definition:
+
+- Feature ID: `com.oplus.camera.feature.high_resolution`
+- `rg.a` = `HighResolutionKeys.java`
+- `rg.b` = `HighResolutionModel.java`
+- `rg.g` = `HighResolutionPresenter.java`
+- FeatureFactory constructs `rg.g` directly for normal Photo
+- Native resources include:
+  - `camera_setting_high_resolution_new`
+  - `camera_setting_menu_high_resolution_item`
+  - `camera_setting_submenu_high_resolution`
+- Native support/visibility key:
+  - `pref_camera_high_resolution_key`
+- Native state values:
+  - `standard`
+  - `standard_high`
+
+This must not be conflated with:
+- `HighPixelMode` / `high_pixel_mode`
+- `camera_hasselblad_super_definition`
+
+Runtime trace on 2026-10-04 showed the High Resolution presenter still loading
+for `im.j1` (normal Photo), while
+`getSupportFunction("pref_camera_high_resolution_key")` returned false.
+Therefore the missing HD control is a visibility/support-key problem, not a
+missing implementation.
