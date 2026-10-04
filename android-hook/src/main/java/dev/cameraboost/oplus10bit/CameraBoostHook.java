@@ -45,13 +45,13 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
         if (BuildConfig.ENABLE_COLOROS17_COMPAT) {
             CameraBoostLog.log("stage=CAMERA_LOAD_ENTER");
 
-            // hotfix9: rollback all Direct25MP mutations. The previous adapter
-            // forced high-picture/QBC state and unintentionally hid the native HD
-            // switch and pinned SAT lens switching to 1x. Keep Camera mutation-free
-            // and collect only the original CommonCapMode decisions.
+            // hotfix10: keep the direct-25MP path trace-only, and restore only
+            // Camera 7.013.30's native High Resolution UI support key. Do not force
+            // the high-resolution state, QBC, capture size, zoom, SAT, or mode state.
             CameraBoostLog.log("stage=CAMERA_SAFE_BASELINE");
+            NativeHighResolutionUiCompatHook.install(lpparam.classLoader);
             Direct25MpTraceHook.install(lpparam.classLoader);
-            CameraBoostLog.log("camera mutation disabled; Direct25MP is trace-only");
+            CameraBoostLog.log("camera mutation limited to native High Resolution UI visibility");
             CameraBoostLog.log("stage=CAMERA_LOAD_EXIT");
             return;
         }
