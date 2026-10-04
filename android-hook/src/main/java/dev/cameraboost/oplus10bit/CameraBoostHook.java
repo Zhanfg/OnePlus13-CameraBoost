@@ -45,14 +45,13 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
         if (BuildConfig.ENABLE_COLOROS17_COMPAT) {
             CameraBoostLog.log("stage=CAMERA_LOAD_ENTER");
 
-            // hotfix5 keeps the hotfix4 safety baseline, but reintroduces one
-            // isolated adapter for the exact HighPixel/TurboRAW keys that were
-            // verified on Camera 7.013.30. No global gate/config mutation returns.
+            // hotfix6: CameraBoost must not expose a standalone HighPixel mode.
+            // OPCameraPro's "direct 25MP" feature is a CommonCapMode capture-path
+            // redirect: normal Photo should use the 25MP/TurboRAW/QBC pipeline.
+            // Keep CameraBoost observation-only so it cannot alter the mode panel.
             CameraBoostLog.log("stage=CAMERA_SAFE_BASELINE");
-            HighPixelCompatHook.install(lpparam.classLoader);
-            CameraBoostLog.log("camera mutations disabled except exact HighPixel adapter: "
-                    + "config patcher, CameraUnit, universal gates, getSupportFunction, "
-                    + "Master/AI q0, OSEE bridge remain disabled");
+            CameraBoostLog.log("camera mutations disabled: direct 25MP belongs to "
+                    + "OPCameraPro CommonCapMode runtime decision redirect");
             CameraBoostLog.log("stage=CAMERA_LOAD_EXIT");
             return;
         }
