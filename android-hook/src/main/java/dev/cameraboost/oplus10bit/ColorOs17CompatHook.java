@@ -50,8 +50,13 @@ final class ColorOs17CompatHook {
         MasterAiCompatHook.install(classLoader, resolver);
         installSupportFunctionHook(classLoader, resolver);
         installModernAiCompositionFallback(classLoader, resolver);
-        installFilterGroupCompat(classLoader, resolver);
-        installMeisheLutFallback(classLoader, resolver);
+
+        // hotfix2: Camera 7.013.30 has GR LUTs but no complete positive LUT set.
+        // Never substitute one LUT family for another and never mirror FilterGroup
+        // lists speculatively; both can feed invalid dimensions into CombineLut JNI.
+        log("LUT safety: gr=" + resolver.assetStatus("gr_filters")
+                + ", positive=" + resolver.assetStatus("positive_filters")
+                + "; path redirection and FilterGroup mutation disabled");
         log("resolver: " + resolver.describe());
     }
 
