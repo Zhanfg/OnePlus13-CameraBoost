@@ -269,6 +269,9 @@ final class OplusFeatureGateRegistry {
         if (spec == null || !FeaturePolicy.isTargetDevice()) {
             return false;
         }
+        if (requiresPositiveLutAssets(key) && !resolver.assetsReady("positive_filters")) {
+            return false;
+        }
         if (HOST_ADVERTISED.contains(key)) {
             return secondaryAnchorsSatisfied(spec, resolver);
         }
@@ -287,6 +290,11 @@ final class OplusFeatureGateRegistry {
     static boolean shouldSynthesize(GateSpec spec, OplusCapabilityResolver resolver) {
         boolean maySynthesize = spec != null
                 && (spec.synthesize || BuildConfig.ENABLE_EXPERIMENTAL_ALL);
+        if (spec != null
+                && requiresPositiveLutAssets(spec.key)
+                && !resolver.assetsReady("positive_filters")) {
+            return false;
+        }
         return maySynthesize
                 && !HOST_ADVERTISED.contains(spec.key)
                 && resolver.hasAnchor(spec.key)
@@ -341,6 +349,13 @@ final class OplusFeatureGateRegistry {
             return "1";
         }
         return spec.value;
+    }
+
+    private static boolean requiresPositiveLutAssets(String key) {
+        return "com.oplus.feature.color.palette.support".equals(key)
+                || "com.oplus.palette.capture.enable".equals(key)
+                || "com.oplus.feature.os15.new.filter.support".equals(key)
+                || "com.oplus.feature.filter.preloadfilterresource.enable".equals(key);
     }
 
     private static boolean secondaryAnchorsSatisfied(
