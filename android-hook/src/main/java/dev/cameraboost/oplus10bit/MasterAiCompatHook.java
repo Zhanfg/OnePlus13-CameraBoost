@@ -29,22 +29,21 @@ final class MasterAiCompatHook {
         try {
             Class<?> cls = XposedHelpers.findClass(CONFIG_CLASS, classLoader);
 
-            hookBooleanNoArg(cls, "A",
-                    resolver.hasAnchor("com.oplus.feature.master.jpg.max.support"),
-                    "JPG MAX");
+            boolean premiumUnlock = BuildConfig.ENABLE_EXPERIMENTAL_ALL
+                    && FeaturePolicy.isTargetDevice();
+
+            hookBooleanNoArg(cls, "A", premiumUnlock, "JPG MAX");
 
             boolean modernAi = resolver.hasAnyAiGuide();
             hookBooleanNoArg(cls, "I", modernAi, "AI Composition inspiration");
             hookBooleanNoArg(cls, "J", modernAi, "AI Composition real-scene");
 
-            boolean masterV2 = resolver.hasAnchor("com.oplus.feature.master.mode.version");
+            boolean masterV2 = premiumUnlock;
             for (String method : Arrays.asList("Y", "Z", "a0", "b0", "c0")) {
                 hookBooleanNoArg(cls, method, masterV2, "Master mode v2");
             }
 
-            boolean hasselblad = resolver.hasAnchor(
-                    "com.oplus.professional.use.hasselblad.style.support")
-                    || resolver.hasAnchor("com.oplus.use.hasselblad.style.support");
+            boolean hasselblad = premiumUnlock;
             hookBooleanNoArg(cls, "z", hasselblad, "Hasselblad style");
         } catch (Throwable t) {
             CameraBoostLog.log("premium q0 bridge unavailable: "
