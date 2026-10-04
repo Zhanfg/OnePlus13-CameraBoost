@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 """
-Reproducible binary compatibility patch for the exact OPCameraPro 3.2.10 APK
-supplied during the ColorOS 17 / Camera 7.013.30 investigation.
+OPCameraPro 3.2.10 -> Camera 7.013.30 / ColorOS 17 ModeCompat Test3.
 
-This deliberately does NOT touch JPGMAX, RAWMAX, 25MP or their runtime hooks.
-It only isolates three legacy mode/UI compatibility behaviors:
-  1) enableMasterMode -> false (prevents master.mode.version=2.0 injection)
-  2) enableMasterModeParamFix -> false
-  3) ProtobufFeature hook installer -> no-op
+Pinned to the exact user-supplied APK SHA-256. This patch does NOT disable
+25MP, MasterMode, RAWMAX or JPGMAX. It isolates only two legacy compatibility
+layers proven unsafe on Camera 7.013.30:
 
-The patch is intentionally pinned to the input SHA-256 and known DEX layout.
+  1. enableMasterModeParamFix is forced false.
+  2. the unique call that installs OPCameraPro's legacy Protobuf FeatureTable
+     mutation hook is replaced with NOPs. The Protobuf hook implementation
+     itself is left byte-for-byte intact, avoiding ART verifier failures.
+
+This supersedes Test1/Test2.
 """
 from __future__ import annotations
 
@@ -23,11 +25,12 @@ from pathlib import Path
 EXPECTED_SHA256 = "51536e4dfe03057ee5df721a75194e26be337f3dd2cac1653c85277932636d03"
 
 CONSTRUCTOR_CODE_OFF = 6212500
-PROTOBUF_INIT_CODE_OFF = 5302048
 PARAM_FIX_GETTER_CODE_OFF = 6209108
+PROTOBUF_CALLER_CODE_OFF = 1438928
 
-FIELD_ENABLE_MASTER_MODE = 19230
 FIELD_ENABLE_MASTER_MODE_PARAM_FIX = 19318
+PROTOBUF_INIT_METHOD_IDX = 21964
+PROTOBUF_CALL_UNIT = 1338
 
 
 def unit(data: bytearray, code_off: int, index: int) -> int:
@@ -41,29 +44,32 @@ def set_unit(data: bytearray, code_off: int, index: int, value: int) -> None:
 def patch_dex(data: bytes) -> bytes:
     dex = bytearray(data)
 
-    # Validate the exact DEX layout before mutating anything.
-    assert unit(dex, CONSTRUCTOR_CODE_OFF, 69) & 0xFF == 0x5C
-    assert unit(dex, CONSTRUCTOR_CODE_OFF, 70) == FIELD_ENABLE_MASTER_MODE
-    assert unit(dex, CONSTRUCTOR_CODE_OFF, 407) & 0xFF == 0x5C
+    # Strict layout validation.
+    assert unit(dex, CONSTRUCTOR_CODE_OFF, 407) & 0xFF == 0x5C  # iput-boolean
     assert unit(dex, CONSTRUCTOR_CODE_OFF, 408) == FIELD_ENABLE_MASTER_MODE_PARAM_FIX
-    assert unit(dex, PARAM_FIX_GETTER_CODE_OFF, 0) & 0xFF == 0x55
+    assert unit(dex, PARAM_FIX_GETTER_CODE_OFF, 0) & 0xFF == 0x55  # iget-boolean
     assert unit(dex, PARAM_FIX_GETTER_CODE_OFF, 1) == FIELD_ENABLE_MASTER_MODE_PARAM_FIX
 
-    # Do not assign enableMasterMode=true into VendorTagSettings.
-    set_unit(dex, CONSTRUCTOR_CODE_OFF, 69, 0x0000)
-    set_unit(dex, CONSTRUCTOR_CODE_OFF, 70, 0x0000)
+    # Unique ProtobufFeature installer call:
+    # invoke-virtual {...}, method@21964, occupying three 16-bit code units.
+    assert unit(dex, PROTOBUF_CALLER_CODE_OFF, PROTOBUF_CALL_UNIT) & 0xFF == 0x6E
+    assert unit(dex, PROTOBUF_CALLER_CODE_OFF, PROTOBUF_CALL_UNIT + 1) == PROTOBUF_INIT_METHOD_IDX
 
-    # Do not assign enableMasterModeParamFix=true.
+    # 1) Disable only the legacy Master parameter-bar fix.
     set_unit(dex, CONSTRUCTOR_CODE_OFF, 407, 0x0000)
     set_unit(dex, CONSTRUCTOR_CODE_OFF, 408, 0x0000)
 
-    # Defensive getter override: const/4 v0,#0; return v0; nop
+    # Defensive getter override: const/4 v0,#0 ; return v0 ; nop.
     set_unit(dex, PARAM_FIX_GETTER_CODE_OFF, 0, 0x0012)
     set_unit(dex, PARAM_FIX_GETTER_CODE_OFF, 1, 0x000F)
     set_unit(dex, PARAM_FIX_GETTER_CODE_OFF, 2, 0x0000)
 
-    # ProtobufFeature.init(): return-void before installing parseFrom hooks.
-    set_unit(dex, PROTOBUF_INIT_CODE_OFF, 0, 0x000E)
+    # 2) Skip the caller-side Protobuf hook installation.
+    # Do not mutate ProtobufFeature.init() itself; Test2 proved that replacing
+    # its first code unit caused ART VerifyError ("unexpected opcode unused-41").
+    set_unit(dex, PROTOBUF_CALLER_CODE_OFF, PROTOBUF_CALL_UNIT, 0x0000)
+    set_unit(dex, PROTOBUF_CALLER_CODE_OFF, PROTOBUF_CALL_UNIT + 1, 0x0000)
+    set_unit(dex, PROTOBUF_CALLER_CODE_OFF, PROTOBUF_CALL_UNIT + 2, 0x0000)
 
     # DEX signature/checksum.
     dex[12:32] = hashlib.sha1(dex[32:]).digest()
@@ -74,7 +80,7 @@ def patch_dex(data: bytes) -> bytes:
 def main() -> None:
     src = Path(sys.argv[1] if len(sys.argv) > 1 else "OPCameraPro_v3.1.20.apk")
     dst = Path(sys.argv[2] if len(sys.argv) > 2
-               else "OPCameraPro-3.2.10-ColorOS17-ModeCompatTest-unsigned.apk")
+               else "OPCameraPro-3.2.10-ColorOS17-ModeCompatTest3-unsigned.apk")
 
     digest = hashlib.sha256(src.read_bytes()).hexdigest()
     if digest != EXPECTED_SHA256:
