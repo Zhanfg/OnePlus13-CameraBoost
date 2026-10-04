@@ -50,8 +50,10 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
             // the high-resolution state, QBC, capture size, zoom, SAT, or mode state.
             CameraBoostLog.log("stage=CAMERA_SAFE_BASELINE");
             NativeHighResolutionUiCompatHook.install(lpparam.classLoader);
+            NativeHighResolutionTraceHook.install(lpparam.classLoader);
             Direct25MpTraceHook.install(lpparam.classLoader);
-            CameraBoostLog.log("camera mutation limited to native High Resolution UI visibility");
+            CameraBoostLog.log("camera mutation limited to native High Resolution UI visibility; "
+                    + "all HighResolution/TurboRAW state is trace-only");
             CameraBoostLog.log("stage=CAMERA_LOAD_EXIT");
             return;
         }
