@@ -45,12 +45,13 @@ public final class CameraBoostHook implements IXposedHookLoadPackage {
         if (BuildConfig.ENABLE_COLOROS17_COMPAT) {
             CameraBoostLog.log("stage=CAMERA_LOAD_ENTER");
 
-            // hotfix7: keep the hotfix4/hotfix6 safety baseline, but add one
-            // isolated CommonCapMode adapter for direct 25MP. No mode panel,
-            // global CameraConfig document, Master UI, or universal gate mutation.
+            // hotfix9: rollback all Direct25MP mutations. The previous adapter
+            // forced high-picture/QBC state and unintentionally hid the native HD
+            // switch and pinned SAT lens switching to 1x. Keep Camera mutation-free
+            // and collect only the original CommonCapMode decisions.
             CameraBoostLog.log("stage=CAMERA_SAFE_BASELINE");
-            Direct25MpCompatHook.install(lpparam.classLoader);
-            CameraBoostLog.log("camera mutations disabled except CommonCapMode direct-25MP adapter");
+            Direct25MpTraceHook.install(lpparam.classLoader);
+            CameraBoostLog.log("camera mutation disabled; Direct25MP is trace-only");
             CameraBoostLog.log("stage=CAMERA_LOAD_EXIT");
             return;
         }
