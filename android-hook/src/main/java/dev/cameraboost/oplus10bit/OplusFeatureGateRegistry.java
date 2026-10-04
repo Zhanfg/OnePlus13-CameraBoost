@@ -50,8 +50,10 @@ final class OplusFeatureGateRegistry {
         // Core still / Master / RAW.
         safe("com.oplus.turboraw.re.support");
         safe("com.oplus.feature.effect.style.support");
-        value("com.oplus.feature.master.mode.version", "Float", "1", "2.0",
-                Risk.SAFE, true);
+        // Do NOT force com.oplus.feature.master.mode.version.
+        // Camera 7.013.30 uses one numeric version to select mutually incompatible
+        // CaptureParam model generations. Forcing all derived predicates produces
+        // df.s1/if.k0 list-model type mixing and crashes ListModeBarAdapter.
         safe("com.oplus.professional.use.hasselblad.style.support");
         safe("com.oplus.use.hasselblad.style.support");
         pipeline("com.oplus.feature.master.hq.raw.support", true);
@@ -269,6 +271,9 @@ final class OplusFeatureGateRegistry {
         if (spec == null || !FeaturePolicy.isTargetDevice()) {
             return false;
         }
+        if ("com.oplus.feature.master.mode.version".equals(key)) {
+            return false;
+        }
         if (requiresPositiveLutAssets(key) && !resolver.assetsReady("positive_filters")) {
             return false;
         }
@@ -290,6 +295,10 @@ final class OplusFeatureGateRegistry {
     static boolean shouldSynthesize(GateSpec spec, OplusCapabilityResolver resolver) {
         boolean maySynthesize = spec != null
                 && (spec.synthesize || BuildConfig.ENABLE_EXPERIMENTAL_ALL);
+        if (spec != null
+                && "com.oplus.feature.master.mode.version".equals(spec.key)) {
+            return false;
+        }
         if (spec != null
                 && requiresPositiveLutAssets(spec.key)
                 && !resolver.assetsReady("positive_filters")) {
