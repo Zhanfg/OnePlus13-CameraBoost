@@ -10,7 +10,7 @@ This is a semantic map, not original R8/ProGuard name recovery. Runtime class na
 |---|---|---|
 | `com.oplus.camera.module.a` | CommonVideoMode | `com.oplus.camera.module.a` |
 | `gm.e3` | MacroMode | `fj.n3` |
-| `gm.q2` | CommonCapMode | `fj.a3` |
+| `gm.q2` | CommonCapMode implementation/base methods | `fj.a3` |
 | `im.c1` | PortraitCapMode | `hj.e1` |
 | `im.d3` | TimeLapseProMode | `hj.f3` |
 | `im.e0` | HighPixelMode | `hj.z` |
@@ -19,7 +19,7 @@ This is a semantic map, not original R8/ProGuard name recovery. Runtime class na
 | `im.h3` | UnderWaterMode | `hj.j3` |
 | `im.i2` | StickerMode | `hj.k2` |
 | `im.j0` | MasterCapMode | `hj.l0` |
-| `im.j1` | QuickCaptureMode | `hj.p1` |
+| `im.j1` | **CommonCapMode runtime class** | `hj.p1` (old static similarity only; runtime evidence overrides this label) |
 | `im.k0` | MicroscopePhotoMode | `hj.m0` |
 | `im.k` | AISceneryMode | `hj.e` |
 | `im.l` | FineFoodMode | `hj.f` |
@@ -77,3 +77,22 @@ Therefore:
 The supplied OPCameraPro 3.2.10 DEX contains an explicit `enableMasterModeParamFix` setting alongside `enableMasterMode` and `enableMasterModeLivePhoto`.
 
 Its public-source Protobuf hook also modifies the `professional_mode` feature table to inject filter/live-photo entries. These paths need ColorOS 17 / Camera 7.013.30-specific validation before being enabled.
+
+
+## Runtime correction from hotfix7 trace
+
+The 2026-10-04 direct-25MP trace provides stronger evidence than the earlier
+static string-similarity mapping:
+
+```
+OCAM_j1_BaseMode: BaseMode, constructor init, modeName: common, this: im.j1@...
+OCAM_ModeManager: setNewModeWhenStart, newMode: common
+```
+
+Therefore Camera 7.013.30's actual runtime normal-photo object is `im.j1`.
+The reusable CommonCapMode methods are still hosted on `gm.q2`, which means
+hooks on `gm.q2` must gate on runtime object class `im.j1` rather than
+requiring `gm.q2` itself.
+
+This correction explains why hotfix7 installed method hooks successfully but
+none of its runtime direct-25MP branches executed.
