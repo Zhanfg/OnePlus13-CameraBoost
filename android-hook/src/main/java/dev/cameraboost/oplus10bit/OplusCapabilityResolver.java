@@ -258,6 +258,10 @@ final class OplusCapabilityResolver {
         return Collections.unmodifiableSet(out);
     }
 
+    boolean assetsReady(String featureId) {
+        return assets.assetsReady(featureId);
+    }
+
     String assetStatus(String featureId) {
         return assets.describe(featureId);
     }
