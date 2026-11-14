@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "OnePlus13-CameraBoost"
 include(":android-hook")
+include(":android-chunker")

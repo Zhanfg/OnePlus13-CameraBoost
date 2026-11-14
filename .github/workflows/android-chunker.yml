@@ -1,0 +1,61 @@
+name: Android Folder Chunker APK
+
+on:
+  push:
+    paths:
+      - android-chunker/**
+      - build.gradle.kts
+      - settings.gradle.kts
+      - gradle.properties
+      - .github/workflows/android-chunker.yml
+  pull_request:
+    paths:
+      - android-chunker/**
+      - build.gradle.kts
+      - settings.gradle.kts
+      - gradle.properties
+      - .github/workflows/android-chunker.yml
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Prepare Android SDK
+        shell: bash
+        run: |
+          set -euo pipefail
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          SDKMANAGER="$(find "$SDK_ROOT/cmdline-tools" -type f -name sdkmanager -print | sort -V | tail -n 1)"
+          test -x "$SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platforms;android-36" "build-tools;36.0.0"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.6.0'
+
+      - name: Run unit tests
+        run: gradle :android-chunker:testDebugUnitTest --stacktrace
+
+      - name: Build APK
+        run: gradle :android-chunker:assembleDebug --stacktrace
+
+      - name: Stage artifact
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          cp android-chunker/build/outputs/apk/debug/android-chunker-debug.apk out/FolderChunker.apk
+          sha256sum out/FolderChunker.apk | tee out/SHA256SUMS.txt
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FolderChunker-apk
+          path: out/
