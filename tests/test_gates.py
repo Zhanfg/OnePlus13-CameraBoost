@@ -26,3 +26,15 @@ def test_validated_feature_can_be_marked_safe():
     assert result["stage"] == "validated"
     assert result["next_probe_layer"] == "complete"
     assert result["safe_to_auto_enable"] is True
+
+def test_validated_without_prerequisites_is_not_safe():
+    evidence = FeatureEvidence(
+        name="4k120",
+        discovered=True,
+        advertised=True,
+        validated=True,
+    )
+    result = assess(evidence)
+    assert result["stage"] == "advertised"
+    assert result["safe_to_auto_enable"] is False
+    assert result["next_probe_layer"] == "app-or-feature-gate"

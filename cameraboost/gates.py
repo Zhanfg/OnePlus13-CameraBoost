@@ -53,9 +53,10 @@ def required_probe_layer(e: FeatureEvidence) -> str:
     return "complete"
 
 def assess(e: FeatureEvidence) -> dict[str, Any]:
+    stage = highest_contiguous_stage(e)
     return {
         **asdict(e),
-        "stage": highest_contiguous_stage(e),
+        "stage": stage,
         "next_probe_layer": required_probe_layer(e),
-        "safe_to_auto_enable": bool(e.validated),
+        "safe_to_auto_enable": stage == "validated",
     }
